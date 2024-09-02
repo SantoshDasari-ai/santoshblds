@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio of Santosh Dasari, showcasing projects in product design and development."
+    />
     <title>Portfolio | Santosh Dasari</title>
     <link rel="stylesheet" href="styles/style.css" />
   </head>
@@ -10,87 +14,123 @@
     <div class="container">
       <header>
         <div class="profile-section">
-          <img
-            src="assets/my-photo.jpg"
-            alt="Santosh Dasari"
-            class="profile-photo"
-          />
+          <img src="assets/my-photo.jpg" alt="" class="profile-photo" />
           <div class="profile-info">
             <h1>Santosh Dasari</h1>
-            <p>Portfolio</p>
+            <p>Product Designer & Developer</p>
           </div>
         </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resume.html">Resume</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="#" aria-current="page">Portfolio</a></li>
+          </ul>
+        </nav>
       </header>
 
       <main>
         <section class="portfolio-gallery">
           <h2>My Projects</h2>
+          <div class="portfolio-grid">
+            <article class="portfolio-item">
+              <a
+                href="https://link-to-project1.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="assets/project1.jpg"
+                  alt="Screenshot of Project 1"
+                  class="portfolio-image"
+                />
+                <div class="portfolio-overlay">
+                  <h3>Medical Bottle Opener</h3>
+                  <p>
+                    An innovative device designed to assist in opening and
+                    closing medical bottles.
+                  </p>
+                </div>
+              </a>
+            </article>
 
-          <div class="portfolio-item">
-            <a href="https://link-to-project1.com" target="_blank">
-              <img
-                src="assets/project1.jpg"
-                alt="Project 1"
-                class="portfolio-image"
-              />
-              <div class="portfolio-overlay">
-                <h3>Project Title 1</h3>
-                <p>A brief description of this project.</p>
-              </div>
-            </a>
+            <article class="portfolio-item">
+              <a
+                href="https://link-to-project2.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="assets/project2.jpg"
+                  alt="Screenshot of Project 2"
+                  class="portfolio-image"
+                />
+                <div class="portfolio-overlay">
+                  <h3>Human-Powered Bike</h3>
+                  <p>
+                    A sustainable transportation solution leveraging human power
+                    for eco-friendly commuting.
+                  </p>
+                </div>
+              </a>
+            </article>
+
+            <article class="portfolio-item">
+              <a
+                href="https://link-to-project3.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="assets/project3.jpg"
+                  alt="Screenshot of Project 3"
+                  class="portfolio-image"
+                />
+                <div class="portfolio-overlay">
+                  <h3>Pitcher's Knee Brace</h3>
+                  <p>
+                    A specialized knee brace designed to improve form and reduce
+                    injury risk for baseball pitchers.
+                  </p>
+                </div>
+              </a>
+            </article>
+
+            <article class="portfolio-item">
+              <a
+                href="https://link-to-project4.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="assets/project4.jpg"
+                  alt="Screenshot of Project 4"
+                  class="portfolio-image"
+                />
+                <div class="portfolio-overlay">
+                  <h3>Smart Home Assistant</h3>
+                  <p>
+                    An AI-powered home automation system for enhanced living
+                    comfort and energy efficiency.
+                  </p>
+                </div>
+              </a>
+            </article>
           </div>
-
-          <div class="portfolio-item">
-            <a href="https://link-to-project2.com" target="_blank">
-              <img
-                src="assets/project2.jpg"
-                alt="Project 2"
-                class="portfolio-image"
-              />
-              <div class="portfolio-overlay">
-                <h3>Project Title 2</h3>
-                <p>A brief description of this project.</p>
-              </div>
-            </a>
-          </div>
-
-          <div class="portfolio-item">
-            <a href="https://link-to-project3.com" target="_blank">
-              <img
-                src="assets/project3.jpg"
-                alt="Project 3"
-                class="portfolio-image"
-              />
-              <div class="portfolio-overlay">
-                <h3>Project Title 3</h3>
-                <p>A brief description of this project.</p>
-              </div>
-            </a>
-          </div>
-
-          <div class="portfolio-item">
-            <a href="https://link-to-project4.com" target="_blank">
-              <img
-                src="assets/project4.jpg"
-                alt="Project 4"
-                class="portfolio-image"
-              />
-              <div class="portfolio-overlay">
-                <h3>Project Title 4</h3>
-                <p>A brief description of this project.</p>
-              </div>
-            </a>
-          </div>
-
-          <!-- Add more portfolio items as needed -->
         </section>
       </main>
 
       <footer>
-        <p>© 2024 Santosh Dasari. All rights reserved.</p>
+        <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
+        <nav>
+          <ul>
+            <li><a href="#" aria-label="LinkedIn Profile">LinkedIn</a></li>
+            <li><a href="#" aria-label="GitHub Profile">GitHub</a></li>
+            <li><a href="#" aria-label="Email Contact">Contact</a></li>
+          </ul>
+        </nav>
       </footer>
     </div>
-
-    <script src="scripts.js"></script>
   </body>
 </html>

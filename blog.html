@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Blog by Santosh Dasari, featuring articles on biomedical engineering, product design, and tech innovation."
+    />
     <title>Blog | Santosh Dasari</title>
     <link rel="stylesheet" href="styles/style.css" />
   </head>
@@ -10,23 +14,27 @@
     <div class="container">
       <header>
         <div class="profile-section">
-          <img
-            src="assets/my-photo.jpg"
-            alt="Santosh Dasari"
-            class="profile-photo"
-          />
+          <img src="assets/my-photo.jpg" alt="" class="profile-photo" />
           <div class="profile-info">
             <h1>Santosh Dasari</h1>
-            <p>Blog</p>
+            <p>Biomedical Engineer & Product Designer</p>
           </div>
         </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resume.html">Resume</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="#" aria-current="page">Blog</a></li>
+          </ul>
+        </nav>
       </header>
 
       <main>
         <section class="featured-posts">
           <h2>Featured Posts</h2>
 
-          <div class="featured-item">
+          <article class="featured-item">
             <h3>
               <a href="post1.html"
                 >Understanding the Basics of Biomedical Engineering</a
@@ -37,9 +45,9 @@
               A deep dive into the foundational concepts of biomedical
               engineering, including the latest advancements and applications.
             </p>
-          </div>
+          </article>
 
-          <div class="featured-item">
+          <article class="featured-item">
             <h3>
               <a href="post2.html"
                 >5 Tips for Effective Product Design in Tech Startups</a
@@ -50,13 +58,13 @@
               Key strategies to ensure your product design aligns with user
               needs and market demands in a fast-paced startup environment.
             </p>
-          </div>
+          </article>
         </section>
 
         <section class="blog-posts">
           <h2>All Blog Posts</h2>
 
-          <div class="blog-item">
+          <article class="blog-item">
             <h3>
               <a href="post3.html"
                 >How to Manage Cross-Functional Teams Effectively</a
@@ -67,9 +75,9 @@
               Best practices for leading cross-functional teams to success, with
               a focus on communication and goal alignment.
             </p>
-          </div>
+          </article>
 
-          <div class="blog-item">
+          <article class="blog-item">
             <h3>
               <a href="post4.html"
                 >Innovations in Medical Device Manufacturing</a
@@ -80,9 +88,9 @@
               Exploring the latest trends in medical device manufacturing, from
               3D printing to advanced material science.
             </p>
-          </div>
+          </article>
 
-          <div class="blog-item">
+          <article class="blog-item">
             <h3>
               <a href="post5.html"
                 >The Role of User Research in Product Design</a
@@ -93,17 +101,20 @@
               An overview of how user research informs design decisions and
               improves product outcomes.
             </p>
-          </div>
-
-          <!-- Add more blog items as needed -->
+          </article>
         </section>
       </main>
 
       <footer>
-        <p>© 2024 Santosh Dasari. All rights reserved.</p>
+        <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
+        <nav>
+          <ul>
+            <li><a href="#" aria-label="LinkedIn Profile">LinkedIn</a></li>
+            <li><a href="#" aria-label="GitHub Profile">GitHub</a></li>
+            <li><a href="#" aria-label="Email Contact">Contact</a></li>
+          </ul>
+        </nav>
       </footer>
     </div>
-
-    <script src="scripts.js"></script>
   </body>
 </html>

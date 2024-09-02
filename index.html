@@ -3,19 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Santosh Dasari - Product Designer, Mechanical Engineer, and Robotics Enthusiast. Explore my portfolio and professional experience."
+    />
     <title>Santosh Dasari | Product Designer</title>
     <link rel="stylesheet" href="styles/style.css" />
   </head>
-
   <body>
     <div class="container">
       <header>
         <div class="profile-section">
-          <img
-            src="assets/my-photo.jpg"
-            alt="Santosh Dasari"
-            class="profile-photo"
-          />
+          <img src="assets/my-photo.jpg" alt="" class="profile-photo" />
           <div class="profile-info">
             <h1>Santosh Dasari</h1>
             <p>
@@ -24,24 +23,31 @@
             </p>
           </div>
         </div>
-        <button class="contact-button">Contact Me</button>
+        <a
+          href="contact.html"
+          class="contact-button"
+          aria-label="Contact Santosh Dasari"
+        >
+          Contact Me
+        </a>
       </header>
 
-      <section class="skills-section">
+      <nav class="skills-section" aria-label="Skills">
         <ul>
-          <li>🛠 Product Design</li>
-          <li>🎨 UI Design</li>
-          <li>🔍 User Research</li>
-          <li>🗂 UX Design</li>
-          <li>🔧 Figma Wizard</li>
-          <li>🌐 Web Design</li>
-          <li>🏗 Community Builder</li>
+          <li><span aria-hidden="true">🛠</span> Product Design</li>
+          <li><span aria-hidden="true">🎨</span> UI Design</li>
+          <li><span aria-hidden="true">🔍</span> User Research</li>
+          <li><span aria-hidden="true">🗂</span> UX Design</li>
+          <li><span aria-hidden="true">🔧</span> Figma Wizard</li>
+          <li><span aria-hidden="true">🌐</span> Web Design</li>
+          <li><span aria-hidden="true">🏗</span> Community Builder</li>
           <li>+21</li>
         </ul>
-      </section>
+      </nav>
 
       <main>
         <section class="bio-section">
+          <h2 class="visually-hidden">About Me</h2>
           <p>
             👋🏼 Hi, I'm Santosh Dasari. I am an engineer, builder, and a lifelong
             learner. I've designed and built various projects such as a device
@@ -53,11 +59,25 @@
             talk, feel free to reach out.
           </p>
         </section>
+
         <section class="links-section">
+          <h2 class="visually-hidden">Social Links</h2>
           <div class="social-links">
-            <a href="#">LinkedIn</a>
-            <a href="#">GitHub</a>
-            <a href="#">Portfolio</a>
+            <a
+              href="https://www.linkedin.com/in/santosh-dasari/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              >LinkedIn</a
+            >
+            <a
+              href="https://github.com/santoshdasari"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+              >GitHub</a
+            >
+            <a href="portfolio.html" aria-label="Portfolio">Portfolio</a>
           </div>
         </section>
 
@@ -67,18 +87,46 @@
             <h3>Product Designer, ClassCover</h3>
             <p>Aug 2022 - Present</p>
           </div>
-          <!-- Add more resume items as needed -->
         </section>
-        <!-- New Buttons Under the Resume Section -->
-        <div class="nav-buttons">
+
+        <nav class="nav-buttons" aria-label="Page Navigation">
           <a href="resume.html" class="nav-button">Full Resume</a>
           <a href="blog.html" class="nav-button">Blog</a>
           <a href="portfolio.html" class="nav-button">Portfolio</a>
-        </div>
+        </nav>
       </main>
 
       <footer>
-        <p>© 2024 Santosh Dasari. All rights reserved.</p>
+        <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
+        <nav>
+          <ul>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/santosh-dasari/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                >LinkedIn</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://github.com/SantoshDasari-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                >GitHub</a
+              >
+            </li>
+            <li>
+              <a
+                href="mailto:santosh.d4sari@gmail.com"
+                aria-label="Email Contact"
+                >Email</a
+              >
+            </li>
+          </ul>
+        </nav>
       </footer>
     </div>
   </body>
