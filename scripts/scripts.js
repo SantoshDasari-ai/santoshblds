@@ -15,3 +15,12 @@ document.querySelectorAll("h2").forEach((header) => {
     section.classList.toggle("collapsed");
   });
 });
+// Add smooth scrolling for all links
+document.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", function () {
+    const target = this.getAttribute("href");
+    if (target.startsWith("#")) {
+      document.querySelector(target).scrollIntoView({ behavior: "smooth" });
+    }
+  });
+});
