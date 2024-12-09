@@ -37,6 +37,7 @@ body {
   flex-direction: column; /* Use flexbox for vertical layout */
   min-height: 100vh;
   padding: 20px;
+  font-size: 16px; /* Base font size */
 }
 
 .container {
@@ -240,7 +241,7 @@ footer {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
 }
 
@@ -1114,4 +1115,19 @@ footer {
     flex-direction: column; /* Stack footer items vertically */
     align-items: center; /* Center align footer items */
   }
+}
+
+/* Ensure buttons are responsive */
+.contact-button,
+.nav-button {
+  width: 100%; /* Make buttons full width on mobile */
+  max-width: 300px; /* Optional: limit max width */
+  margin: 10px 0; /* Add margin for spacing */
+}
+
+/* Focus styles for buttons */
+.contact-button:focus,
+.nav-button:focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
 }
