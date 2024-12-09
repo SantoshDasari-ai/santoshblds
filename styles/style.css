@@ -1065,3 +1065,53 @@ footer {
     flex-direction: column; /* Stack skills vertically */
   }
 }
+
+/* Adjustments for better responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px; /* Adjust padding for smaller screens */
+  }
+
+  header {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    align-items: center; /* Center align items */
+  }
+
+  .profile-section {
+    flex-direction: column; /* Stack profile elements vertically */
+    align-items: center; /* Center align profile items */
+    margin-bottom: 20px; /* Add margin for spacing */
+  }
+
+  .profile-photo {
+    width: 100px; /* Smaller profile photo on smaller screens */
+    height: 100px;
+  }
+
+  .nav-buttons {
+    flex-direction: column; /* Stack navigation buttons vertically */
+    align-items: center; /* Center align navigation buttons */
+  }
+
+  .skills-section {
+    flex-direction: column; /* Stack skills vertically */
+    align-items: center; /* Center align skills */
+  }
+
+  .portfolio-grid {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(250px, 1fr)
+    ); /* Adjust grid for smaller screens */
+  }
+
+  .blog-item,
+  .featured-item {
+    padding: 1rem; /* Adjust padding for blog items */
+  }
+
+  footer {
+    flex-direction: column; /* Stack footer items vertically */
+    align-items: center; /* Center align footer items */
+  }
+}
