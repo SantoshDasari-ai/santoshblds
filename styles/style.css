@@ -39,9 +39,12 @@ body {
 }
 
 /* Improve paragraph readability */
-p {
-  max-width: 65ch;
-  margin-bottom: 1.5rem;
+p,
+ul,
+ol {
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 1.6;
 }
 
@@ -55,13 +58,13 @@ h3 {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
 }
 h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
 }
 h3 {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
 }
 
 /* Improve list readability */
