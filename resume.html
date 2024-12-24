@@ -17,35 +17,8 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <div class="profile-section">
-          <img
-            src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/my-photo.JPG"
-            alt="Profile Photo"
-            class="profile-photo"
-          />
-          <div class="profile-info">
-            <h1>Santosh Dasari</h1>
-            <p>Bay Area, CA</p>
-            <p>
-              Email:
-              <a href="mailto:santosh.d4sari@gmail.com"
-                >santosh.d4sari@gmail.com</a
-              >
-            </p>
-            <p>
-              LinkedIn:
-              <a
-                href="https://www.linkedin.com/in/santosh-dasari/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >linkedin.com/in/santosh-dasari</a
-              >
-            </p>
-            <p>Phone: <a href="tel:+19257866923">925-786-6923</a></p>
-          </div>
-        </div>
-        <nav>
+      <header class="site-header">
+        <nav class="site-nav">
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="#" aria-current="page">Resume</a></li>
@@ -55,156 +28,172 @@
         </nav>
       </header>
 
-      <main>
-        <section class="experience-section">
-          <h2>Work Experience</h2>
+      <main class="resume-container">
+        <div class="resume-sidebar">
+          <section class="resume-profile">
+            <img
+              src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/my-photo.JPG"
+              alt="Profile Photo"
+            />
+            <h1>Santosh Dasari</h1>
+            <p>Bay Area, CA</p>
+          </section>
 
-          <article class="experience-item">
-            <h3>Technical Lead</h3>
-            <p class="experience-duration">
-              Industrial Automation Startup | Remote, CA | Oct 2023 – Dec 2023
-            </p>
-            <ul>
-              <li>
-                Developed and aligned technical product requirements with market
-                needs to ensure the MVP is aligned with potential investors and
-                first customers.
-              </li>
-              <li>
-                Recruited an initial engineering team of mechatronic and
-                software engineers to build the initial prototype.
-              </li>
-              <li>
-                Served as the link between technical product success and market
-                demand.
-              </li>
+          <section class="education-section">
+            <h2>Education</h2>
+            <article class="education-item">
+              <h3>Bachelor of Science in Biomedical Engineering</h3>
+              <p class="education-duration">
+                San Jose State University | San Jose, CA | Expected May 2025
+              </p>
+            </article>
+          </section>
+
+          <section class="skills-section">
+            <h2>Technical Skills</h2>
+            <ul class="skills-list">
+              <li>SolidWorks</li>
+              <li>SW FEA</li>
+              <li>GrabCAD</li>
+              <li>Onshape</li>
+              <li>Mechanical Drawings</li>
+              <li>Python</li>
+              <li>Arduino</li>
+              <li>MATLAB</li>
+              <li>3D Printing</li>
+              <li>Laser Cutting</li>
+              <li>Water Jet</li>
+              <li>Lathe</li>
+              <li>Mill</li>
+              <li>Soldering</li>
+              <li>Wiring</li>
+              <li>Final Assembly</li>
+              <li>Project Management</li>
+              <li>Cross-Functional Leadership</li>
+              <li>Process Development</li>
             </ul>
-          </article>
+          </section>
+        </div>
 
-          <article class="experience-item">
-            <h3>R&D Intern</h3>
-            <p class="experience-duration">
-              Silk Road Medical | Mountain View, CA | May 2022 - Aug 2022
-            </p>
-            <ul>
-              <li>
-                Developed a process to clean laser-cut Nitinol implants for
-                final assembly and sterilization.
-              </li>
-              <li>
-                Designed fixtures to secure implants during ultrasonic cleaning,
-                minimizing damage and process noise.
-              </li>
-              <li>
-                Coordinated with vendors, suppliers, and contract manufacturers
-                to ensure process compatibility with the final manufacturing
-                line.
-              </li>
-            </ul>
-          </article>
+        <div class="resume-main">
+          <section class="experience-section">
+            <h2>Work Experience</h2>
 
-          <article class="experience-item">
-            <h3>Mechanical Engineer Intern</h3>
-            <p class="experience-duration">
-              Carl Zeiss Meditec | Dublin, CA | May 2021 - Aug 2021
-            </p>
-            <ul>
-              <li>
-                Mitigated structural design issues of an optometry medical
-                device to avoid shipping damage up to a 25G load.
-              </li>
-              <li>
-                Performed FEA analysis to redesign structural elements,
-                improving load capacity by 2x.
-              </li>
-              <li>
-                Designed test fixtures and performed stress and dust testing to
-                ensure device integrity after mitigation.
-              </li>
-            </ul>
-          </article>
+            <article class="experience-item">
+              <h3>Technical Lead</h3>
+              <p class="experience-duration">
+                Industrial Automation Startup | Remote, CA | Oct 2023 – Dec 2023
+              </p>
+              <ul>
+                <li>
+                  Developed and aligned technical product requirements with
+                  market needs to ensure the MVP is aligned with potential
+                  investors and first customers.
+                </li>
+                <li>
+                  Recruited an initial engineering team of mechatronic and
+                  software engineers to build the initial prototype.
+                </li>
+                <li>
+                  Served as the link between technical product success and
+                  market demand.
+                </li>
+              </ul>
+            </article>
 
-          <article class="experience-item">
-            <h3>President/Technical Manager</h3>
-            <p class="experience-duration">
-              SJSU Robotics | San Jose, CA | Jan 2022 - May 2023
-            </p>
-            <ul>
-              <li>
-                Directed cross-functional teams to develop a Mars rover,
-                overseeing Mechanical, Control Systems, Electrical, Geology,
-                Mission Control, and Autonomy.
-              </li>
-              <li>
-                Conducted design reviews and milestone checks to align project
-                objectives with competition goals.
-              </li>
-              <li>
-                Assisted with PCB soldering, motor wiring, and sensor
-                integration into the main control board.
-              </li>
-            </ul>
-          </article>
-        </section>
+            <article class="experience-item">
+              <h3>R&D Intern</h3>
+              <p class="experience-duration">
+                Silk Road Medical | Mountain View, CA | May 2022 - Aug 2022
+              </p>
+              <ul>
+                <li>
+                  Developed a process to clean laser-cut Nitinol implants for
+                  final assembly and sterilization.
+                </li>
+                <li>
+                  Designed fixtures to secure implants during ultrasonic
+                  cleaning, minimizing damage and process noise.
+                </li>
+                <li>
+                  Coordinated with vendors, suppliers, and contract
+                  manufacturers to ensure process compatibility with the final
+                  manufacturing line.
+                </li>
+              </ul>
+            </article>
 
-        <section class="education-section">
-          <h2>Education</h2>
-          <article class="education-item">
-            <h3>Bachelor of Science in Biomedical Engineering</h3>
-            <p class="education-duration">
-              San Jose State University | San Jose, CA | Expected May 2025
-            </p>
-          </article>
-        </section>
-        <section class="projects-section">
-          <h2>Projects</h2>
-          <article class="project-item">
-            <h3>Assisted Medicine Bottle Opener</h3>
-            <p class="project-duration">Davis, CA | Project Lead | Dec 2019</p>
-            <ul>
-              <li>
-                Led a team of 5 to prototype a device that can open and close
-                child-safe medicine bottles for elderly and disabled patients.
-              </li>
-              <li>
-                Designed the device in SolidWorks and programmed stepper motor
-                functions using Arduino.
-              </li>
-              <li>
-                Wired the device with a microcontroller, stepper motors,
-                buttons, and a battery pack with a voltage regulator module.
-              </li>
-            </ul>
-          </article>
-        </section>
+            <article class="experience-item">
+              <h3>Mechanical Engineer Intern</h3>
+              <p class="experience-duration">
+                Carl Zeiss Meditec | Dublin, CA | May 2021 - Aug 2021
+              </p>
+              <ul>
+                <li>
+                  Mitigated structural design issues of an optometry medical
+                  device to avoid shipping damage up to a 25G load.
+                </li>
+                <li>
+                  Performed FEA analysis to redesign structural elements,
+                  improving load capacity by 2x.
+                </li>
+                <li>
+                  Designed test fixtures and performed stress and dust testing
+                  to ensure device integrity after mitigation.
+                </li>
+              </ul>
+            </article>
 
-        <section class="skills-section">
-          <h2>Technical Skills</h2>
-          <ul class="skills-list">
-            <li>SolidWorks</li>
-            <li>SW FEA</li>
-            <li>GrabCAD</li>
-            <li>Onshape</li>
-            <li>Mechanical Drawings</li>
-            <li>Python</li>
-            <li>Arduino</li>
-            <li>MATLAB</li>
-            <li>3D Printing</li>
-            <li>Laser Cutting</li>
-            <li>Water Jet</li>
-            <li>Lathe</li>
-            <li>Mill</li>
-            <li>Soldering</li>
-            <li>Wiring</li>
-            <li>Final Assembly</li>
-            <li>Project Management</li>
-            <li>Cross-Functional Leadership</li>
-            <li>Process Development</li>
-          </ul>
-        </section>
+            <article class="experience-item">
+              <h3>President/Technical Manager</h3>
+              <p class="experience-duration">
+                SJSU Robotics | San Jose, CA | Jan 2022 - May 2023
+              </p>
+              <ul>
+                <li>
+                  Directed cross-functional teams to develop a Mars rover,
+                  overseeing Mechanical, Control Systems, Electrical, Geology,
+                  Mission Control, and Autonomy.
+                </li>
+                <li>
+                  Conducted design reviews and milestone checks to align project
+                  objectives with competition goals.
+                </li>
+                <li>
+                  Assisted with PCB soldering, motor wiring, and sensor
+                  integration into the main control board.
+                </li>
+              </ul>
+            </article>
+          </section>
+
+          <section class="projects-section">
+            <h2>Projects</h2>
+            <article class="project-item">
+              <h3>Assisted Medicine Bottle Opener</h3>
+              <p class="project-duration">
+                Davis, CA | Project Lead | Dec 2019
+              </p>
+              <ul>
+                <li>
+                  Led a team of 5 to prototype a device that can open and close
+                  child-safe medicine bottles for elderly and disabled patients.
+                </li>
+                <li>
+                  Designed the device in SolidWorks and programmed stepper motor
+                  functions using Arduino.
+                </li>
+                <li>
+                  Wired the device with a microcontroller, stepper motors,
+                  buttons, and a battery pack with a voltage regulator module.
+                </li>
+              </ul>
+            </article>
+          </section>
+        </div>
       </main>
 
-      <footer>
+      <footer class="site-footer">
         <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
         <nav>
           <ul>

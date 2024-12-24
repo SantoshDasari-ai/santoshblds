@@ -17,19 +17,8 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <div class="profile-section">
-          <img
-            src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/my-photo.JPG"
-            alt="Profile Photo"
-            class="profile-photo"
-          />
-          <div class="profile-info">
-            <h1>Santosh Dasari</h1>
-            <p>Product Designer &amp; Developer</p>
-          </div>
-        </div>
-        <nav>
+      <header class="site-header">
+        <nav class="site-nav">
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="resume.html">Resume</a></li>
@@ -39,84 +28,85 @@
         </nav>
       </header>
 
-      <main>
+      <main class="portfolio-container">
         <section class="portfolio-gallery">
-          <h2>My Projects</h2>
+          <h1>Featured Projects</h1>
           <div class="portfolio-grid">
             <article class="portfolio-item">
               <a href="projects/rx-bottle-opener.html">
-                <img
-                  src="https://github.com/SantoshDasari-ai/santoshblds/blob/dev0/assets/projects/rx-bottle-opener/render1.PNG"
-                  alt="Screenshot of Project 1"
-                  class="portfolio-image"
-                />
-                <div class="portfolio-overlay">
-                  <h3>Medical Bottle Opener</h3>
-                  <p>
-                    An innovative device designed to assist in opening and
-                    closing medical bottles.
-                  </p>
+                <div class="portfolio-image-container">
+                  <img
+                    src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/projects/rx-bottle-opener/render1.PNG"
+                    alt="Medical Bottle Opener"
+                    class="portfolio-image"
+                  />
                 </div>
-              </a>
-            </article>
-            <article class="portfolio-item">
-              <a
-                href="https://link-to-project2.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://yourdomain.com/assets/project2.jpg"
-                  alt="Screenshot of Project 2"
-                  class="portfolio-image"
-                />
-                <div class="portfolio-overlay">
-                  <h3>Human-Powered Bike</h3>
+                <div class="portfolio-content">
+                  <h2>Medical Bottle Opener</h2>
                   <p>
-                    A sustainable transportation solution leveraging human power
-                    for eco-friendly commuting.
+                    An innovative device designed to assist elderly and disabled
+                    patients in opening and closing child-safe medicine bottles.
+                    Features precision control and ergonomic design.
                   </p>
                 </div>
               </a>
             </article>
 
             <article class="portfolio-item">
-              <a
-                href="https://link-to-project3.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://yourdomain.com/assets/project3.jpg"
-                  alt="Screenshot of Project 3"
-                  class="portfolio-image"
-                />
-                <div class="portfolio-overlay">
-                  <h3>Pitcher's Knee Brace</h3>
+              <a href="projects/mars-rover.html">
+                <div class="portfolio-image-container">
+                  <img
+                    src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/projects/mars-rover/rover.jpg"
+                    alt="Mars Rover Project"
+                    class="portfolio-image"
+                  />
+                </div>
+                <div class="portfolio-content">
+                  <h2>Mars Rover Project</h2>
                   <p>
-                    A specialized knee brace designed to improve form and reduce
-                    injury risk for baseball pitchers.
+                    Led the development of a Mars rover prototype, managing
+                    cross-functional teams and implementing advanced control
+                    systems for autonomous operation.
                   </p>
                 </div>
               </a>
             </article>
 
             <article class="portfolio-item">
-              <a
-                href="https://link-to-project4.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://yourdomain.com/assets/project4.jpg"
-                  alt="Screenshot of Project 4"
-                  class="portfolio-image"
-                />
-                <div class="portfolio-overlay">
-                  <h3>Smart Home Assistant</h3>
+              <a href="projects/medical-device.html">
+                <div class="portfolio-image-container">
+                  <img
+                    src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/projects/medical-device/device.jpg"
+                    alt="Medical Device Design"
+                    class="portfolio-image"
+                  />
+                </div>
+                <div class="portfolio-content">
+                  <h2>Medical Device Design</h2>
                   <p>
-                    An AI-powered home automation system for enhanced living
-                    comfort and energy efficiency.
+                    Structural optimization of an optometry device, improving
+                    load capacity and ensuring device integrity through FEA
+                    analysis and testing.
+                  </p>
+                </div>
+              </a>
+            </article>
+
+            <article class="portfolio-item">
+              <a href="projects/nitinol-implants.html">
+                <div class="portfolio-image-container">
+                  <img
+                    src="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/projects/nitinol/process.jpg"
+                    alt="Nitinol Implant Process"
+                    class="portfolio-image"
+                  />
+                </div>
+                <div class="portfolio-content">
+                  <h2>Nitinol Implant Process</h2>
+                  <p>
+                    Developed and optimized a cleaning process for laser-cut
+                    Nitinol implants, including fixture design and manufacturing
+                    line integration.
                   </p>
                 </div>
               </a>
@@ -125,7 +115,7 @@
         </section>
       </main>
 
-      <footer>
+      <footer class="site-footer">
         <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
         <nav>
           <ul>
