@@ -93,11 +93,12 @@ body {
 }
 
 .home-photo {
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: var(--shadow-sm);
+  margin-top: 20px;
 }
 
 .home-info {
@@ -702,5 +703,88 @@ body {
 
   .project-section {
     margin-bottom: 1.5rem;
+  }
+}
+
+/* Contact Page Specific Styles */
+.contact-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+.business-card {
+  background: var(--surface-color);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  text-align: left;
+  border: 1px solid var(--border-color);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.card-title h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary-color);
+}
+
+.card-title p {
+  font-size: 0.95rem;
+  color: var(--muted-color);
+  margin: 0;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.contact-list li {
+  margin-bottom: 0.75rem;
+}
+
+.contact-list a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
+}
+
+.card-location {
+  color: var(--muted-color);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .card-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .business-card {
+    padding: 1.5rem;
   }
 }
