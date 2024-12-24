@@ -93,12 +93,12 @@ body {
 }
 
 .home-photo {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: var(--shadow-sm);
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .home-info {
