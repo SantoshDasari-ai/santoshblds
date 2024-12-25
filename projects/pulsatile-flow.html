@@ -31,10 +31,17 @@
 
       <main class="project-container">
         <div class="project-header">
-          <h1>
-            In-vitro Pulsatile Flow Environment for Blood Clot Growth
-            Characterization near Bileaflet MHVs (TGT 2.0)
-          </h1>
+          <div class="title-container">
+            <h1>
+              In-vitro Pulsatile Flow Environment for Blood Clot Growth
+              Characterization near Bileaflet MHVs (TGT 2.0)
+            </h1>
+            <img
+              src="../assets/projects/pulsatile-flow/MHVicon.jpg"
+              alt="MHV Icon"
+              class="header-icon"
+            />
+          </div>
           <p class="project-subtitle">Senior Design Project - In Progress</p>
         </div>
 
@@ -43,31 +50,21 @@
             <section class="project-section">
               <h2>Background</h2>
               <p>
-                Mechanical Heart Valves (MHVs) present a significant risk of
-                thromboembolism in patients. While these implants are crucial
-                for many patients, research into their thrombogenicity has been
-                limited by inadequate in-vitro testing environments.
+                Mechanical Heart Valves (MHVs) are lifesaving implants but pose
+                a significant risk of thromboembolism, often leading to
+                complications like stroke. The Cardio Lab’s original
+                'Thrombogenicity Tester (TGT)' aimed to study clot formation by
+                simulating pulsatile blood flow through an MHV. While
+                innovative, it struggled to replicate key physiological factors
+                such as flow patterns and valve closure dynamics, limiting its
+                accuracy and potential for impactful insights. As part of my
+                senior project, I am leading the development of the TGT 2.0, an
+                upgraded model designed to address these challenges. With
+                advanced features to better mimic the cardiovascular system, TGT
+                2.0 will enable more precise and reliable testing. This new
+                design represents a significant step forward in understanding
+                and reducing the clotting risks associated with MHVs.
               </p>
-              <p>
-                Previous research in the Cardio Lab utilized the
-                'Thrombogenicity Tester (TGT)' - a device that generated
-                pulsatile flow in an enclosed loop containing an MHV and blood.
-                However, this model had key limitations:
-              </p>
-              <ul>
-                <li>
-                  Horizontal orientation didn't reflect the heart's natural
-                  position
-                </li>
-                <li>
-                  Gravity's influence on valve function was not properly
-                  simulated
-                </li>
-                <li>Limited ability to prevent retrograde blood flow</li>
-                <li>
-                  Inadequate simulation of natural valve closure post-systole
-                </li>
-              </ul>
             </section>
 
             <div class="requirements-section">
@@ -88,28 +85,47 @@
 
         <div class="project-columns">
           <div class="project-column current-tester">
-            <h2 class="column-header">Current TGT</h2>
+            <h2 class="column-header">OLD TGT 1.0</h2>
+            <div class="gif-container">
+              <img
+                src="../assets/projects/pulsatile-flow/oldTGT.gif"
+                alt="Animation showing the current TGT system in operation"
+                class="tgt-gif"
+              />
+            </div>
             <div class="project-sections">
               <section class="project-section">
                 <h3>Key Features</h3>
                 <ul class="feature-list">
                   <li>Horizontal orientation</li>
                   <li>Basic flow control system</li>
-                  <li>Limited pressure monitoring</li>
-                  <li>Simple temperature regulation</li>
+                  <li>Clear Valve Housing</li>
+                  <li>Soft Tubing</li>
                 </ul>
               </section>
 
               <section class="project-section">
                 <h3>Limitations</h3>
                 <ul class="limitation-list">
-                  <li>Non-physiological valve orientation</li>
+                  <li>Non-physiological Heart Valve orientation</li>
                   <li>Inadequate gravity effects simulation</li>
                   <li>Poor retrograde flow prevention</li>
                   <li>Limited control over valve closure dynamics</li>
-                  <li>Basic data acquisition capabilities</li>
+                  <li>Poor physiological flow profile</li>
                 </ul>
               </section>
+
+              <div class="tgt-image-container">
+                <img
+                  src="../assets/projects/pulsatile-flow/oldTGT.png"
+                  alt="Image of the OLD TGT 1.0 system"
+                  class="tgt-image"
+                />
+                <p class="tgt-caption">
+                  Figure 1: Original TGT system showing horizontal orientation
+                  and clear valve housing
+                </p>
+              </div>
             </div>
           </div>
 
@@ -117,30 +133,91 @@
             <h2 class="column-header">TGT 2.0 - In Progress</h2>
             <div class="project-sections">
               <section class="project-section">
-                <h3>Improvements</h3>
-                <ul class="improvement-list">
+                <h3>Research Methodology</h3>
+                <ul class="methodology-list">
                   <li>
-                    Vertical orientation for proper physiological simulation
+                    Design and fabrication of flow simulation system:
+                    <ul>
+                      <li>SolidWorks-based design of kink-free flow loop</li>
+                      <li>Custom valve housing and filling chamber</li>
+                      <li>Hemocompatible materials (PEEK, PMEA-coated PVC)</li>
+                      <li>Vertical configuration for physiological accuracy</li>
+                    </ul>
                   </li>
-                  <li>Advanced flow control with PID system</li>
-                  <li>Comprehensive pressure monitoring</li>
-                  <li>Precise temperature control (35-40°C)</li>
-                  <li>Enhanced retrograde flow prevention mechanism</li>
+                  <li>
+                    Advanced motor control programming:
+                    <ul>
+                      <li>Cardiac-cycle flow characterization</li>
+                      <li>Arduino-based control system</li>
+                      <li>Adjustable parameters for iterative testing</li>
+                    </ul>
+                  </li>
+                  <li>
+                    Validation through:
+                    <ul>
+                      <li>Ultrasonic flow meter data analysis</li>
+                      <li>Statistical modeling (RMSE, CCF)</li>
+                      <li>Comparison with MCL data</li>
+                    </ul>
+                  </li>
                 </ul>
               </section>
 
               <section class="project-section">
-                <h3>Additional Features</h3>
-                <ul class="feature-list">
-                  <li>Real-time data acquisition and logging</li>
-                  <li>Modular design for easy maintenance</li>
-                  <li>Improved sterilization compatibility</li>
-                  <li>Advanced safety protocols and fail-safes</li>
-                  <li>Enhanced sensor integration capabilities</li>
+                <h3>Expected Outcomes</h3>
+                <ul class="outcomes-list">
+                  <li>Physiologically accurate pulsatile flow simulation</li>
+                  <li>Enhanced thrombosis prevention mechanisms</li>
+                  <li>Modular design for repeatable experimentation</li>
+                  <li>Precise bidirectional flow control</li>
+                  <li>Statistical validation of physiological conditions</li>
                 </ul>
               </section>
+
+              <section class="project-section">
+                <h3>Broader Impacts</h3>
+                <ul class="impacts-list">
+                  <li>Advanced cardiovascular research capabilities</li>
+                  <li>Expanded testing potential for various implants</li>
+                  <li>Improved mechanical heart valve designs</li>
+                  <li>Enhanced patient outcomes through safer technology</li>
+                </ul>
+              </section>
+
+              <div class="tgt-image-container">
+                <img
+                  src="../assets/projects/pulsatile-flow/image1.jpg"
+                  alt="Description of Image 1"
+                  class="tgt-image"
+                />
+                <p class="tgt-caption">Figure 2: Description of Image 1</p>
+              </div>
+              <div class="tgt-image-container">
+                <img
+                  src="../assets/projects/pulsatile-flow/draft-assembly.png"
+                  alt="Description of Image 2"
+                  class="tgt-image"
+                />
+                <p class="tgt-caption">Figure 3: Description of Image 2</p>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div class="credits-section">
+          <h2>Credits and Acknowledgements</h2>
+          <p>
+            I would like to thank my advisor, Dr. [Advisor's Name], for their
+            guidance and support throughout this project.
+          </p>
+          <p>
+            Special thanks to my team members: [Team Member 1], [Team Member 2],
+            and [Team Member 3] for their collaboration and hard work.
+          </p>
+          <p>
+            This project was made possible by the resources provided by the
+            Cardio Lab and the support from [Institution/Organization Name].
+          </p>
         </div>
       </main>
 

@@ -1155,6 +1155,9 @@ body {
 .requirements-section {
   padding: 1.5rem;
   border-radius: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
@@ -1162,4 +1165,93 @@ body {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+}
+
+.gif-container {
+  width: 100%;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.tgt-gif {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tgt-image-container {
+  width: 100%;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.tgt-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tgt-caption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--muted-color);
+  font-style: italic;
+  text-align: center;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-icon {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-left: -1rem;
+}
+
+/* Adjust existing styles to work with new container */
+.project-header h1 {
+  margin: 0;
+}
+
+.credits-section {
+  margin-top: 3rem; /* Space above the section */
+  padding: 1rem; /* Padding for the section */
+  background-color: #f0f0f0; /* Set background color to grey */
+  border-radius: 8px; /* Optional: rounded corners */
+  text-align: left; /* Left-justify the text */
+}
+
+.credits-section h2 {
+  font-size: 1.5rem; /* Font size for the heading */
+  color: var(--primary-color); /* Color for the heading */
+  margin-bottom: 1rem; /* Space below the heading */
+}
+
+.credits-section p {
+  font-size: 1rem; /* Font size for the paragraphs */
+  color: var(--text-color); /* Color for the text */
+  margin: 0.5rem 0; /* Space between paragraphs */
+}
+
+.methodology-list ul {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.methodology-list > li {
+  margin-bottom: 15px;
+}
+
+.methodology-list ul li {
+  font-size: 0.95em;
+  margin-bottom: 3px;
 }
