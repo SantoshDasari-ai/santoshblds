@@ -806,7 +806,7 @@ body {
 
 /* Project Page Specific Styles */
 .project-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -1066,5 +1066,100 @@ body {
 @media (max-width: 480px) {
   .container {
     padding: 1.5rem 1rem;
+  }
+}
+
+/* Project columns styling */
+.project-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+.project-column {
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.current-tester {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
+
+.new-design {
+  background: var(--accent-color);
+  border: 1px solid var(--border-color);
+}
+
+.column-header {
+  font-size: 1.75rem;
+  color: var(--primary-color);
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.project-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.feature-list,
+.limitation-list,
+.improvement-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li,
+.limitation-list li,
+.improvement-list li {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .project-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .project-column {
+    padding: 2rem;
+  }
+}
+
+.project-intro {
+  margin-bottom: 3rem;
+}
+
+.intro-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.requirements-section {
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+@media (max-width: 768px) {
+  .intro-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
