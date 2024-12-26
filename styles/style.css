@@ -1,5 +1,5 @@
 /* Base Imports and Variables - These stay global */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap");
 
 :root {
   /* Colors - Following 60/30/10 rule */
@@ -19,6 +19,9 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Add font variables */
+  --font-primary: "League Spartan", system-ui, -apple-system, sans-serif;
 }
 
 /* Enhanced User Experience */
@@ -208,7 +211,7 @@ button:focus-visible {
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-primary);
   color: var(--text-color);
   line-height: 1.5;
   background-color: var(--background-color);
@@ -810,81 +813,114 @@ body {
 .project-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 .project-header {
   margin-bottom: 3rem;
 }
 
-.project-subtitle {
-  font-size: 1.125rem;
-  color: var(--muted-color);
-  margin-top: 0.5rem;
-}
-
-.project-gallery {
-  margin-bottom: 3rem;
-}
-
-.project-hero-image {
-  width: 100%;
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-md);
-}
-
-.project-sections {
+.title-container {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 2rem;
-}
-
-.project-section {
-  margin-bottom: 2rem;
-}
-
-.project-section h2 {
-  font-size: 1.25rem;
-  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 
-.project-section p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-color);
+.header-icon {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-.project-section ul {
-  list-style: none;
-  padding: 0;
+.project-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
 }
 
-.project-section li {
-  position: relative;
+.project-intro {
+  margin-bottom: 4rem;
+}
+
+.intro-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.project-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.project-column {
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.column-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
+}
+
+.gif-container {
+  margin-bottom: 2rem;
+}
+
+.tgt-gif {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.tgt-image-container {
+  margin-top: 2rem;
+}
+
+.tgt-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.tgt-caption {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.feature-list,
+.limitation-list,
+.methodology-list,
+.outcomes-list,
+.impacts-list {
   padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
 }
 
-.project-section li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: var(--secondary-color);
+.credits-section {
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 4rem;
 }
 
-/* Project Page Responsive */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .project-container {
-    padding: 0 1rem;
+  .intro-columns,
+  .project-columns {
+    grid-template-columns: 1fr;
   }
 
-  .project-header {
-    margin-bottom: 2rem;
-  }
-
-  .project-section {
-    margin-bottom: 1.5rem;
+  .title-container {
+    flex-direction: column;
+    text-align: center;
   }
 }
 
@@ -1256,4 +1292,19 @@ body {
 .methodology-list ul li {
   font-size: 0.95em;
   margin-bottom: 3px;
+}
+
+/* Add these styles to your CSS file */
+.project-section ul li {
+  margin-bottom: 0.5rem; /* Adds spacing between list items */
+}
+
+/* For nested lists, we don't want as much spacing */
+.project-section ul li ul li {
+  margin-bottom: 0.25rem;
+}
+
+/* Add some spacing between the nested list and its parent item */
+.project-section ul li ul {
+  margin-top: 0.25rem;
 }
