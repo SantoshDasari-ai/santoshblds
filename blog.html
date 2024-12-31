@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Standard meta tags in consistent order -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
       content="Blog by Santosh Dasari, featuring articles on biomedical engineering, product design, and tech innovation."
     />
+    <meta name="robots" content="index, follow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' https://raw.githubusercontent.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;"
+    />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), clipboard-read=(), clipboard-write=(), interest-cohort=(), gamepad=(), hid=(), idle-detection=(), serial=(), window-placement=())"
+    />
+
     <title>Blog | Santosh Dasari</title>
+
+    <!-- Stylesheets and favicons -->
     <link rel="stylesheet" href="styles/style.css" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <link
-      rel="icon"
-      href="https://raw.githubusercontent.com/SantoshDasari-ai/santoshblds/main/assets/favicon.ico"
-      type="image/x-icon"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
     />
   </head>
   <body>
@@ -38,11 +57,33 @@
 
       <footer class="site-footer">
         <p>&copy; 2024 Santosh Dasari. All rights reserved.</p>
-        <nav>
+        <nav class="social-links">
           <ul>
-            <li><a href="#" aria-label="LinkedIn Profile">LinkedIn</a></li>
-            <li><a href="#" aria-label="GitHub Profile">GitHub</a></li>
-            <li><a href="#" aria-label="Email Contact">Contact</a></li>
+            <li>
+              <a
+                href="https://linkedin.com/in/santoshdasari"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Visit my LinkedIn profile (opens in new tab)"
+                >LinkedIn</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://github.com/santoshdasari"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Visit my GitHub profile (opens in new tab)"
+                >GitHub</a
+              >
+            </li>
+            <li>
+              <a
+                href="mailto:contact@santoshdasari.com"
+                aria-label="Send me an email"
+                >Contact</a
+              >
+            </li>
           </ul>
         </nav>
       </footer>

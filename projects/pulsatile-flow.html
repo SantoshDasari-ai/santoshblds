@@ -3,9 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Pulsatile Flow Project" />
+    <meta name="robots" content="index, follow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta
-      name="description"
-      content="Pulsatile Flow Blood Loop (TGT 2.0) - Senior Design Project"
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;"
+    />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=(), autoplay=(), fullscreen=(self), picture-in-picture=(self), display-capture=(), web-share=(self), ambient-light-sensor=(), battery=(), bluetooth=(), idle-detection=(), midi=(), screen-wake-lock=(), serial=()"
+    />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
     />
     <title>Pulsatile Flow Blood Loop | Santosh Dasari</title>
     <link rel="stylesheet" href="../styles/style.css" />
@@ -13,14 +40,22 @@
   </head>
   <body>
     <div class="container">
-      <header class="site-header">
-        <nav class="site-nav">
+      <header class="site-header" role="banner">
+        <nav class="site-nav" role="navigation" aria-label="Main navigation">
           <ul>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../portfolio.html">Portfolio</a></li>
-            <li><a href="../resume.html">Resume</a></li>
+            <li><a href="../index.html" aria-label="Home page">Home</a></li>
+            <li>
+              <a href="../portfolio.html" aria-label="Portfolio page"
+                >Portfolio</a
+              >
+            </li>
+            <li>
+              <a href="../resume.html" aria-label="Resume page">Resume</a>
+            </li>
             <!-- <li><a href="../blog.html">Blog</a></li> -->
-            <li><a href="../contact.html">Contact</a></li>
+            <li>
+              <a href="../contact.html" aria-label="Contact page">Contact</a>
+            </li>
           </ul>
         </nav>
       </header>
@@ -34,7 +69,7 @@
             </h1>
             <img
               src="../assets/projects/pulsatile-flow/MHVicon.jpg"
-              alt="MHV Icon"
+              alt="MHV Icon - Mechanical Heart Valve Illustration"
               class="header-icon"
             />
           </div>
