@@ -1,1 +1,7 @@
-permalink: pretty
+permalink: /:title/
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      permalink: /:basename/
