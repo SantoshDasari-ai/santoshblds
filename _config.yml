@@ -5,3 +5,34 @@ defaults:
       type: "pages"
     values:
       permalink: /:basename/
+
+# GitHub Pages settings
+lsi: false
+safe: true
+incremental: false
+highlighter: rouge
+gist:
+  noscript: false
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+
+# Optimization
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: [html, head, body]
+  blanklines: false
+  profile: false
+
+# Security and Files
+include:
+  - ".well-known"
+  - "_headers"
+exclude:
+  - "README.md"
+  - "LICENSE"
+  - ".gitignore"
+  - ".git"
+  - ".venv"

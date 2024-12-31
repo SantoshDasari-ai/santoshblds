@@ -1,0 +1,188 @@
+@import url(https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap);
+:root {
+  --primary-color: #000;
+  --background-color: #fbfbfb;
+  --surface-color: #c6e7ff;
+  --accent-color: #ffddae;
+  --accent-subtle: #d4f6ff;
+  --text-color: #000;
+  --border-color: var(--accent-subtle);
+  --muted-color: #666;
+  --hover-color: var(--accent-subtle);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --font-primary: "League Spartan", system-ui, -apple-system, sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-item:hover {
+    transform: translateY(-4px);
+  }
+  .nav-button:hover {
+    transform: translateY(-1px);
+  }
+}
+.portfolio-image {
+  transition: opacity 0.3s ease;
+  max-width: 100%;
+  height: auto;
+}
+.portfolio-image[loading] {
+  opacity: 0.5;
+}
+@media (max-width: 768px) {
+  .site-nav {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  .site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  .site-nav a {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--surface-color);
+    transition: all 0.2s ease;
+  }
+  .site-nav a:active {
+    transform: scale(0.95);
+  }
+  .site-nav a[aria-current="page"] {
+    background: var(--accent-color);
+  }
+}
+@media (max-width: 480px) {
+  .portfolio-item {
+    margin-bottom: 1rem;
+  }
+  .nav-button {
+    padding: 0.875rem 1.75rem;
+    margin: 0.25rem;
+  }
+  .blog-item h2 {
+    padding: 0.5rem 0;
+  }
+  .blog-read-more {
+    display: inline-block;
+    padding: 0.5rem 0;
+  }
+  .contact-list a {
+    display: block;
+    padding: 0.75rem 0;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+@media (max-width: 768px) {
+  .portfolio-grid {
+    gap: 1.25rem;
+  }
+  .portfolio-item {
+    border-radius: 0.5rem;
+  }
+  .portfolio-content {
+    padding: 1rem;
+  }
+}
+.portfolio-image-container {
+  position: relative;
+  background: var(--surface-color);
+}
+.portfolio-image-container::before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+.portfolio-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+@media print {
+  .site-nav,
+  .site-footer,
+  .nav-button {
+    display: none;
+  }
+  .container {
+    padding: 0;
+    max-width: none;
+  }
+  body {
+    color: #000;
+    background: #fff;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--font-primary);
+  color: var(--text-color);
+  line-height: 1.5;
+  background-color: var(--background-color);
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+.site-header {
+  margin-bottom: 2rem;
+}
+.site-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin-bottom: 2rem;
+}
+.site-nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.site-nav a[aria-current="page"] {
+  color: var(--primary-color);
+  background: var(--accent-color);
+}
