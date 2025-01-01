@@ -9,7 +9,7 @@
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; img-src 'self' data: https:; script-src 'self'"
+      content="default-src 'self'; img-src 'self' data: https:; script-src 'self'; frame-src 'self' https://sketchfab.com/ https://*.sketchfab.com/"
     />
     <link rel="icon" type="image/x-icon" href="../favicon.ico" />
     <title>Injection Mold DFM Study | Santosh Dasari</title>
@@ -30,7 +30,93 @@
       </header>
 
       <main class="project-container">
-        <h1>Injection Mold DFM Study</h1>
+        <div class="project-header">
+          <h1>Injection Mold DFM Study</h1>
+        </div>
+
+        <section class="project-overview-section project-section">
+          <h2>Project Overview</h2>
+          <h3>
+            This study is part of another larger class project at SJSU:
+            <a href="surgical-robot-drapes.html">Surgical Robot Drapes</a>
+          </h3>
+          <p>
+            This project involved conducting a comprehensive Design for
+            Manufacturing (DFM) study for an injection-molded component. The
+            study focused on analyzing and optimizing the part design to ensure
+            manufacturability, reduce costs, and maintain product quality.
+          </p>
+          <p>
+            Key aspects of the study included material selection, wall thickness
+            analysis, draft angle considerations, and design recommendations to
+            prevent common injection molding defects such as sink marks, weld
+            lines, warpage, shrinkage, and other defects.
+          </p>
+          <p>
+            We also have conducted plastic flow analysis to predicts how plastic
+            material will flow within a mold cavity during the injection molding
+            process.
+          </p>
+        </section>
+
+        <div class="project-columns">
+          <div class="project-column">
+            <section class="initial-design-section project-section">
+              <h2>Initial Design</h2>
+              <div class="sketchfab-embed-wrapper">
+                <iframe
+                  title="Bottom Tool Site V1"
+                  frameborder="0"
+                  allowfullscreen
+                  mozallowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  allow="autoplay; fullscreen; xr-spatial-tracking"
+                  xr-spatial-tracking
+                  execution-while-out-of-viewport
+                  execution-while-not-rendered
+                  web-share
+                  width="100%"
+                  height="400"
+                  style="display: block"
+                  src="https://sketchfab.com/models/20ba8949b9a24f67bc0203793fb0c409/embed"
+                >
+                </iframe>
+              </div>
+              <p class="model-caption" style="text-align: center">
+                Click play and use mouse to rotate and zoom.
+              </p>
+            </section>
+          </div>
+
+          <div class="project-column">
+            <section class="design-analysis-section project-section">
+              <h2>Design Description</h2>
+              <p>
+                This part snaps into the larger robot arm to hold the drapes
+                together.
+              </p>
+
+              <h3>Design Properties</h3>
+              <ul>
+                <li>Overall Dimensions: 20 x 35 x 35 (mm)</li>
+                <li>Material: Generic ABS</li>
+                <li>Wall thickness: 0.80 mm</li>
+                <li>Draft angle: 3 deg</li>
+                <li>Minimal undercuts</li>
+                <li>Even curvature</li>
+                <li>Plastic snap fits</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <section class="credits-section project-section">
+          <h2>Credits and Acknowledgements</h2>
+          <p>
+            I would like to thank my professor, Dr. Patrick Jurney, for this
+            opportunity to work on this project.
+          </p>
+        </section>
       </main>
 
       <footer class="site-footer">
