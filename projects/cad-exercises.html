@@ -37,8 +37,14 @@
       sizes="16x16"
       href="/assets/favicon-16x16.png"
     />
+    <link rel="manifest" href="/assets/site.webmanifest" />
     <title>CAD Exercises | Santosh Dasari</title>
     <link rel="stylesheet" href="../styles/style.css" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"
+    ></script>
+    <script src="../js/analytics.js"></script>
   </head>
   <body>
     <div class="container">
@@ -47,14 +53,39 @@
           <ul>
             <li><a href="../index.html">Home</a></li>
             <li><a href="../portfolio.html">Portfolio</a></li>
+            <li class="current">
+              <a href="../projects/cad-exercises.html">CAD Exercises</a>
+            </li>
             <li><a href="../resume.html">Resume</a></li>
             <li><a href="../contact.html">Contact</a></li>
           </ul>
         </nav>
       </header>
 
-      <main class="project-container">
-        <h1>CAD Exercises</h1>
+      <main class="project-content">
+        <header class="project-header">
+          <h1>CAD Exercises</h1>
+        </header>
+
+        <section class="project-overview">
+          <h2>Project Overview</h2>
+          <p>Advanced CAD modeling exercises and technical demonstrations.</p>
+        </section>
+
+        <section class="project-section">
+          <h2>Technical Details</h2>
+          <!-- Content to be added -->
+        </section>
+
+        <section class="project-section">
+          <h2>Gallery</h2>
+          <!-- Content to be added -->
+        </section>
+
+        <section class="project-section">
+          <h2>Outcomes</h2>
+          <!-- Content to be added -->
+        </section>
       </main>
 
       <footer class="site-footer">
@@ -62,29 +93,17 @@
           <p class="copyright">
             &copy; 2024 Santosh Dasari. All rights reserved.
           </p>
-          <div class="social-links">
-            <a
-              href="https://linkedin.com/in/santoshdasari"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Santosh's LinkedIn profile"
-              >LinkedIn</a
-            >
-            <a
-              href="https://github.com/santoshdasari"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Santosh's GitHub profile"
-              >GitHub</a
-            >
-            <a
-              href="mailto:contact@santoshdasari.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Email Santosh"
-              >Email</a
-            >
-          </div>
+          <nav class="footer-nav">
+            <div class="social-links">
+              <a
+                href="https://linkedin.com/in/santoshdasari"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Santosh's LinkedIn profile"
+                >LinkedIn</a
+              >
+            </div>
+          </nav>
         </div>
       </footer>
     </div>
