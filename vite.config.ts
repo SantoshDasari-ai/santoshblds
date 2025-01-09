@@ -6,14 +6,22 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   build: {
+    outDir: "dist",
+    assetsDir: "assets",
     rollupOptions: {
       output: {
-        // Ensure proper MIME types for JavaScript modules
+        manualChunks: undefined,
         format: "es",
-        entryFileNames: "assets/[name]-[hash].js",
-        chunkFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash].[ext]",
+        entryFileNames: `assets/[name].[hash].js`,
+        chunkFileNames: `assets/[name].[hash].js`,
+        assetFileNames: `assets/[name].[hash].[ext]`,
       },
+    },
+    sourcemap: false,
+    // Ensure proper file types
+    assetsInlineLimit: 0,
+    modulePreload: {
+      polyfill: false,
     },
   },
   optimizeDeps: {
