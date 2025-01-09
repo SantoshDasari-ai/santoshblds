@@ -18,10 +18,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install
+          touch dist/.nojekyll
 
       - name: Build
         run: npm run build
@@ -32,3 +33,5 @@ jobs:
           folder: dist
           branch: gh-pages
           clean: true
+          clean-exclude: |
+            .nojekyll
