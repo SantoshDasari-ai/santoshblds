@@ -35,7 +35,7 @@ export default function Home() {
             Hi, I'm <span className="text-blue-600">Santosh Dasari</span>
           </h1>
           <h2 className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-3">
-            Biomedical Engineer &amp; Product Designer
+            Biomedical Engineer
           </h2>
           <p className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto px-4">
             A senior Biomedical Engineering student at San Jose State University

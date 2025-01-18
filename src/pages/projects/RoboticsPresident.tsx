@@ -67,9 +67,9 @@ const RoboticsPresident: React.FC = () => {
                     Robotics Club President
                   </h1>
                   <p className="text-base text-gray-600 max-w-2xl">
-                    Directed cross-functional teams to develop a Mars rover
-                    robot, overseeing Mechanical, Controls, Electrical,
-                    Biology/Geology, and Autonomy
+                    A multidisciplinary team of engineering students from
+                    Mechanical, Controls, Electrical, Biology/Geology, and
+                    Autonomy fields collaborated to develop a Mars rover robot.
                   </p>
                 </div>
                 <div className="flex-shrink-0">
@@ -86,70 +86,151 @@ const RoboticsPresident: React.FC = () => {
 
             <div className="p-4">
               <div className="grid grid-cols-12 gap-4 max-w-[90rem] mx-auto">
-                {/* Role Section */}
-                <div className="col-span-12 lg:col-span-3">
-                  <h2 className="text-lg font-bold text-gray-900 flex items-center mb-2">
-                    <span className="w-5 h-5 rounded-lg bg-blue-100 text-blue-600 inline-flex items-center justify-center mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-3 h-3"
-                      >
-                        <path d="M20 7h-9"></path>
-                        <path d="M14 17H5"></path>
-                        <circle cx="17" cy="17" r="3"></circle>
-                        <circle cx="7" cy="7" r="3"></circle>
-                      </svg>
-                    </span>
-                    My Role
-                  </h2>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="prose prose-blue max-w-none">
-                      <p className="text-gray-600 mb-2 text-sm">
-                        As President of SJSU Robotics, I led a diverse team of
-                        50+ students in the development of advanced robotic
-                        systems, including our flagship Mars Rover project. My
-                        responsibilities included:
-                      </p>
-                      <ul className="space-y-1.5 text-gray-600 text-sm">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
-                          <span>
-                            Strategic planning and execution of multiple
-                            robotics projects
+                {/* Left Column - Role and Social Links */}
+                <div className="col-span-12 lg:col-span-3 space-y-4">
+                  {/* Role Section */}
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900 flex items-center mb-2">
+                      <span className="w-5 h-5 rounded-lg bg-blue-100 text-blue-600 inline-flex items-center justify-center mr-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="w-3 h-3"
+                        >
+                          <path d="M20 7h-9"></path>
+                          <path d="M14 17H5"></path>
+                          <circle cx="17" cy="17" r="3"></circle>
+                          <circle cx="7" cy="7" r="3"></circle>
+                        </svg>
+                      </span>
+                      My Role
+                    </h2>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="prose prose-blue max-w-none">
+                        <p className="text-gray-600 mb-2 text-sm">
+                          Led a team of 50+ students in developing advanced
+                          robotic systems, including our flagship Mars Rover
+                          project.
+                        </p>
+                        <ul className="space-y-1.5 text-gray-600 text-sm">
+                          <li className="flex items-start">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
+                            <span>
+                              Strategic planning and project execution
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
+                            <span>
+                              Managing cross-functional engineering teams
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
+                            <span>Technical workshops and training</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Social Links Section */}
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900 flex items-center mb-2">
+                      <span className="w-5 h-5 rounded-lg bg-blue-100 text-blue-600 inline-flex items-center justify-center mr-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="w-3 h-3"
+                        >
+                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                          <rect x="2" y="9" width="4" height="12"></rect>
+                          <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                      </span>
+                      Social Links
+                    </h2>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="flex flex-col gap-3">
+                        <a
+                          href="https://sjsurobotics.org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                            />
+                          </svg>
+                          <span className="text-sm font-medium">
+                            Club Website
                           </span>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
-                          <span>
-                            Managing cross-functional teams across engineering
-                            disciplines
+                        </a>
+                        <a
+                          href="https://github.com/SJSURoboticsTeam"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          <span className="text-sm font-medium">
+                            GitHub Repository
                           </span>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
-                          <span>
-                            Organizing technical workshops and training sessions
+                        </a>
+                        <a
+                          href="https://www.youtube.com/@SJSURobotics"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition-colors p-2 rounded-lg hover:bg-red-50"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          <span className="text-sm font-medium">
+                            YouTube Channel
                           </span>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
-                          <span>
-                            Securing funding through university partnerships
-                          </span>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 mt-1.5"></span>
-                          <span>
-                            Representing at competitions and conferences
-                          </span>
-                        </li>
-                      </ul>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -183,18 +264,18 @@ const RoboticsPresident: React.FC = () => {
                     Project Gallery
                   </h2>
                   <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="grid grid-cols-6 grid-rows-2 gap-2 aspect-[3/1]">
+                    <div className="grid grid-cols-4 gap-2">
                       {/* Main Preview */}
-                      <div className="col-span-3 row-span-2">
+                      <div className="col-span-2 row-span-2">
                         <div
                           className="relative h-full cursor-pointer group rounded-lg overflow-hidden"
                           onClick={() =>
-                            openModal("/assets/projects/robotics/main.jpg")
+                            openModal("/assets/projects/robotics/sjr_main.jpg")
                           }
                         >
                           <img
-                            src="/assets/projects/robotics/main.jpg"
-                            alt="Robotics Club Main Activity"
+                            src="/assets/projects/robotics/sjr_main.jpg"
+                            alt="SJSU Robotics Main"
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -206,19 +287,19 @@ const RoboticsPresident: React.FC = () => {
                       </div>
 
                       {/* Additional Images */}
-                      {[1, 2, 3, 4].map((index) => (
-                        <div key={index} className="col-span-1.5 row-span-1">
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                        <div key={index} className="col-span-1">
                           <div
-                            className="relative h-full cursor-pointer group rounded-lg overflow-hidden"
+                            className="relative h-40 cursor-pointer group rounded-lg overflow-hidden"
                             onClick={() =>
                               openModal(
-                                `/assets/projects/robotics/image${index}.jpg`
+                                `/assets/projects/robotics/sjr_${index}.png`
                               )
                             }
                           >
                             <img
-                              src={`/assets/projects/robotics/image${index}.jpg`}
-                              alt={`Robotics Project Image ${index}`}
+                              src={`/assets/projects/robotics/sjr_${index}.png`}
+                              alt={`SJSU Robotics Image ${index}`}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
