@@ -29,7 +29,7 @@ export const projects: Project[] = [
       "Led the development of a Mars rover prototype, managing cross-functional teams and implementing advanced control systems.",
     image: "/assets/projects/robotics/render.JPG",
     technologies: ["Project Management", "Robotics", "Mechanical Design"],
-    demoUrl: "/projects/robotics",
+    demoUrl: "/projects/robotics-president",
   },
   {
     id: "rag-ai",
