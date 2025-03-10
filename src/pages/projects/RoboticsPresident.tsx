@@ -6,30 +6,43 @@ import ProjectCard from "../../components/ProjectCard";
 // Sub-projects data
 const subProjects = [
   {
-    id: "mars-rover",
-    title: "Mars Rover Project",
+    id: "system-overview",
+    title: "System Overview",
     description:
-      "Development of a Mars rover prototype capable of autonomous navigation, soil sampling, and scientific analysis.",
+      "Comprehensive overview of our robotics systems, architecture, and technical specifications for the Mars rover project.",
     image: "/assets/projects/robotics/sub/rover.jpg",
-    technologies: ["ROS", "Computer Vision", "Mechanical Design"],
+    technologies: [
+      "System Architecture",
+      "Technical Documentation",
+      "Integration",
+    ],
     demoUrl: "#",
   },
   {
-    id: "autonomous-drone",
-    title: "Autonomous Drone",
+    id: "design-work",
+    title: "Design Work",
     description:
-      "Design and implementation of an autonomous drone system for aerial mapping and surveillance applications.",
-    image: "/assets/projects/robotics/sub/drone.jpg",
-    technologies: ["Flight Control", "Path Planning", "Sensors"],
-    demoUrl: "#",
-  },
-  {
-    id: "robotic-arm",
-    title: "Robotic Arm",
-    description:
-      "Creation of a 6-DOF robotic arm with precise motion control for industrial automation applications.",
+      "Detailed design process including CAD models, simulations, and engineering analysis for robotic components.",
     image: "/assets/projects/robotics/sub/arm.jpg",
-    technologies: ["Inverse Kinematics", "Motion Control", "CAD"],
+    technologies: ["CAD", "Simulation", "Engineering Analysis"],
+    demoUrl: "#",
+  },
+  {
+    id: "manufacturing",
+    title: "Manufacturing",
+    description:
+      "Fabrication processes, materials selection, and assembly procedures for building the robotic systems.",
+    image: "/assets/projects/robotics/sub/drone.jpg",
+    technologies: ["Fabrication", "Assembly", "Quality Control"],
+    demoUrl: "#",
+  },
+  {
+    id: "outreach-events",
+    title: "Outreach and Events",
+    description:
+      "Community engagement, educational workshops, competitions, and public demonstrations of our robotics projects.",
+    image: "/assets/projects/robotics/sub/rover.jpg",
+    technologies: ["Community Engagement", "Education", "Competitions"],
     demoUrl: "#",
   },
 ];
@@ -113,7 +126,7 @@ const RoboticsPresident: React.FC = () => {
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <div className="prose prose-blue max-w-none">
                         <p className="text-gray-600 mb-2 text-sm">
-                          Led a team of 50+ students in developing advanced
+                          Led a team of 20+ students in developing advanced
                           robotic systems, including our flagship Mars Rover
                           project.
                         </p>

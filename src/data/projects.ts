@@ -50,33 +50,6 @@ export const projects: Project[] = [
     demoUrl: "/projects/surgical-robot-drapes",
   },
   {
-    id: "raman-spectroscopy",
-    title: "Raman Spectroscopy Tester",
-    description:
-      "Development of advanced spectroscopy testing equipment for material analysis.",
-    image: "/assets/projects/raman/main.jpg",
-    technologies: ["Spectroscopy", "Hardware Design", "Testing"],
-    demoUrl: "/projects/raman-spectroscopy",
-  },
-  {
-    id: "camera-gimbal",
-    title: "Camera Gimbal Project",
-    description:
-      "Design and implementation of a stabilized camera gimbal system.",
-    image: "/assets/projects/gimbal/main.jpg",
-    technologies: ["Mechanical Design", "Control Systems", "CAD"],
-    demoUrl: "/projects/camera-gimbal",
-  },
-  {
-    id: "medicine-bottle",
-    title: "Medicine Bottle Opener for Elderly",
-    description:
-      "Innovative solution to help elderly individuals safely open medicine bottles.",
-    image: "/assets/projects/medicine bottle/main.jpg",
-    technologies: ["Product Design", "Ergonomics", "Accessibility"],
-    demoUrl: "/projects/medicine-bottle-opener",
-  },
-  {
     id: "cad-exercises",
     title: "CAD Exercises",
     description:
@@ -86,3 +59,8 @@ export const projects: Project[] = [
     demoUrl: "/projects/cad-exercises",
   },
 ];
+
+export const filteredProjects = projects.filter(
+  (project) =>
+    project.id !== "camera-gimbal" && project.id !== "medicine-bottle"
+);
