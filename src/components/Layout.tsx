@@ -1,5 +1,5 @@
 import React from "react";
-import ScrollIndicator from "./ScrollIndicator";
+import ConditionalScrollIndicator from "./ConditionalScrollIndicator";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface LayoutProps {
@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="absolute inset-0 bg-noise"></div>
         </div>
 
-        <ScrollIndicator />
+        <ConditionalScrollIndicator />
         <motion.main
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
