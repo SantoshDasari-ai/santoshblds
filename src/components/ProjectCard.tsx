@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import { Project } from "../types/project";
 
 interface ProjectCardProps {
@@ -8,28 +8,31 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const cardContent = (
-    <motion.div
-      whileHover={{ y: -4 }}
-      whileTap={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden">
+    <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full relative hover:-translate-y-2">
+      <div className="img-hover-container aspect-[4/3] overflow-hidden">
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="img-hover-overlay">
+          <span className="text-sm font-medium text-white/90 px-2 py-1 bg-gray-900/60 rounded-full backdrop-blur-sm inline-block mb-2 max-w-max">
+            {project.technologies[0]}
+          </span>
+          <h4 className="text-white text-lg font-bold">View Project</h4>
+        </div>
       </div>
-      <div className="p-4 sm:p-6 flex flex-col h-[calc(100%-aspect-[4/3])]">
-        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+
+      <div className="p-5 sm:p-6 flex flex-col h-[calc(100%-aspect-[4/3])] relative z-10">
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-primary transition-colors">
           {project.title}
         </h3>
+
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 flex-grow">
           {project.description}
         </p>
+
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {project.technologies.slice(0, 3).map((tech) => (
             <span
@@ -45,8 +48,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </span>
           )}
         </div>
+
+        {/* View indicator */}
+        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+          <ExternalLink size={16} className="text-primary" />
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   if (project.demoUrl) {
