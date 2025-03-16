@@ -4,7 +4,8 @@ export type Project = {
   description: string;
   image: string;
   technologies: string[];
-  demoUrl: string;
+  demoUrl?: string;
+  path?: string;
   status?: string;
   institution?: string;
   advisor?: string;

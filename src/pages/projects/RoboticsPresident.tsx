@@ -1,36 +1,55 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { projects } from "../../data/projects";
-import ProjectCard from "../../components/ProjectCard";
 
 // Sub-projects data
 const subProjects = [
   {
-    id: "mars-rover",
-    title: "Mars Rover Project",
+    id: "system-overview",
+    title: "System Overview",
     description:
-      "Development of a Mars rover prototype capable of autonomous navigation, soil sampling, and scientific analysis.",
+      "Comprehensive overview of our robotics systems, architecture, and technical specifications for the Mars rover project.",
     image: "/assets/projects/robotics/sub/rover.jpg",
-    technologies: ["ROS", "Computer Vision", "Mechanical Design"],
-    demoUrl: "#",
+    technologies: [
+      "System Architecture",
+      "Technical Documentation",
+      "Integration",
+    ],
+    demoUrl: "/projects/robotics/system-overview",
   },
   {
-    id: "autonomous-drone",
-    title: "Autonomous Drone",
+    id: "mechanical-work",
+    title: "Mechanical Work",
     description:
-      "Design and implementation of an autonomous drone system for aerial mapping and surveillance applications.",
-    image: "/assets/projects/robotics/sub/drone.jpg",
-    technologies: ["Flight Control", "Path Planning", "Sensors"],
-    demoUrl: "#",
-  },
-  {
-    id: "robotic-arm",
-    title: "Robotic Arm",
-    description:
-      "Creation of a 6-DOF robotic arm with precise motion control for industrial automation applications.",
+      "Complete mechanical engineering process including design, CAD modeling, fabrication, materials selection, and assembly of robotic components.",
     image: "/assets/projects/robotics/sub/arm.jpg",
-    technologies: ["Inverse Kinematics", "Motion Control", "CAD"],
-    demoUrl: "#",
+    technologies: [
+      "CAD Design",
+      "Fabrication",
+      "Assembly",
+      "Engineering Analysis",
+      "Quality Control",
+    ],
+    demoUrl: "/projects/robotics/mechanical-work",
+  },
+  {
+    id: "troubleshooting",
+    title: "Troubleshooting",
+    description:
+      "Systematic approach to identifying, diagnosing, and resolving technical issues in robotic systems and components.",
+    image: "/assets/projects/robotics/sub/drone.jpg",
+    technologies: ["Problem Solving", "Diagnostics", "Testing", "Repair"],
+    demoUrl: "/projects/robotics/troubleshooting",
+  },
+  {
+    id: "outreach-events",
+    title: "Outreach and Events",
+    description:
+      "Community engagement, educational workshops, competitions, and public demonstrations of our robotics projects.",
+    image: "/assets/projects/robotics/sub/rover.jpg",
+    technologies: ["Community Engagement", "Education", "Competitions"],
+    demoUrl: "/projects/robotics/outreach-events",
   },
 ];
 
@@ -113,7 +132,7 @@ const RoboticsPresident: React.FC = () => {
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <div className="prose prose-blue max-w-none">
                         <p className="text-gray-600 mb-2 text-sm">
-                          Led a team of 50+ students in developing advanced
+                          Led a team of 20+ students in developing advanced
                           robotic systems, including our flagship Mars Rover
                           project.
                         </p>
@@ -329,42 +348,73 @@ const RoboticsPresident: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {subProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <ProjectCard project={project} />
-                </motion.div>
+                <Link key={project.id} to={project.demoUrl} className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full"
+                  >
+                    <div className="relative aspect-[3/2] overflow-hidden rounded-t-lg">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="text-base font-semibold text-gray-900 mb-1">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {project.technologies.slice(0, 2).map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 2 && (
+                          <span className="px-2 py-0.5 bg-gray-50 text-gray-600 rounded-full text-xs font-medium">
+                            +{project.technologies.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </section>
+
+          {/* Image Modal */}
+          {modalImage && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+              onClick={closeModal}
+            >
+              <button
+                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+                onClick={closeModal}
+              >
+                <span className="text-4xl font-light">&times;</span>
+              </button>
+              <img
+                src={modalImage}
+                alt="Enlarged view"
+                className="max-w-[90%] max-h-[90vh] object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
         </motion.div>
       </div>
-
-      {/* Image Modal */}
-      {modalImage && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
-          onClick={closeModal}
-        >
-          <button
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-            onClick={closeModal}
-          >
-            <span className="text-4xl font-light">&times;</span>
-          </button>
-          <img
-            src={modalImage}
-            alt="Enlarged view"
-            className="max-w-[90%] max-h-[90vh] object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
     </div>
   );
 };
