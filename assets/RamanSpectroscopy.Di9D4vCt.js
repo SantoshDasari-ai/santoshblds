@@ -1,0 +1,1 @@
+import{p as e,j as o}from"./index.2c44FjdF.js";import{P as p}from"./ProjectTemplate.BvpqPpsF.js";import"./arrow-left.DZbNMnOq.js";const n=()=>{const t=e.find(r=>r.id==="raman-spectroscopy");return t?o.jsx(p,{project:t}):o.jsx("div",{children:"Project not found"})};export{n as default};
