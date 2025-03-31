@@ -13,7 +13,10 @@ const CRITICAL_FONTS: string[] = [
   // Add critical font paths here if needed
 ];
 
-const CRITICAL_IMAGES: string[] = ["/assets/logo.png", "/assets/my-photo.JPG"];
+const CRITICAL_IMAGES: string[] = [
+  "/assets/logo.webp",
+  "/assets/my-photo.JPG.webp",
+];
 
 /**
  * Preloads a resource with the specified attributes

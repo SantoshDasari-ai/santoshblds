@@ -49,8 +49,10 @@ export default defineConfig(({ mode }) => ({
     exclude: ["lucide-react"],
   },
   server: {
+    port: 5175,
     headers: {
       "Cache-Control": "public, max-age=31536000",
     },
+    historyApiFallback: true,
   },
 }));
