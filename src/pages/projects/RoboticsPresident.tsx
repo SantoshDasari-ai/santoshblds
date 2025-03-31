@@ -10,7 +10,7 @@ const subProjects = [
     title: "System Overview",
     description:
       "Comprehensive overview of our robotics systems, architecture, and technical specifications for the Mars rover project.",
-    image: "/assets/projects/robotics/sub/rover.jpg",
+    image: "/assets/projects/robotics/sub/triangles.jpg",
     technologies: [
       "System Architecture",
       "Technical Documentation",

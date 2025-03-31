@@ -11,8 +11,8 @@
     "url": "https://github.com/yourusername/santoshblds.com"
   },
   "scripts": {
-    "dev": "vite",
-    "dev:setup": "node scripts/copy-for-dev.js && vite",
+    "dev": "vite --port 5175",
+    "dev:setup": "node scripts/copy-for-dev.js && vite --port 5175",
     "build": "npm run optimize-images && vite build",
     "build:full": "npm run optimize-images && npm run convert-gifs && vite build",
     "lint": "eslint .",
