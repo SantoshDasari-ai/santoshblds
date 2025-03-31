@@ -13,6 +13,7 @@ const SEO: React.FC<SEOProps> = ({
   title,
   description = "Santosh Dasari's portfolio - Biomedical Engineer specializing in innovative product design, medical devices, and robotics.",
   keywords = [
+    "Santosh Dasari",
     "Biomedical Engineer",
     "Product Design",
     "Medical Devices",

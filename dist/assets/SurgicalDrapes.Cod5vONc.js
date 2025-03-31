@@ -1,1 +1,0 @@
-import{p as e,j as t}from"./index.CguoCSHb.js";import{P as s}from"./ProjectTemplate.HUa8yLg8.js";import"./arrow-left.CKx-7NpR.js";const c=()=>{const r=e.find(o=>o.id==="surgical-drapes");return r?t.jsx(s,{project:r}):t.jsx("div",{children:"Project not found"})};export{c as default};

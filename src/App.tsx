@@ -1,14 +1,16 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Home from "./pages/Home";
-import Portfolio from "./pages/Portfolio";
-import Resume from "./pages/Resume";
+import { initPreloading } from "./utils/preloadResources";
+import { initServiceWorker } from "./utils/serviceWorker";
 
-// Lazy load project pages
+// Lazy load all pages for code splitting
+const Home = lazy(() => import("./pages/Home"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const Resume = lazy(() => import("./pages/Resume"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PulsatileFlow = lazy(() => import("./pages/projects/PulsatileFlow"));
 const DFMStudy = lazy(() => import("./pages/projects/DFMStudy"));
@@ -29,6 +31,12 @@ const Troubleshooting = lazy(() => import("./pages/projects/Troubleshooting"));
 const OutreachEvents = lazy(() => import("./pages/projects/OutreachEvents"));
 
 function App() {
+  // Initialize preloading of critical resources and service worker
+  useEffect(() => {
+    initPreloading();
+    initServiceWorker();
+  }, []);
+
   return (
     <Router>
       <ErrorBoundary>
