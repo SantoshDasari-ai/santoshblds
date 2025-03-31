@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Users, Clock, ExternalLink, ChevronRight } from "lucide-react";
+import {
+  Calendar,
+  Users,
+  Clock,
+  ExternalLink,
+  ChevronRight,
+} from "lucide-react";
 import { motion } from "framer-motion";
+import OptimizedImage from "../../components/OptimizedImage";
 
 const PulsatileFlow: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -11,7 +17,7 @@ const PulsatileFlow: React.FC = () => {
     status: "In Progress",
     team: ["Santosh Dasari (Lead)", "Yhanira Medina Amaro"],
     advisor: "Dr. Alessandro Bellofiore",
-    location: "Cardio Lab, San Jose State University"
+    location: "Cardio Lab, San Jose State University",
   };
 
   const progressSteps = [
@@ -19,7 +25,7 @@ const PulsatileFlow: React.FC = () => {
     { status: "completed", label: "Design Phase" },
     { status: "in-progress", label: "Development" },
     { status: "upcoming", label: "Testing" },
-    { status: "upcoming", label: "Validation" }
+    { status: "upcoming", label: "Validation" },
   ];
 
   const handleImageClick = (imageSrc: string) => {
@@ -44,7 +50,7 @@ const PulsatileFlow: React.FC = () => {
                   <br />
                   Characterization near Bileaflet MHVs (TGT 2.0)
                 </h1>
-                
+
                 {/* Project Metadata */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="flex items-center text-gray-600">
@@ -75,20 +81,40 @@ const PulsatileFlow: React.FC = () => {
 
           {/* Progress Timeline */}
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Project Progress</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              Project Progress
+            </h2>
             <div className="flex justify-between items-center">
               {progressSteps.map((step, index) => (
-                <div key={step.label} className="flex flex-col items-center flex-1">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2
-                    ${step.status === 'completed' ? 'bg-green-500' : 
-                      step.status === 'in-progress' ? 'bg-blue-500' : 'bg-gray-300'} 
-                    text-white`}>
-                    {step.status === 'completed' ? '✓' : index + 1}
+                <div
+                  key={step.label}
+                  className="flex flex-col items-center flex-1"
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center mb-2
+                    ${
+                      step.status === "completed"
+                        ? "bg-green-500"
+                        : step.status === "in-progress"
+                        ? "bg-blue-500"
+                        : "bg-gray-300"
+                    } 
+                    text-white`}
+                  >
+                    {step.status === "completed" ? "✓" : index + 1}
                   </div>
-                  <div className="text-sm text-center text-gray-600">{step.label}</div>
+                  <div className="text-sm text-center text-gray-600">
+                    {step.label}
+                  </div>
                   {index < progressSteps.length - 1 && (
-                    <div className={`h-1 w-full mt-4 
-                      ${step.status === 'completed' ? 'bg-green-500' : 'bg-gray-300'}`} />
+                    <div
+                      className={`h-1 w-full mt-4 
+                      ${
+                        step.status === "completed"
+                          ? "bg-green-500"
+                          : "bg-gray-300"
+                      }`}
+                    />
                   )}
                 </div>
               ))}
@@ -99,29 +125,32 @@ const PulsatileFlow: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Background */}
             <section className="project-section">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Background</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Background
+              </h2>
               <p className="text-gray-600 leading-relaxed">
-                Mechanical Heart Valves (MHVs) are lifesaving implants but
-                pose a significant risk of thromboembolism, often leading to
+                Mechanical Heart Valves (MHVs) are lifesaving implants but pose
+                a significant risk of thromboembolism, often leading to
                 complications like stroke. The Cardio Lab's original
-                'Thrombogenicity Tester (TGT)' aimed to study clot formation
-                by simulating pulsatile blood flow through an MHV. While
-                innovative, it struggled to replicate key physiological
-                factors such as flow patterns and valve closure dynamics,
-                limiting its accuracy and potential for impactful insights. As
-                part of my senior project, I am leading the development of the
-                TGT 2.0, an upgraded model designed to address these
-                challenges. With advanced features to better mimic the
-                cardiovascular system, TGT 2.0 will enable more precise and
-                reliable testing. This new design represents a significant
-                step forward in understanding and reducing the clotting risks
-                associated with MHVs.
+                'Thrombogenicity Tester (TGT)' aimed to study clot formation by
+                simulating pulsatile blood flow through an MHV. While
+                innovative, it struggled to replicate key physiological factors
+                such as flow patterns and valve closure dynamics, limiting its
+                accuracy and potential for impactful insights. As part of my
+                senior project, I am leading the development of the TGT 2.0, an
+                upgraded model designed to address these challenges. With
+                advanced features to better mimic the cardiovascular system, TGT
+                2.0 will enable more precise and reliable testing. This new
+                design represents a significant step forward in understanding
+                and reducing the clotting risks associated with MHVs.
               </p>
             </section>
 
             {/* Design Requirements */}
             <section className="project-section">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Design Requirements</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Design Requirements
+              </h2>
               <ul className="list-disc pl-6 space-y-4 text-gray-600">
                 <li>Human heart flow rate profile match</li>
                 <li>Flow rate monitoring capabilities</li>
@@ -141,11 +170,15 @@ const PulsatileFlow: React.FC = () => {
                 OLD TGT 1.0
               </h2>
               <div className="mb-8">
-                <img
+                <OptimizedImage
                   src="/assets/projects/pulsatile-flow/oldTGT.gif"
                   alt="Animation showing the current TGT system in operation"
                   className="w-full rounded-lg shadow-md"
-                  onClick={() => handleImageClick("/assets/projects/pulsatile-flow/oldTGT.gif")}
+                  onClick={() =>
+                    handleImageClick(
+                      "/assets/projects/pulsatile-flow/oldTGT.gif"
+                    )
+                  }
                 />
                 <p className="text-sm text-gray-500 mt-3 text-center">
                   Figure 1: Original TGT system showing horizontal orientation
@@ -180,11 +213,15 @@ const PulsatileFlow: React.FC = () => {
                 </section>
 
                 <div>
-                  <img
+                  <OptimizedImage
                     src="/assets/projects/pulsatile-flow/oldTGT.png"
                     alt="Image of the OLD TGT 1.0 system"
                     className="w-full rounded-lg shadow-md"
-                    onClick={() => handleImageClick("/assets/projects/pulsatile-flow/oldTGT.png")}
+                    onClick={() =>
+                      handleImageClick(
+                        "/assets/projects/pulsatile-flow/oldTGT.png"
+                      )
+                    }
                   />
                   <p className="text-sm text-gray-500 mt-3 text-center">
                     Figure 2: Comparison of flow rate profiles between the
@@ -274,11 +311,15 @@ const PulsatileFlow: React.FC = () => {
                 </section>
 
                 <div className="mt-8">
-                  <img
+                  <OptimizedImage
                     src="/assets/projects/pulsatile-flow/draft-assembly.png"
                     alt="CAD model of TGT 2.0 assembly"
                     className="w-full rounded-lg shadow-md"
-                    onClick={() => handleImageClick("/assets/projects/pulsatile-flow/draft-assembly.png")}
+                    onClick={() =>
+                      handleImageClick(
+                        "/assets/projects/pulsatile-flow/draft-assembly.png"
+                      )
+                    }
                   />
                   <p className="text-sm text-gray-500 mt-3 text-center">
                     Figure 3: CAD model showing the vertical orientation and
@@ -296,10 +337,11 @@ const PulsatileFlow: React.FC = () => {
               onClick={() => setSelectedImage(null)}
             >
               <div className="max-w-4xl mx-auto p-4">
-                <img
+                <OptimizedImage
                   src={selectedImage}
                   alt="Enlarged view"
                   className="max-h-[90vh] w-auto"
+                  priority={true}
                 />
               </div>
             </div>
@@ -312,10 +354,15 @@ const PulsatileFlow: React.FC = () => {
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Team Members</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Team Members
+                </h3>
                 <ul className="space-y-2">
                   {projectMetadata.team.map((member) => (
-                    <li key={member} className="flex items-center text-gray-600">
+                    <li
+                      key={member}
+                      className="flex items-center text-gray-600"
+                    >
                       <ChevronRight size={16} className="mr-2" />
                       {member}
                     </li>
@@ -323,11 +370,14 @@ const PulsatileFlow: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Acknowledgements</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Acknowledgements
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Special thanks to {projectMetadata.advisor} for their guidance and support throughout this project.
-                  This project was made possible by the resources provided by the Cardio Lab
-                  and the support from San Jose State University.
+                  Special thanks to {projectMetadata.advisor} for their guidance
+                  and support throughout this project. This project was made
+                  possible by the resources provided by the Cardio Lab and the
+                  support from San Jose State University.
                 </p>
               </div>
             </div>
