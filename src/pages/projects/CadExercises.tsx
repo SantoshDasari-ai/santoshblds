@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { projects } from "../../data/projects";
 
 // Define simple type
@@ -102,7 +102,7 @@ const galleryItems: GalleryItem[] = [
 
 // Google Drive folder link
 const driveFolderLink =
-  "https://drive.google.com/drive/folders/your-drive-folder-id";
+  "https://drive.google.com/drive/folders/1oMo2ox_PNb3Zkp0zMkxK-sqG7OHqwwuy?usp=sharing";
 
 function CadExercises() {
   const projectData = projects.find((p) => p.id === "cad-exercises");
