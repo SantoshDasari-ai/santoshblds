@@ -1,0 +1,1 @@
+import{j as o}from"./animations.DlfFBVwO.js";import{P as r}from"./ProjectTemplate.B125r0tM.js";import{p as t}from"./projects.Ce0_G7Jm.js";import"./vendor.DHVtzXAt.js";import"./arrow-left.BB7vvd8u.js";import"./index.DX7MAHtM.js";const s=()=>{const s=t.find((o=>"camera-gimbal"===o.id));return s?o.jsx(r,{project:s}):o.jsx("div",{children:"Project not found"})};export{s as default};
