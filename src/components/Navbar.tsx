@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, X, Github, Linkedin, Moon, Sun } from "lucide-react";
-import OptimizedImage from "./OptimizedImage";
+import { Menu, X, Github, Linkedin, Moon, Sun, Home } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -94,11 +93,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <NavLink to="/" className="flex items-center">
-              <OptimizedImage
-                src="/assets/logo.png"
-                alt="Santosh Dasari Logo"
-                className="h-10 w-auto"
-                priority={true}
+              <Home
+                size={24}
+                className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
               />
             </NavLink>
           </div>
