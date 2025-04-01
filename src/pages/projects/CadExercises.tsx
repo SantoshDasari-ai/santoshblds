@@ -1,216 +1,263 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { projects } from "../../data/projects";
 
-// This will be replaced with your actual CAD exercises data once you upload the images
-const cadExercises = [
+// Define simple type
+type GalleryItem = {
+  id: string;
+  title: string;
+  type: "image" | "video";
+  src: string;
+};
+
+// Utility function to ensure paths are absolute from root
+const withBasePath = (path: string): string => {
+  // Remove leading slash if exists to standardize
+  const cleanPath = path.startsWith("/") ? path.substring(1) : path;
+  // Get the base URL from the window location
+  const baseUrl = window.location.origin;
+  return `${baseUrl}/${cleanPath}`;
+};
+
+// Define gallery items
+const galleryItems: GalleryItem[] = [
   {
     id: "cad1",
-    title: "CAD Exercise 1",
-    image: "/assets/projects/cad/placeholder1.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-1", // Replace with actual GrabCAD link
+    title: "BMW Wheel Design",
+    type: "image",
+    src: "assets/projects/cad/BMW Wheel.jpg",
   },
   {
     id: "cad2",
-    title: "CAD Exercise 2",
-    image: "/assets/projects/cad/placeholder2.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-2", // Replace with actual GrabCAD link
+    title: "Sheet Metal Practice (3D)",
+    type: "image",
+    src: "assets/projects/cad/sheet metal practice.jpg",
   },
   {
     id: "cad3",
-    title: "CAD Exercise 3",
-    image: "/assets/projects/cad/placeholder3.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-3", // Replace with actual GrabCAD link
+    title: "Sheet Metal Practice (Flat Pattern)",
+    type: "image",
+    src: "assets/projects/cad/sheet metal practice flat.jpg",
   },
   {
     id: "cad4",
-    title: "CAD Exercise 4",
-    image: "/assets/projects/cad/placeholder4.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-4", // Replace with actual GrabCAD link
+    title: "Boat Design",
+    type: "image",
+    src: "assets/projects/cad/Boat.jpg",
   },
   {
     id: "cad5",
-    title: "CAD Exercise 5",
-    image: "/assets/projects/cad/placeholder5.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-5", // Replace with actual GrabCAD link
+    title: "Medicine Bottle Design",
+    type: "image",
+    src: "assets/projects/cad/Medicine Bottle.jpg",
   },
   {
     id: "cad6",
-    title: "CAD Exercise 6",
-    image: "/assets/projects/cad/placeholder6.jpg", // Replace with actual image path once uploaded
-    grabCadLink: "https://grabcad.com/library/your-model-6", // Replace with actual GrabCAD link
+    title: "Robot Mechanism",
+    type: "image",
+    src: "assets/projects/cad/robot.JPG",
+  },
+  {
+    id: "cad7",
+    title: "Wrist Mechanism",
+    type: "image",
+    src: "assets/projects/cad/wrist.JPG",
+  },
+  {
+    id: "cad8",
+    title: "Bottle Opener (View 1)",
+    type: "image",
+    src: "assets/projects/cad/Bottle opener1.jpg",
+  },
+  {
+    id: "cad9",
+    title: "Bottle Opener (View 2)",
+    type: "image",
+    src: "assets/projects/cad/Bottle opener2.jpg",
+  },
+  {
+    id: "cad10",
+    title: "Make-A-Thon Project (View 1)",
+    type: "image",
+    src: "assets/projects/cad/make-thon1.PNG",
+  },
+  {
+    id: "cad11",
+    title: "Make-A-Thon Project (View 2)",
+    type: "image",
+    src: "assets/projects/cad/make-thon2.PNG",
+  },
+  {
+    id: "cad12",
+    title: "Engine Assembly Animation",
+    type: "video",
+    src: "assets/projects/cad/Engine Assembly.mp4",
+  },
+  {
+    id: "cad13",
+    title: "Assembly Controls Demo",
+    type: "video",
+    src: "assets/projects/cad/Assembly Controls.mp4",
   },
 ];
 
-const CadExercises: React.FC = () => {
+// Google Drive folder link
+const driveFolderLink =
+  "https://drive.google.com/drive/folders/your-drive-folder-id";
+
+function CadExercises() {
   const projectData = projects.find((p) => p.id === "cad-exercises");
-  const [modalImage, setModalImage] = useState<string | null>(null);
-  const [selectedExercise, setSelectedExercise] = useState<
-    (typeof cadExercises)[0] | null
-  >(null);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
   if (!projectData) {
     return <div>Project not found</div>;
   }
 
-  const openModal = (exercise: (typeof cadExercises)[0]) => {
-    setSelectedExercise(exercise);
-    setModalImage(exercise.image);
+  const handleItemClick = (item: GalleryItem) => {
+    setSelectedItem(item);
   };
 
   const closeModal = () => {
-    setModalImage(null);
-    setSelectedExercise(null);
-  };
-
-  const openGrabCadLink = () => {
-    if (selectedExercise) {
-      window.open(selectedExercise.grabCadLink, "_blank");
-    }
+    setSelectedItem(null);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-4"
-        >
-          <article className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <header className="px-4 py-3 border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white">
-              <div className="flex justify-between items-center gap-4 max-w-[90rem] mx-auto">
-                <div className="flex-1">
-                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                    {projectData.title}
-                  </h1>
-                  <p className="text-base text-gray-600 max-w-2xl">
-                    {projectData.description}
-                  </p>
-                </div>
-              </div>
-            </header>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {projectData.title}
+            </h1>
+            <p className="mt-2 text-gray-600">{projectData.description}</p>
+          </div>
 
-            <div className="p-4">
-              <div className="max-w-[90rem] mx-auto">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-gray-900 flex items-center mb-2">
-                    <span className="w-5 h-5 rounded-lg bg-blue-100 text-blue-600 inline-flex items-center justify-center mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-3 h-3"
-                      >
-                        <rect
-                          x="3"
-                          y="3"
-                          width="18"
-                          height="18"
-                          rx="2"
-                          ry="2"
-                        ></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                      </svg>
-                    </span>
-                    CAD Exercise Gallery
-                  </h2>
-                  <p className="text-gray-600 text-sm mb-4">
-                    Click on any image to view details and access the GrabCAD
-                    link
-                  </p>
+          {/* Gallery Header with Drive Button */}
+          <div className="px-6 py-4 flex flex-wrap justify-between items-center">
+            <h2 className="text-xl font-semibold text-gray-800">
+              CAD Project Gallery
+            </h2>
+            <a
+              href={driveFolderLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 sm:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                />
+              </svg>
+              View All CAD Files
+            </a>
+          </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {cadExercises.map((exercise) => (
-                      <motion.div
-                        key={exercise.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative group"
-                      >
-                        <div
-                          className="relative h-64 rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-lg transition-shadow duration-300"
-                          onClick={() => openModal(exercise)}
-                        >
-                          <img
-                            src={exercise.image}
-                            alt={exercise.title}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <span className="text-white text-sm font-medium">
-                              {exercise.title}
-                            </span>
-                          </div>
+          {/* Gallery */}
+          <div className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {galleryItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="overflow-hidden rounded-lg shadow-md cursor-pointer transform hover:scale-105 transition-all duration-300"
+                  onClick={() => handleItemClick(item)}
+                >
+                  {item.type === "image" ? (
+                    <div className="relative h-52">
+                      <img
+                        src={withBasePath(item.src)}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white p-2">
+                        {item.title}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="relative h-52 bg-gray-800 flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="rounded-full w-12 h-12 bg-blue-500 flex items-center justify-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                          </svg>
                         </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white p-2">
+                        {item.title}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ))}
             </div>
-          </article>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
-      {/* Modal for viewing images and accessing GrabCAD links */}
-      {modalImage && selectedExercise && (
+      {/* Simple Modal */}
+      {selectedItem && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75 flex items-center justify-center p-4"
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-lg max-w-3xl w-full mx-4 overflow-hidden"
+            className="relative bg-white rounded-lg max-w-3xl max-h-[90vh] w-full overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative">
-              <img
-                src={modalImage}
-                alt={selectedExercise.title}
-                className="w-full h-auto max-h-[70vh] object-contain"
-              />
-              <button
-                className="absolute top-2 right-2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-70 transition-colors"
-                onClick={closeModal}
-              >
-                <span className="text-xl font-light">&times;</span>
-              </button>
-            </div>
-            <div className="p-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {selectedExercise.title}
-              </h3>
-              <button
-                onClick={openGrabCadLink}
-                className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75"
+            >
+              ×
+            </button>
+
+            <div className="p-4 bg-black flex items-center justify-center">
+              {selectedItem.type === "image" ? (
+                <img
+                  src={withBasePath(selectedItem.src)}
+                  alt={selectedItem.title}
+                  className="max-h-[70vh] max-w-full mx-auto object-contain"
+                />
+              ) : (
+                <video
+                  src={withBasePath(selectedItem.src)}
+                  controls
+                  className="max-h-[70vh] max-w-full mx-auto"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                View on GrabCAD
-              </button>
+                  Your browser does not support the video tag.
+                </video>
+              )}
+            </div>
+
+            <div className="px-4 py-3 bg-gray-100">
+              <h3 className="text-lg font-medium text-gray-900">
+                {selectedItem.title}
+              </h3>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default CadExercises;

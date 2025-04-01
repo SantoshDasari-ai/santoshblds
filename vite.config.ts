@@ -55,4 +55,8 @@ export default defineConfig(({ mode }) => ({
     },
     historyApiFallback: true,
   },
+  preview: {
+    port: 5175,
+    historyApiFallback: true,
+  },
 }));

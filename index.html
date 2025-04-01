@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -10,22 +10,26 @@
     />
     <meta name="theme-color" content="#3B82F6" />
     <title>Santosh's Portfolio | Engineering & Development</title>
-    <link rel="preload" href="/assets/logo.webp" as="image" />
-    <link rel="preload" href="/src/index.css" as="style" />
+    <link rel="preload" href="./assets/logo.webp" as="image" />
+    <link rel="stylesheet" href="./src/index.css" />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
+    <script type="module" src="./src/main.tsx"></script>
+    <script type="module">
       // Register service worker for production
-      if ('serviceWorker' in navigator && import.meta.env.PROD) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('Service Worker registered with scope:', registration.scope);
+      if ("serviceWorker" in navigator && import.meta.env.PROD) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./sw.js")
+            .then((registration) => {
+              console.log(
+                "Service Worker registered with scope:",
+                registration.scope
+              );
             })
-            .catch(error => {
-              console.error('Service Worker registration failed:', error);
+            .catch((error) => {
+              console.error("Service Worker registration failed:", error);
             });
         });
       }

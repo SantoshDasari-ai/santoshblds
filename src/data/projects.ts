@@ -54,7 +54,7 @@ export const projects: Project[] = [
     title: "CAD Exercises",
     description:
       "A series of advanced CAD exercises showcasing 3D modeling and design skills.",
-    image: "/assets/projects/cad/main.jpg",
+    image: "/assets/projects/cad/robot.JPG",
     technologies: ["CAD", "3D Modeling", "Technical Drawing"],
     demoUrl: "/projects/cad-exercises",
   },
