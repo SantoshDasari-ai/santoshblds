@@ -9,4 +9,5 @@ export type Project = {
   status?: string;
   institution?: string;
   advisor?: string;
+  pdfUrl?: string; // Google Drive file ID for presentation slides
 };

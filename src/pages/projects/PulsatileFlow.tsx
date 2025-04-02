@@ -170,10 +170,10 @@ const PulsatileFlow: React.FC = () => {
                 OLD TGT 1.0
               </h2>
               <div className="mb-8">
-                <OptimizedImage
+                <img
                   src="/assets/projects/pulsatile-flow/oldTGT.gif"
                   alt="Animation showing the current TGT system in operation"
-                  className="w-full rounded-lg shadow-md"
+                  className="w-full rounded-lg shadow-md cursor-pointer"
                   onClick={() =>
                     handleImageClick(
                       "/assets/projects/pulsatile-flow/oldTGT.gif"
@@ -214,12 +214,12 @@ const PulsatileFlow: React.FC = () => {
 
                 <div>
                   <OptimizedImage
-                    src="/assets/projects/pulsatile-flow/oldTGT.png"
-                    alt="Image of the OLD TGT 1.0 system"
+                    src="/assets/projects/pulsatile-flow/oldtgtflow.png"
+                    alt="Graph comparing flow rate profiles"
                     className="w-full rounded-lg shadow-md"
                     onClick={() =>
                       handleImageClick(
-                        "/assets/projects/pulsatile-flow/oldTGT.png"
+                        "/assets/projects/pulsatile-flow/oldtgtflow.png"
                       )
                     }
                   />
@@ -311,13 +311,13 @@ const PulsatileFlow: React.FC = () => {
                 </section>
 
                 <div className="mt-8">
-                  <OptimizedImage
-                    src="/assets/projects/pulsatile-flow/draft-assembly.png"
+                  <img
+                    src="/assets/projects/pulsatile-flow/optimized/Master Assembly Conference Render.JPG.jpg"
                     alt="CAD model of TGT 2.0 assembly"
-                    className="w-full rounded-lg shadow-md"
+                    className="w-full rounded-lg shadow-md cursor-pointer"
                     onClick={() =>
                       handleImageClick(
-                        "/assets/projects/pulsatile-flow/draft-assembly.png"
+                        "/assets/projects/pulsatile-flow/optimized/Master Assembly Conference Render.JPG.jpg"
                       )
                     }
                   />
@@ -337,12 +337,20 @@ const PulsatileFlow: React.FC = () => {
               onClick={() => setSelectedImage(null)}
             >
               <div className="max-w-4xl mx-auto p-4">
-                <OptimizedImage
-                  src={selectedImage}
-                  alt="Enlarged view"
-                  className="max-h-[90vh] w-auto"
-                  priority={true}
-                />
+                {selectedImage.endsWith(".gif") ? (
+                  <img
+                    src={selectedImage}
+                    alt="Enlarged view"
+                    className="max-h-[90vh] w-auto"
+                  />
+                ) : (
+                  <OptimizedImage
+                    src={selectedImage}
+                    alt="Enlarged view"
+                    className="max-h-[90vh] w-auto"
+                    priority={true}
+                  />
+                )}
               </div>
             </div>
           )}
@@ -374,10 +382,11 @@ const PulsatileFlow: React.FC = () => {
                   Acknowledgements
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Special thanks to {projectMetadata.advisor} for their guidance
-                  and support throughout this project. This project was made
-                  possible by the resources provided by the Cardio Lab and the
-                  support from San Jose State University.
+                  Special thanks to {projectMetadata.advisor} and Dr. Sreyashi
+                  Chakraborty for their guidance and support throughout this
+                  project. This project was made possible by the resources
+                  provided by the Cardio Lab and the support from San Jose State
+                  University.
                 </p>
               </div>
             </div>

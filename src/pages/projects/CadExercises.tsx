@@ -7,6 +7,7 @@ type GalleryItem = {
   title: string;
   type: "image" | "video";
   src: string;
+  thumbnail?: string; // Optional thumbnail for videos
 };
 
 // Utility function to ensure paths are absolute from root
@@ -91,12 +92,14 @@ const galleryItems: GalleryItem[] = [
     title: "Engine Assembly Animation",
     type: "video",
     src: "assets/projects/cad/Engine Assembly.mp4",
+    thumbnail: "assets/projects/cad/thumbnails/engine-assembly-thumb.jpg",
   },
   {
     id: "cad13",
     title: "Assembly Controls Demo",
     type: "video",
     src: "assets/projects/cad/Assembly Controls.mp4",
+    thumbnail: "assets/projects/cad/thumbnails/assembly-controls-thumb.jpg",
   },
 ];
 
@@ -184,8 +187,33 @@ function CadExercises() {
                     </div>
                   ) : (
                     <div className="relative h-52 bg-gray-800 flex items-center justify-center">
+                      {item.thumbnail ? (
+                        <img
+                          src={withBasePath(item.thumbnail)}
+                          alt={item.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+                          <div className="rounded-full w-12 h-12 bg-blue-500 flex items-center justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                          </div>
+                        </div>
+                      )}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="rounded-full w-12 h-12 bg-blue-500 flex items-center justify-center">
+                        <div className="rounded-full w-12 h-12 bg-blue-500 bg-opacity-75 flex items-center justify-center">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -240,6 +268,11 @@ function CadExercises() {
               ) : (
                 <video
                   src={withBasePath(selectedItem.src)}
+                  poster={
+                    selectedItem.thumbnail
+                      ? withBasePath(selectedItem.thumbnail)
+                      : undefined
+                  }
                   controls
                   className="max-h-[70vh] max-w-full mx-auto"
                 >

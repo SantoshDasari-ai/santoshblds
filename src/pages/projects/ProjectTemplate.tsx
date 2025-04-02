@@ -61,6 +61,24 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ project }) => {
               {/* Additional project details can be added here */}
             </div>
           </section>
+
+          {project.pdfUrl && (
+            <section className="bg-white rounded-2xl shadow-xl overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-4">
+                  Project Presentation
+                </h2>
+                <div className="w-full h-[600px] border border-gray-200 rounded-xl overflow-hidden">
+                  <iframe
+                    src={`https://drive.google.com/file/d/${project.pdfUrl}/preview`}
+                    title="Project Slides"
+                    className="w-full h-full"
+                    allow="autoplay"
+                  />
+                </div>
+              </div>
+            </section>
+          )}
         </motion.div>
       </div>
     </div>

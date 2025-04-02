@@ -23,7 +23,7 @@ const subProjects = [
     title: "Mechanical Work",
     description:
       "Complete mechanical engineering process including design, CAD modeling, fabrication, materials selection, and assembly of robotic components.",
-    image: "/assets/projects/robotics/sub/arm.jpg",
+    image: "/assets/projects/robotics/sub/Ackerman Steering 1.jpg",
     technologies: [
       "CAD Design",
       "Fabrication",
