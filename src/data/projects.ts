@@ -6,7 +6,8 @@ export const projects: Project[] = [
     title: "Pulsatile Flow Blood Loop (TGT 2.0)",
     description:
       "Mechanical Heart Valves (MHVs) are lifesaving implants but pose a significant risk of thromboembolism, often leading to complications like stroke. The Cardio Lab's original 'Thrombogenicity Tester (TGT)' aimed to study clot formation by simulating pulsatile blood flow through an MHV. While innovative, it struggled to replicate key physiological factors such as flow patterns and valve closure dynamics, limiting its accuracy and potential for impactful insights. As part of my senior project, I am leading the development of the TGT 2.0, an upgraded model designed to address these challenges.",
-    image: "/assets/projects/pulsatile-flow/PSF.png",
+    image:
+      "/assets/projects/pulsatile-flow/optimized/Master Assembly Conference Render.JPG.jpg",
     technologies: ["SolidWorks", "Arduino", "Python", "Medical Devices"],
     demoUrl: "/projects/pulsatile-flow",
     status: "Senior Design Project - In Progress",
@@ -44,10 +45,11 @@ export const projects: Project[] = [
     id: "surgical-drapes",
     title: "Surgical Robot Drapes",
     description:
-      "Developed innovative draping solutions for surgical robots to ensure sterility in operating rooms.",
+      "Created a comprehensive manufacturing plan for the Da Vinci Xi surgical robot draping system. By investigating product documents and requirements, we designed an optimal manufacturing approach to ensure sterility during surgical procedures. My primary contributions focused on CAD modeling and Design for Manufacturing (DFM) analysis of the draping components.",
     image: "/assets/projects/drapes/drapes.jpg",
     technologies: ["Medical Devices", "Manufacturing", "Design"],
-    demoUrl: "/projects/surgical-robot-drapes",
+    demoUrl: "/projects/surgical-drapes",
+    pdfUrl: "1urnPNWTethKmWyLuicomAp1dDLlYmu1Z",
   },
   {
     id: "cad-exercises",

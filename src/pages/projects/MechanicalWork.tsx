@@ -10,6 +10,7 @@ type Section = {
     type: "image" | "video";
     src: string;
     title: string;
+    thumbnail?: string; // Optional thumbnail for videos
   }>;
 };
 
@@ -17,86 +18,86 @@ const sections: Section[] = [
   {
     id: "differential-gearbox",
     title: "Differential Gearbox",
-    description: "Description placeholder for differential gearbox section.",
+    description:
+      "I developed precision design optimizations for a 3D-printed differential gearbox system integral to a robotic arm wrist joint. The project focused on enhancing mechanical performance while maintaining manufacturability through consumer-grade FDM technology.\nKey achievements included:\n• Redesigned miter gear alignment systems to ensure optimal mesh geometry and torque transfer\n• Implemented critical tolerance optimizations specifically calibrated for FDM printing constraints\n• Engineered heat-set insert integration points for superior component mounting and structural integrity\n\nThe optimized differential design significantly improved rotational precision, reduced backlash, and enhanced the robotic arm's overall dexterity for fine-motor applications. The solution balances high mechanical performance with accessible manufacturing techniques, making it suitable for both prototyping and production environments.",
     media: [
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/differential1.jpg",
-        title: "Differential Gearbox Design",
+        src: "/assets/projects/robotics/sub/differential-assembly.jpg",
+        title: "Differential Gearbox Assembly",
       },
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/differential2.jpg",
-        title: "Gearbox Assembly",
+        src: "/assets/projects/robotics/sub/wrist.JPG",
+        title: "Robotic Wrist Integration",
+      },
+      {
+        type: "video",
+        src: "/assets/projects/robotics/sub/differential-demo.mp4",
+        title: "Differential Gearbox Operation",
+        thumbnail:
+          "/assets/projects/robotics/sub/thumbnails/differential-thumb.jpg",
       },
     ],
   },
   {
     id: "ackerman-steering",
     title: "Ackerman Steering Calculations",
-    description: "Description placeholder for Ackerman steering calculations.",
+    description:
+      "I performed precision angle calculations for a 3-wheeled omnidirectional robot's steering system using polynomial fitting and data-driven modeling. The robot featured two independently steered front wheels and one steerable rear wheel, each requiring unique steering angles to follow circular arcs around a common Instantaneous Center of Rotation (ICR).\n\nKey contributions included:\n• Created mathematical models using exponential and polynomial regression to map relationships between wheel angles and turn radii\n• Achieved high-precision steering calculations with R² values exceeding 0.98 in fitted equations\n• Provided these calculations to the control system team for implementation\n\nMy angle calculations enabled the robot's agile maneuvering in tight spaces, supporting scalable control logic and precision in path tracking without lookup tables, significantly improving the system's responsiveness and efficiency.",
     media: [
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/ackerman1.jpg",
+        src: "/assets/projects/robotics/sub/Ackerman Steering 1.jpg",
         title: "Ackerman Geometry",
       },
       {
-        type: "image",
-        src: "/assets/projects/robotics/mechanical/ackerman2.jpg",
-        title: "Steering Calculations",
+        type: "video",
+        src: "/assets/projects/robotics/sub/Ackerman Steering demo.mp4",
+        title: "Ackerman Steering Demo",
+        thumbnail:
+          "/assets/projects/robotics/sub/Ackerman Steering demo thumb.png",
       },
     ],
   },
   {
     id: "dfm-manufacturing",
-    title: "DFM & Manufacturing Management",
+    title: "Design and Manufacturing Management",
     description:
-      "Description placeholder for DFM and manufacturing management.",
+      "I provided comprehensive design and manufacturing oversight for mechanical subsystems, ensuring optimal production feasibility, cost-effectiveness, and system-wide compatibility.\n\nMy responsibilities included:\n• Conducting thorough design reviews across all mechanical subsystem components, validating manufacturability, cost optimization, and clearance requirements to integrate mechanical design with electrical and control system needs\n• Collaborating directly with manufacturing partners, particularly for waterjet-cut components, preparing detailed DXF files and work instructions to eliminate production errors\n• Developing and implementing a standardized part numbering system with version control to streamline inventory management, track design iterations, and accelerate the component ordering process\n• Administering the GrabCAD Workbench platform for cohesive CAD system management, enforcing proper check-in/check-out protocols and resolving potential merge conflicts prior to master assembly updates\n\nThis systematic approach to design and manufacturing management significantly reduced production errors, minimized costly revisions, and maintained consistent design integrity throughout the development process.",
     media: [
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/dfm1.jpg",
-        title: "Manufacturing Process",
-      },
-      {
-        type: "video",
-        src: "/assets/projects/robotics/mechanical/manufacturing.mp4",
-        title: "Manufacturing Demo",
-      },
-    ],
-  },
-  {
-    id: "pdm-system",
-    title: "PDM System Management",
-    description: "Description placeholder for PDM system management.",
-    media: [
-      {
-        type: "image",
-        src: "/assets/projects/robotics/mechanical/pdm1.jpg",
-        title: "PDM System Overview",
+        src: "/assets/projects/robotics/sub/dxf-file.jpg",
+        title: "DXF File for Manufacturing",
       },
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/pdm2.jpg",
-        title: "Data Management",
+        src: "/assets/projects/robotics/sub/manufacturing-layout.png",
+        title: "Manufacturing Layout Design",
+      },
+      {
+        type: "image",
+        src: "/assets/projects/robotics/sub/part numbering.png",
+        title: "Part Numbering System",
+      },
+      {
+        type: "image",
+        src: "/assets/projects/robotics/sub/water-jet parts.JPG",
+        title: "Waterjet-Cut Components",
       },
     ],
   },
   {
     id: "topology-exploration",
     title: "SolidWorks Topology Exploration",
-    description: "Description placeholder for SolidWorks topology exploration.",
+    description:
+      "I experimented with SolidWorks Topology Optimization tools as a creative exercise to explore innovative design possibilities, though these designs were ultimately not implemented in our production robots.\n\nExperimentation included:\n• Testing different constraint scenarios and load cases to observe how the optimization algorithm would respond\n• Exploring potential weight reduction patterns for various robotic components\n• Comparing generative results with conventional manual designs\n\nWhile manual design proved more practical for our immediate applications, this exploratory work provided valuable insights into advanced design techniques and potential future applications for weight-critical components.",
     media: [
       {
         type: "image",
-        src: "/assets/projects/robotics/mechanical/topology1.jpg",
-        title: "Topology Study",
-      },
-      {
-        type: "video",
-        src: "/assets/projects/robotics/mechanical/topology.mp4",
-        title: "Optimization Process",
+        src: "/assets/projects/robotics/sub/topology image.png",
+        title: "Topology Optimization Study",
       },
     ],
   },
@@ -104,13 +105,29 @@ const sections: Section[] = [
 
 const MechanicalWork: React.FC = () => {
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
 
   const openMediaModal = (src: string) => {
     setSelectedMedia(src);
+    setVideoError(null); // Reset error on new selection
   };
 
   const closeMediaModal = () => {
     setSelectedMedia(null);
+    setVideoError(null);
+  };
+
+  const handleVideoError = (
+    e: React.SyntheticEvent<HTMLVideoElement, Event>
+  ) => {
+    setVideoError("Error loading video. Please check format compatibility.");
+    console.error("Video loading error:", e);
+  };
+
+  // Helper function to detect if the media is a video
+  const isVideoFile = (src: string): boolean => {
+    const videoExtensions = [".mp4", ".mov", ".webm", ".ogg"];
+    return videoExtensions.some((ext) => src.toLowerCase().endsWith(ext));
   };
 
   return (
@@ -159,10 +176,18 @@ const MechanicalWork: React.FC = () => {
                           />
                         ) : (
                           <div className="relative w-full h-full bg-gray-900">
-                            <video
-                              src={item.src}
-                              className="w-full h-full object-cover"
-                            />
+                            {item.thumbnail ? (
+                              <img
+                                src={item.thumbnail}
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <video
+                                src={item.src}
+                                className="w-full h-full object-cover"
+                              />
+                            )}
                             <div className="absolute inset-0 flex items-center justify-center">
                               <svg
                                 className="w-16 h-16 text-white opacity-80"
@@ -180,6 +205,33 @@ const MechanicalWork: React.FC = () => {
                       </div>
                     ))}
                   </div>
+
+                  {section.id === "ackerman-steering" && (
+                    <div className="mt-4">
+                      <a
+                        href="https://docs.google.com/spreadsheets/d/1ww3WbTJPUeTH-cEoijuNYlHlonMDF_w5/edit?usp=sharing&ouid=104102956017389925053&rtpof=true&sd=true"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                      >
+                        <svg
+                          className="w-5 h-5 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                        View Calculation Spreadsheet
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -188,7 +240,9 @@ const MechanicalWork: React.FC = () => {
                     {section.title}
                   </h2>
                   <div className="prose max-w-none">
-                    <p className="text-gray-600">{section.description}</p>
+                    <div className="text-gray-600 whitespace-pre-line">
+                      {section.description}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -208,13 +262,33 @@ const MechanicalWork: React.FC = () => {
                 >
                   Close
                 </button>
-                {selectedMedia.endsWith(".mp4") ? (
+                {isVideoFile(selectedMedia) ? (
                   <video
-                    src={selectedMedia}
                     controls
+                    preload="metadata"
+                    playsInline
+                    autoPlay={false}
+                    poster={
+                      sections
+                        .flatMap((s) => s.media)
+                        .find((m) => m.src === selectedMedia)?.thumbnail
+                    }
                     className="w-full rounded-lg"
                     onClick={(e) => e.stopPropagation()}
-                  />
+                    onError={handleVideoError}
+                  >
+                    <source src={selectedMedia} type="video/mp4" />
+                    <source
+                      src={selectedMedia.replace(".mp4", ".webm")}
+                      type="video/webm"
+                    />
+                    <source
+                      src={selectedMedia.replace(".mp4", ".mov")}
+                      type="video/quicktime"
+                    />
+                    Your browser does not support the video tag or the file
+                    format.
+                  </video>
                 ) : (
                   <img
                     src={selectedMedia}
@@ -222,6 +296,11 @@ const MechanicalWork: React.FC = () => {
                     className="w-full h-auto rounded-lg"
                     onClick={(e) => e.stopPropagation()}
                   />
+                )}
+                {videoError && (
+                  <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-center">
+                    {videoError}
+                  </div>
                 )}
               </div>
             </div>
