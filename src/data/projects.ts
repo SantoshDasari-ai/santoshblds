@@ -15,15 +15,6 @@ export const projects: Project[] = [
     advisor: "Dr. Alessandro Bellofiore",
   },
   {
-    id: "dfm-study",
-    title: "Injection Mold DFM Study",
-    description:
-      "Comprehensive Design for Manufacturing study for injection-molded components of surgical robot drapes.",
-    image: "/assets/projects/injection-mold/injectionmold.gif",
-    technologies: ["CAD", "DFM", "Injection Molding", "Manufacturing"],
-    demoUrl: "/projects/dfm-study",
-  },
-  {
     id: "robotics-president",
     title: "SJSU Robotics President",
     description:
