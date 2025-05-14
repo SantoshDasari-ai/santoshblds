@@ -3,7 +3,7 @@ import { Project } from "../types/project";
 export const projects: Project[] = [
   {
     id: "pulsatile-flow",
-    title: "Pulsatile Flow Blood Loop (TGT 2.0)",
+    title: "IN‐VITRO MECHANICAL HEART VALVE THROMBOGENICITY TESTER",
     description:
       "Mechanical Heart Valves (MHVs) are lifesaving implants but pose a significant risk of thromboembolism, often leading to complications like stroke. The Cardio Lab's original 'Thrombogenicity Tester (TGT)' aimed to study clot formation by simulating pulsatile blood flow through an MHV. While innovative, it struggled to replicate key physiological factors such as flow patterns and valve closure dynamics, limiting its accuracy and potential for impactful insights. As part of my senior project, I am leading the development of the TGT 2.0, an upgraded model designed to address these challenges.",
     image:
