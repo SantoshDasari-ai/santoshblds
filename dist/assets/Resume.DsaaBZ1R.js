@@ -1,4 +1,4 @@
-import{j as e,m as i}from"./animations.D8DfizRu.js";import{S as s}from"./SEO.3dSMJf8Y.js";import{c as t,E as a}from"./index.CEOLzgJM.js";import"./vendor.ZGfdCVy2.js";
+import{j as e,m as i}from"./animations.D8DfizRu.js";import{S as s}from"./SEO.DDG_Sr8A.js";import{c as t,E as a}from"./index.CyZeYoIO.js";import"./vendor.ZGfdCVy2.js";
 /**
  * @license lucide-react v0.344.0 - ISC
  *

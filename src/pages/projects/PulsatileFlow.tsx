@@ -25,7 +25,7 @@ const PulsatileFlow: React.FC = () => {
     { status: "completed", label: "Design Phase" },
     { status: "completed", label: "Development" },
     { status: "completed", label: "Testing" },
-    { status: "in-progress", label: "Validation" },
+    { status: "completed", label: "Validation" },
   ];
 
   const handleImageClick = (imageSrc: string) => {
