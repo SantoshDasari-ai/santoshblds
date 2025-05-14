@@ -149,6 +149,7 @@ The site includes a service worker that:
 
 2. Start development server:```bash
    npm run dev
+
    ```
 
    ```
@@ -161,3 +162,7 @@ Target lighthouse scores after optimizations:
 - **Accessibility**: 100
 - **Best Practices**: 100
 - **SEO**: 100
+
+## Force rebuild
+
+Timestamp: [Current timestamp: ${new Date().toISOString()}]
