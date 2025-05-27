@@ -6,23 +6,22 @@ import {
   Linkedin,
   Mail,
   Check,
-  MousePointer,
+  Sparkles,
+  FileText,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ErrorBoundary from "../components/ErrorBoundary";
 import SEO from "../components/SEO";
 import {
-  createContainerVariants,
-  createItemVariants,
-} from "../utils/animation";
+  AnimatedButton,
+  ScrollReveal,
+  FloatingElement,
+  StaggeredContainer,
+  StaggeredItem,
+} from "../components/MicroInteractions";
+import { createContainerVariants } from "../utils/animation";
 import { safeAddEventListener } from "../utils/dom";
-import {
-  CONTACT_EMAIL,
-  GITHUB_URL,
-  LINKEDIN_URL,
-  SKILLS,
-  ROUTES,
-} from "../constants";
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, ROUTES } from "../constants";
 
 export default function Home() {
   const [showToast, setShowToast] = useState(false);
@@ -30,7 +29,6 @@ export default function Home() {
 
   // Animation variants for staggered text reveal
   const containerVariants = createContainerVariants(0.1, 0.3);
-  const itemVariants = createItemVariants("up", 20);
 
   // Track mouse position for interactive background effect
   useEffect(() => {
@@ -57,12 +55,12 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-900 dark:to-gray-800 py-20 px-4 relative overflow-hidden"
+      className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary-50/30 py-20 px-4 relative overflow-hidden flex items-center justify-center"
       style={bgStyle}
     >
       <SEO
         title="Santosh Dasari | Biomedical Engineer"
-        description="A senior Biomedical Engineering student at San Jose State University fueled by a passion for innovative product design."
+        description="A Biomedical Engineering Graduate at San Jose State University fueled by a passion for innovative product design."
         keywords={[
           "Biomedical Engineer",
           "Product Design",
@@ -73,260 +71,222 @@ export default function Home() {
         ]}
       />
 
-      {/* Interactive background elements */}
+      {/* Enhanced background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -inset-[10%] opacity-20 bg-noise blur-xl"></div>
+        <div className="absolute -inset-[10%] opacity-30 bg-noise-modern"></div>
+
+        {/* Floating geometric shapes */}
+        <FloatingElement intensity="subtle" className="absolute top-20 left-10">
+          <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-xl" />
+        </FloatingElement>
+
+        <FloatingElement
+          intensity="medium"
+          className="absolute top-40 right-20"
+        >
+          <div className="w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 organic-blob blur-2xl" />
+        </FloatingElement>
+
+        <FloatingElement
+          intensity="subtle"
+          className="absolute bottom-40 left-1/4"
+        >
+          <div className="w-16 h-16 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-2xl rotate-45 blur-xl" />
+        </FloatingElement>
+
+        {/* Grid pattern */}
         <svg
-          className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+          className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
             <pattern
-              id="smallGrid"
-              width="20"
-              height="20"
+              id="modernGrid"
+              width="40"
+              height="40"
               patternUnits="userSpaceOnUse"
             >
               <path
-                d="M 20 0 L 0 0 0 20"
+                d="M 40 0 L 0 0 0 40"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="0.5"
+                strokeWidth="1"
               />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#smallGrid)" />
+          <rect width="100%" height="100%" fill="url(#modernGrid)" />
         </svg>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto relative z-10">
+      <div className="w-full max-w-4xl mx-auto relative z-10">
         <ErrorBoundary>
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="text-center flex flex-col items-center"
-          >
-            {/* Profile image with 3D effect */}
-            <ErrorBoundary>
-              <motion.div
-                className="mb-6 md:mb-8 relative inline-block transform-gpu"
-                animate={{
-                  y: [-5, 5, -5],
-                  transition: {
-                    repeat: Infinity,
-                    duration: 5,
-                    ease: "easeInOut",
-                  },
-                }}
-              >
-                <motion.div
-                  className="relative inline-block"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-75 animate-pulse"></div>
-                  <img
-                    src="/assets/my-photo.JPG"
-                    alt="Santosh Dasari"
-                    className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full relative z-10 object-cover border-4 border-white dark:border-gray-700 shadow-lg"
-                  />
-                  <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 blur-xl animate-pulse"></div>
-                </motion.div>
-
-                {/* Interactive indicator */}
-                <motion.div
-                  className="absolute -right-2 -bottom-2 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md"
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    rotate: [0, 5, 0, -5, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                  }}
-                >
-                  <MousePointer size={16} className="text-primary" />
-                </motion.div>
-              </motion.div>
-            </ErrorBoundary>
-
-            <ErrorBoundary>
-              <motion.h1
-                variants={itemVariants}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 px-4 relative"
-              >
-                Hi, I'm{" "}
-                <span className="text-gradient font-extrabold">
-                  Santosh Dasari
-                </span>
-              </motion.h1>
-            </ErrorBoundary>
-
-            <ErrorBoundary>
-              <motion.h2
-                variants={itemVariants}
-                className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-3 relative"
-              >
-                <span className="relative">
-                  <span className="absolute -bottom-1 left-0 w-full h-1 bg-primary-300 dark:bg-primary-700 opacity-60 rounded-full"></span>
-                  Biomedical Engineer
-                </span>
-              </motion.h2>
-            </ErrorBoundary>
-
-            <ErrorBoundary>
-              <motion.p
-                variants={itemVariants}
-                className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto px-4 relative"
-              >
-                A senior Biomedical Engineering student at San Jose State
-                University fueled by a passion for innovative product design.
-                From medical devices to robotics, my work focuses on blending
-                technical knowledge with creative problem-solving.
-              </motion.p>
-            </ErrorBoundary>
-
-            <ErrorBoundary>
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-wrap justify-center gap-2 mb-8 px-4"
-              >
-                {SKILLS.map((skill, index) => (
-                  <motion.span
-                    key={skill}
-                    className="px-3 py-1.5 bg-primary-100 dark:bg-gray-700 text-primary-800 dark:text-primary-300 rounded-full text-sm font-medium relative overflow-hidden"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ delay: 0.5 + index * 0.05 }}
+          {/* Hero Section with Profile */}
+          <ScrollReveal direction="up" className="text-center">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+              className="flex flex-col items-center"
+            >
+              {/* Enhanced Profile Image */}
+              <ErrorBoundary>
+                <FloatingElement intensity="subtle">
+                  <motion.div
+                    className="mb-8 relative inline-block transform-gpu"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <span className="relative z-10">{skill}</span>
-                    <motion.span
-                      className="absolute inset-0 bg-primary/10 dark:bg-primary/20"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "0%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.span>
-                ))}
-              </motion.div>
-            </ErrorBoundary>
+                    <motion.div className="relative inline-block">
+                      {/* Animated gradient border */}
+                      <div className="absolute -inset-2 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur opacity-75 animate-gradient"></div>
 
-            <ErrorBoundary>
-              <motion.div
-                variants={itemVariants}
-                className="flex justify-center space-x-6 mb-8"
-              >
-                <motion.a
-                  whileHover={{
-                    scale: 1.1,
-                    y: -3,
-                    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.2)",
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-gray-800 dark:bg-gray-700 text-white rounded-full hover:bg-gray-700 dark:hover:bg-gray-600 active:shadow-sm transition-all"
-                  aria-label="GitHub Profile"
-                >
-                  <Github size={24} />
-                </motion.a>
-                <motion.a
-                  whileHover={{
-                    scale: 1.1,
-                    y: -3,
-                    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.2)",
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}
-                  href={LINKEDIN_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-primary text-white rounded-full hover:bg-primary-600 active:shadow-sm transition-all"
-                  aria-label="LinkedIn Profile"
-                >
-                  <Linkedin size={24} />
-                </motion.a>
-                <motion.button
-                  whileHover={{
-                    scale: 1.1,
-                    y: -3,
-                    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.2)",
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}
-                  onClick={copyEmailToClipboard}
-                  className="p-3 bg-red-600 text-white rounded-full hover:bg-red-700 active:shadow-sm transition-all btn-hover-effect"
-                  aria-label="Copy Email"
-                >
-                  <Mail size={24} />
-                </motion.button>
-              </motion.div>
-            </ErrorBoundary>
+                      {/* Profile image */}
+                      <img
+                        src="/assets/my-photo.JPG"
+                        alt="Santosh Dasari"
+                        className="w-32 h-32 md:w-40 md:h-40 rounded-full relative z-10 object-cover border-4 border-white shadow-2xl"
+                      />
 
-            <ErrorBoundary>
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-col sm:flex-row justify-center gap-4 px-4"
-              >
-                <Link
-                  to={ROUTES.PORTFOLIO}
-                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 active:bg-primary-700 transition-colors shadow-md active:shadow-sm group overflow-hidden relative btn-hover-effect"
-                >
-                  <span className="relative z-10 flex items-center">
-                    View Portfolio
-                    <motion.span
-                      initial={{ x: 0 }}
-                      animate={{ x: [0, 5, 0] }}
+                      {/* Glow effect */}
+                      <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary/30 to-secondary/30 blur-2xl animate-pulse-slow"></div>
+                    </motion.div>
+
+                    {/* Status indicator */}
+                    <motion.div
+                      className="absolute -right-2 -bottom-2 bg-gradient-to-r from-green-400 to-green-500 rounded-full p-2 shadow-lg border-2 border-white"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                        rotate: [0, 5, 0, -5, 0],
+                      }}
                       transition={{
+                        duration: 3,
                         repeat: Infinity,
-                        duration: 1.5,
-                        repeatType: "loop",
+                        repeatType: "reverse",
                       }}
                     >
-                      <ArrowRight className="ml-2" size={20} />
-                    </motion.span>
-                  </span>
-                </Link>
-                <Link
-                  to={ROUTES.RESUME}
-                  className="inline-flex items-center justify-center px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-secondary-600 active:bg-secondary-700 transition-colors shadow-md active:shadow-sm group overflow-hidden relative btn-hover-effect"
-                >
-                  <span className="relative z-10 flex items-center">
-                    View Resume
-                    <motion.span
-                      initial={{ x: 0 }}
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1.5,
-                        repeatType: "loop",
-                      }}
+                      <Sparkles size={16} className="text-white" />
+                    </motion.div>
+                  </motion.div>
+                </FloatingElement>
+              </ErrorBoundary>
+
+              {/* Enhanced Typography */}
+              <StaggeredContainer staggerDelay={0.1}>
+                <StaggeredItem>
+                  <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 px-4 relative font-display">
+                    Hi, I'm{" "}
+                    <span className="text-gradient-aurora font-extrabold">
+                      Santosh Dasari
+                    </span>
+                  </motion.h1>
+                </StaggeredItem>
+
+                <StaggeredItem>
+                  <motion.h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-6 relative font-medium">
+                    <span className="relative">
+                      <span className="absolute -bottom-2 left-0 w-full h-2 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-full"></span>
+                      Biomedical Engineer & Product Designer
+                    </span>
+                  </motion.h2>
+                </StaggeredItem>
+
+                <StaggeredItem>
+                  <motion.p className="text-lg sm:text-xl text-gray-600 mb-12 max-w-3xl mx-auto px-4 relative leading-relaxed text-balance">
+                    A recent Biomedical Engineering graduate from San Jose State
+                    University with a passion for designing products that
+                    improve healthcare outcomes. From medical devices to
+                    robotics, I bring a blend of technical expertise and
+                    creative problem-solving to develop solutions that make a
+                    real difference in patients' lives.
+                  </motion.p>
+                </StaggeredItem>
+
+                {/* Action Buttons */}
+                <StaggeredItem>
+                  <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+                    <AnimatedButton variant="primary" size="lg">
+                      <Link
+                        to={ROUTES.PORTFOLIO}
+                        className="flex items-center gap-3"
+                      >
+                        View My Work
+                        <ArrowRight size={20} />
+                      </Link>
+                    </AnimatedButton>
+
+                    <AnimatedButton variant="ghost" size="lg">
+                      <Link
+                        to={ROUTES.RESUME}
+                        className="flex items-center gap-3"
+                      >
+                        <FileText size={20} />
+                        Resume
+                      </Link>
+                    </AnimatedButton>
+                  </div>
+                </StaggeredItem>
+
+                {/* Social Links */}
+                <StaggeredItem>
+                  <div className="flex gap-6 justify-center">
+                    <motion.a
+                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileTap={{ scale: 0.9 }}
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-4 bg-gray-800 text-white rounded-2xl hover:bg-gray-700 transition-colors shadow-lg"
+                      aria-label="GitHub Profile"
                     >
-                      <ArrowRight className="ml-2" size={20} />
-                    </motion.span>
-                  </span>
-                </Link>
-              </motion.div>
-            </ErrorBoundary>
-          </motion.div>
+                      <Github size={24} />
+                    </motion.a>
+
+                    <motion.a
+                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileTap={{ scale: 0.9 }}
+                      href={LINKEDIN_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-4 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-colors shadow-lg"
+                      aria-label="LinkedIn Profile"
+                    >
+                      <Linkedin size={24} />
+                    </motion.a>
+
+                    <motion.button
+                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={copyEmailToClipboard}
+                      className="p-4 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition-colors shadow-lg"
+                      aria-label="Copy Email"
+                    >
+                      <Mail size={24} />
+                    </motion.button>
+                  </div>
+                </StaggeredItem>
+              </StaggeredContainer>
+            </motion.div>
+          </ScrollReveal>
         </ErrorBoundary>
       </div>
 
+      {/* Enhanced Toast Notification */}
       <ErrorBoundary>
         <AnimatePresence>
           {showToast && (
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              className="fixed bottom-4 left-1/2 transform -translate-x-1/2 glassmorphism text-gray-900 dark:text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 50, scale: 0.9 }}
+              className="fixed bottom-6 left-1/2 transform -translate-x-1/2 glassmorphism-strong text-gray-900 px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 z-50 border border-green-200"
             >
-              <Check size={20} className="text-green-400" />
-              <span>Email copied!</span>
+              <div className="p-2 bg-green-100 rounded-xl">
+                <Check size={20} className="text-green-600" />
+              </div>
+              <div>
+                <p className="font-semibold">Email Copied!</p>
+                <p className="text-sm opacity-75">Ready to paste and send</p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

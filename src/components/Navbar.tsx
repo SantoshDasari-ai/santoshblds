@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, X, Github, Linkedin, Moon, Sun, Home } from "lucide-react";
-import { useTheme } from "../hooks/useTheme";
+import { Menu, X, Github, Linkedin, Home, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useScrolledPast } from "../hooks/useScrollPosition";
 import { mainRoutes } from "../config/routes";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { isDarkMode, toggleDarkMode } = useTheme();
   const scrolled = useScrolledPast(10);
 
   // Close mobile menu when route changes or when clicked outside
@@ -31,157 +30,255 @@ export default function Navbar() {
   const navItems = mainRoutes.filter((route) => route.showInNav);
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/80 dark:bg-gray-900/90 shadow-md py-2"
-          : "bg-transparent py-4"
+          ? "glassmorphism-strong shadow-2xl py-3 backdrop-blur-xl"
+          : "bg-transparent py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <NavLink to="/" className="flex items-center">
-              <Home
-                size={24}
-                className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
-              />
+          {/* Logo/Home */}
+          <motion.div
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <NavLink to="/" className="flex items-center group">
+              <div className="relative">
+                <motion.div
+                  className="p-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white shadow-lg"
+                  whileHover={{
+                    boxShadow: "0 8px 32px rgba(59, 130, 246, 0.4)",
+                    scale: 1.05,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Home size={20} />
+                </motion.div>
+
+                {/* Sparkle effect */}
+                <motion.div
+                  className="absolute -top-1 -right-1"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Sparkles size={12} className="text-accent" />
+                </motion.div>
+              </div>
+
+              <span className="ml-3 text-lg font-bold text-gray-900 font-display">
+                Santosh
+              </span>
             </NavLink>
-          </div>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <div className="flex items-center space-x-1">
-              {navItems.map((item) => (
-                <NavLink
+            <div className="flex items-center space-x-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1 border border-white/20">
+              {navItems.map((item, index) => (
+                <motion.div
                   key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `px-3 py-2 text-sm font-medium transition-colors ${
-                      isActive
-                        ? "text-primary"
-                        : "text-gray-600 dark:text-gray-300 hover:text-primary"
-                    }`
-                  }
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {item.label}
-                </NavLink>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl ${
+                        isActive
+                          ? "text-white bg-gradient-to-r from-primary to-secondary shadow-lg"
+                          : "text-gray-600 hover:text-primary hover:bg-white/20"
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span className="relative z-10">{item.label}</span>
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeTab"
+                            className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl"
+                            initial={false}
+                            transition={{
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 30,
+                            }}
+                          />
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                </motion.div>
               ))}
             </div>
 
+            {/* Action buttons */}
             <div className="flex items-center space-x-3">
-              <button
-                onClick={toggleDarkMode}
-                className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2"
-                aria-label={
-                  isDarkMode ? "Switch to light mode" : "Switch to dark mode"
-                }
-              >
-                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-
-              <a
+              <motion.a
                 href="https://github.com/SantoshDasari-ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2"
+                className="p-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-gray-600 hover:text-primary transition-all duration-300 hover:bg-white/20"
                 aria-label="GitHub"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Github size={20} />
-              </a>
+                <Github size={18} />
+              </motion.a>
 
-              <a
+              <motion.a
                 href="https://linkedin.com/in/santosh-dasari"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2"
+                className="p-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-gray-600 hover:text-primary transition-all duration-300 hover:bg-white/20"
                 aria-label="LinkedIn"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Linkedin size={20} />
-              </a>
+                <Linkedin size={18} />
+              </motion.a>
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <button
-              onClick={toggleDarkMode}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg"
-              aria-label={
-                isDarkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
-            >
-              {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-            </button>
-            <button
+          <div className="md:hidden">
+            <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg"
+              className="p-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-gray-600 hover:text-gray-900"
               aria-label={isOpen ? "Close menu" : "Open menu"}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X size={20} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu size={20} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 md:hidden z-40">
-          <div
-            className="fixed inset-y-0 right-0 w-full max-w-sm bg-white dark:bg-gray-900 shadow-xl overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-40"
+            onClick={() => setIsOpen(false)}
           >
-            <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-              <span className="text-lg font-semibold text-primary">Menu</span>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                aria-label="Close menu"
-              >
-                <X size={24} />
-              </button>
-            </div>
-            <div className="px-2 py-4 space-y-1">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-                      isActive
-                        ? "text-primary bg-primary-50 dark:bg-gray-800"
-                        : "text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary-50 dark:hover:bg-gray-800"
-                    }`
-                  }
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed inset-y-0 right-0 w-full max-w-sm glassmorphism-strong shadow-2xl overflow-y-auto border-l border-white/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-6 border-b border-white/20">
+                <span className="text-xl font-bold text-primary font-display">
+                  Menu
+                </span>
+                <motion.button
                   onClick={() => setIsOpen(false)}
+                  className="p-2 rounded-xl bg-white/10 text-gray-600 hover:text-gray-900"
+                  aria-label="Close menu"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {item.label}
-                </NavLink>
-              ))}
-              <div className="flex items-center space-x-4 px-4 py-3 mt-4">
-                <a
-                  href="https://github.com/SantoshDasari-ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2"
-                  aria-label="GitHub"
-                >
-                  <Github size={24} />
-                </a>
-                <a
-                  href="https://linkedin.com/in/santosh-dasari"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={24} />
-                </a>
+                  <X size={20} />
+                </motion.button>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
+
+              <div className="px-4 py-6 space-y-2">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.path}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <NavLink
+                      to={item.path}
+                      className={({ isActive }) =>
+                        `block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                          isActive
+                            ? "text-white bg-gradient-to-r from-primary to-secondary shadow-lg"
+                            : "text-gray-600 hover:text-primary hover:bg-white/20"
+                        }`
+                      }
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </NavLink>
+                  </motion.div>
+                ))}
+
+                <div className="flex items-center space-x-4 px-4 py-6 mt-6 border-t border-white/20">
+                  <motion.a
+                    href="https://github.com/SantoshDasari-ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white/10 text-gray-600 hover:text-primary transition-colors"
+                    aria-label="GitHub"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Github size={20} />
+                  </motion.a>
+
+                  <motion.a
+                    href="https://linkedin.com/in/santosh-dasari"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white/10 text-gray-600 hover:text-primary transition-colors"
+                    aria-label="LinkedIn"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Linkedin size={20} />
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }

@@ -1,35 +1,58 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { Home, ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import SEO from "../components/SEO";
 
-const NotFound = () => {
+export default function NotFound() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-neutral-50 to-primary-50/30 px-4">
+      <SEO
+        title="404 - Page Not Found | Santosh Dasari"
+        description="The page you are looking for could not be found."
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-md"
+        transition={{ duration: 0.6 }}
+        className="text-center max-w-md mx-auto"
       >
-        <h1 className="text-9xl font-bold text-primary mb-4">404</h1>
-        <div className="w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full mb-6"></div>
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          className="text-8xl font-bold text-primary mb-4"
+        >
+          404
+        </motion.div>
+
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           Page Not Found
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-8">
+
+        <p className="text-gray-600 mb-8">
           The page you are looking for might have been removed, had its name
           changed, or is temporarily unavailable.
         </p>
-        <Link
-          to="/"
-          className="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
-        >
-          <ArrowLeft className="mr-2" size={20} />
-          Back to Home
-        </Link>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            to="/"
+            className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
+          >
+            <Home size={20} className="mr-2" />
+            Go Home
+          </Link>
+
+          <button
+            onClick={() => window.history.back()}
+            className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+          >
+            <ArrowLeft size={20} className="mr-2" />
+            Go Back
+          </button>
+        </div>
       </motion.div>
     </div>
   );
-};
-
-export default NotFound;
+}
