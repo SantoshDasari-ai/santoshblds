@@ -243,7 +243,7 @@ export default function Resume() {
               </div>
             </section>
 
-            <section>
+            <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
                 Technical Skills
               </h2>
@@ -264,6 +264,25 @@ export default function Resume() {
                   </div>
                 </div>
               ))}
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                Certifications
+              </h2>
+              <div className="space-y-3">
+                <div className="border-l-4 border-blue-600 pl-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Certified SolidWorks Associate (CSWA)
+                  </h3>
+                  <p className="text-gray-600">Certificate ID: C-6K7JVCXN2D</p>
+                </div>
+                <div className="border-l-4 border-blue-600 pl-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    GD&T Fundamentals Based on ASME Y14.5 – 2018
+                  </h3>
+                </div>
+              </div>
             </section>
           </motion.div>
         </ErrorBoundary>

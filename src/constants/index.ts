@@ -14,13 +14,6 @@ export const CONTACT_EMAIL = "santosh.d4sari@gmail.com";
 export const GITHUB_URL = "https://github.com/SantoshDasari-ai";
 export const LINKEDIN_URL = "https://linkedin.com/in/santosh-dasari";
 
-// Animation constants
-export const ANIMATION_DURATION = {
-  SHORT: 0.3,
-  MEDIUM: 0.5,
-  LONG: 1.5,
-};
-
 // Skills categories
 export const SKILLS = [
   "Mechanical Design",
@@ -29,24 +22,14 @@ export const SKILLS = [
   "Product Development",
   "Medical Devices",
   "Robotics",
-];
-
-// Local storage keys
-export const STORAGE_KEYS = {
-  DARK_MODE: "darkMode",
-};
+] as const;
 
 // Routes
 export const ROUTES = {
   HOME: "/",
   PORTFOLIO: "/portfolio",
   RESUME: "/resume",
-};
+} as const;
 
-// Media breakpoints (in px)
-export const BREAKPOINTS = {
-  SM: 640,
-  MD: 768,
-  LG: 1024,
-  XL: 1280,
-};
+// Re-export theme constants
+export { THEME, ANIMATION_DURATION, BREAKPOINTS } from "./theme";

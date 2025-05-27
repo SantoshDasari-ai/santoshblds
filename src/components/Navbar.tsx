@@ -1,62 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X, Github, Linkedin, Moon, Sun, Home } from "lucide-react";
+import { useTheme } from "../hooks/useTheme";
+import { useScrolledPast } from "../hooks/useScrollPosition";
+import { mainRoutes } from "../config/routes";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return document.documentElement.classList.contains("dark");
-  });
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDarkMode(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDarkMode(true);
-    }
-  };
-
-  // Initialize dark mode based on user preference, defaulting to light mode
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    // Only use dark mode if explicitly set in localStorage
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
-    } else {
-      // Default to light mode
-      document.documentElement.classList.remove("dark");
-      setIsDarkMode(false);
-      // If no theme is set yet, save light as the default
-      if (!savedTheme) {
-        localStorage.setItem("theme", "light");
-      }
-    }
-  }, []);
-
-  // Track scroll position to change navbar appearance
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const { isDarkMode, toggleDarkMode } = useTheme();
+  const scrolled = useScrolledPast(10);
 
   // Close mobile menu when route changes or when clicked outside
   useEffect(() => {
@@ -75,11 +28,7 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/portfolio", label: "Portfolio" },
-    { path: "/resume", label: "Resume" },
-  ];
+  const navItems = mainRoutes.filter((route) => route.showInNav);
 
   return (
     <nav
