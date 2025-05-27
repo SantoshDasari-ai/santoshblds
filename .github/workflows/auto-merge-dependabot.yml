@@ -1,0 +1,104 @@
+name: Auto-merge Dependabot PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    name: Auto-merge Dependabot PRs
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if should auto-merge
+        id: should-merge
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $PR_TITLE"
+
+          # Convert to lowercase for easier matching
+          TITLE_LOWER=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')
+
+          # Check for patch, minor, or security updates
+          if echo "$TITLE_LOWER" | grep -E "(patch|minor|security)" > /dev/null; then
+            echo "should_merge=true" >> $GITHUB_OUTPUT
+            echo "This appears to be a safe update that can be auto-merged"
+          else
+            echo "should_merge=false" >> $GITHUB_OUTPUT
+            echo "This update requires manual review"
+          fi
+
+      - name: Wait for CI to complete
+        if: steps.should-merge.outputs.should_merge == 'true'
+        run: |
+          echo "Waiting for CI checks to complete..."
+          sleep 60  # Give CI time to start
+
+      - name: Enable auto-merge
+        if: steps.should-merge.outputs.should_merge == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash
+          echo "Auto-merge enabled for PR #${{ github.event.pull_request.number }}"
+
+      - name: Add comment
+        if: steps.should-merge.outputs.should_merge == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🤖 **Auto-merge enabled**
+
+          This Dependabot PR has been automatically approved for merging because:
+          - It appears to be a safe dependency update
+          - All CI checks must pass before merging
+          - No breaking changes are expected
+
+          The PR will be automatically merged once all required status checks pass.
+
+          If you need to make changes or prevent the merge, you can disable auto-merge by commenting \`@dependabot cancel merge\`."
+
+      - name: Add labels
+        if: steps.should-merge.outputs.should_merge == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "dependencies,auto-merge"
+
+  notify-major-updates:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    name: Notify Major Updates
+
+    steps:
+      - name: Check for major updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          TITLE_LOWER=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')
+
+          if echo "$TITLE_LOWER" | grep -E "major" > /dev/null; then
+            echo "Major update detected, adding warning comment"
+            
+            gh pr comment ${{ github.event.pull_request.number }} --body "⚠️ **Major Version Update Detected**
+
+            This PR contains a major version update that may include breaking changes.
+
+            **Please review carefully:**
+            - Check the changelog/release notes for breaking changes
+            - Test thoroughly before merging
+            - Consider updating your code if needed
+
+            This PR will **NOT** be auto-merged and requires manual review."
+            
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "dependencies,major-update,needs-review"
+          fi
