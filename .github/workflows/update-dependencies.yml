@@ -25,6 +25,9 @@ jobs:
   update-dependencies:
     runs-on: ubuntu-latest
     name: Update Dependencies
+    outputs:
+      has_updates: ${{ steps.check.outputs.has_updates }}
+      update_target: ${{ steps.check.outputs.update_target }}
 
     steps:
       - name: Checkout code
