@@ -44,3 +44,4 @@ jobs:
           clean-exclude: |
             .nojekyll
             CNAME
+            404.html
