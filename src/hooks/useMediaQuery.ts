@@ -28,19 +28,15 @@ export function useMediaQuery(query: string): boolean {
  * Predefined media query hooks for common breakpoints
  */
 export function useIsMobile(): boolean {
-  return useMediaQuery(`(max-width: ${BREAKPOINTS.SM - 1}px)`);
+  return useMediaQuery(`(max-width: ${BREAKPOINTS.MD - 1}px)`);
 }
 
 export function useIsTablet(): boolean {
   return useMediaQuery(
-    `(min-width: ${BREAKPOINTS.SM}px) and (max-width: ${BREAKPOINTS.LG - 1}px)`
+    `(min-width: ${BREAKPOINTS.MD}px) and (max-width: ${BREAKPOINTS.LG - 1}px)`
   );
 }
 
 export function useIsDesktop(): boolean {
   return useMediaQuery(`(min-width: ${BREAKPOINTS.LG}px)`);
-}
-
-export function useIsDarkMode(): boolean {
-  return useMediaQuery("(prefers-color-scheme: dark)");
 }
