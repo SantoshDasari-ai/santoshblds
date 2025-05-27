@@ -1,0 +1,57 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "santoshblds"
+    assignees:
+      - "santoshblds"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    # Group minor and patch updates together
+    groups:
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      vite-ecosystem:
+        patterns:
+          - "vite*"
+          - "@vitejs/*"
+      eslint-ecosystem:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+          - "typescript-eslint"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    # Allow automatic merging for security updates
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    # Ignore specific packages if needed
+    ignore:
+      - dependency-name: "node"
+        versions: ["< 18.0.0"]
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

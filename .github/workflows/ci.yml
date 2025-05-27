@@ -1,0 +1,240 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    name: Lint and Format Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check TypeScript
+        run: npx tsc --noEmit
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and Test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Test build output
+        run: |
+          # Check if dist directory was created
+          if [ ! -d "dist" ]; then
+            echo "❌ Build failed: dist directory not found"
+            exit 1
+          fi
+
+          # Check if index.html exists
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ Build failed: index.html not found in dist"
+            exit 1
+          fi
+
+          echo "✅ Build successful: dist directory and index.html found"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 7
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+
+      - name: Check for known vulnerabilities
+        run: |
+          # Run audit and capture output
+          npm audit --json > audit-results.json || true
+
+          # Check if there are high or critical vulnerabilities
+          HIGH_VULNS=$(cat audit-results.json | jq '.metadata.vulnerabilities.high // 0')
+          CRITICAL_VULNS=$(cat audit-results.json | jq '.metadata.vulnerabilities.critical // 0')
+
+          echo "High vulnerabilities: $HIGH_VULNS"
+          echo "Critical vulnerabilities: $CRITICAL_VULNS"
+
+          if [ "$HIGH_VULNS" -gt 0 ] || [ "$CRITICAL_VULNS" -gt 0 ]; then
+            echo "❌ High or critical vulnerabilities found!"
+            echo "Please run 'npm audit fix' or update vulnerable packages"
+            exit 1
+          fi
+
+          echo "✅ No high or critical vulnerabilities found"
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    name: Dependency Analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for outdated packages
+        run: |
+          echo "Checking for outdated packages..."
+          npm outdated || true
+
+      - name: Analyze bundle size
+        run: |
+          echo "Analyzing bundle size..."
+          npm run build
+
+          # Check if bundle analyzer is available
+          if npm list rollup-plugin-visualizer > /dev/null 2>&1; then
+            npm run analyze || echo "Bundle analysis not available"
+          fi
+
+      - name: Check package-lock.json
+        run: |
+          # Verify package-lock.json is up to date
+          npm ci --dry-run
+
+          if ! git diff --quiet package-lock.json; then
+            echo "❌ package-lock.json is not up to date"
+            echo "Please run 'npm install' and commit the changes"
+            exit 1
+          fi
+
+          echo "✅ package-lock.json is up to date"
+
+  performance-check:
+    runs-on: ubuntu-latest
+    name: Performance Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check bundle size
+        run: |
+          echo "Checking bundle sizes..."
+
+          # Check main bundle size (should be reasonable for a portfolio site)
+          MAIN_JS_SIZE=$(find dist/assets -name "index*.js" -exec wc -c {} \; | awk '{print $1}')
+          MAIN_CSS_SIZE=$(find dist/assets -name "index*.css" -exec wc -c {} \; | awk '{print $1}' || echo "0")
+
+          echo "Main JS bundle size: $MAIN_JS_SIZE bytes"
+          echo "Main CSS bundle size: $MAIN_CSS_SIZE bytes"
+
+          # Set reasonable limits (adjust as needed)
+          MAX_JS_SIZE=1048576  # 1MB
+          MAX_CSS_SIZE=524288  # 512KB
+
+          if [ "$MAIN_JS_SIZE" -gt "$MAX_JS_SIZE" ]; then
+            echo "⚠️ Warning: Main JS bundle is larger than ${MAX_JS_SIZE} bytes"
+          fi
+
+          if [ "$MAIN_CSS_SIZE" -gt "$MAX_CSS_SIZE" ]; then
+            echo "⚠️ Warning: Main CSS bundle is larger than ${MAX_CSS_SIZE} bytes"
+          fi
+
+  accessibility-check:
+    runs-on: ubuntu-latest
+    name: Accessibility Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Serve built site
+        run: |
+          npx serve -s dist -p 3000 &
+          sleep 5
+
+      - name: Run accessibility tests
+        run: |
+          # Install axe-core CLI
+          npm install -g @axe-core/cli
+
+          # Run accessibility tests
+          axe http://localhost:3000 --exit || echo "Accessibility issues found - please review"
