@@ -1,5 +1,9 @@
 # Santosh Dasari's Portfolio
 
+[![CI](https://github.com/santoshblds/santoshblds.com/actions/workflows/ci.yml/badge.svg)](https://github.com/santoshblds/santoshblds.com/actions/workflows/ci.yml)
+[![Deploy](https://github.com/santoshblds/santoshblds.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/santoshblds/santoshblds.com/actions/workflows/deploy.yml)
+[![Security Audit](https://github.com/santoshblds/santoshblds.com/actions/workflows/security-audit.yml/badge.svg)](https://github.com/santoshblds/santoshblds.com/actions/workflows/security-audit.yml)
+
 A modern, performance-optimized React portfolio website.
 
 ## Performance Optimizations

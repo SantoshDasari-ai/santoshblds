@@ -226,15 +226,26 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Install axe-core CLI globally
+        run: npm install -g @axe-core/cli
+
       - name: Serve built site
         run: |
           npx serve -s dist -p 3000 &
-          sleep 5
+          SERVER_PID=$!
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
+
+          # Wait for server to be ready
+          timeout 30 bash -c 'until curl -s http://localhost:3000; do sleep 1; done'
 
       - name: Run accessibility tests
         run: |
-          # Install axe-core CLI
-          npm install -g @axe-core/cli
-
           # Run accessibility tests
-          axe http://localhost:3000 --exit || echo "Accessibility issues found - please review"
+          axe http://localhost:3000 --exit || echo "⚠️ Accessibility issues found - please review and fix"
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ ! -z "$SERVER_PID" ]; then
+            kill $SERVER_PID || true
+          fi

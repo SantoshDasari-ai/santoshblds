@@ -50,15 +50,19 @@ const useOptimizedImage = (
       return;
     }
 
+    const currentImageRef = imageRef.current;
+
+    if (!currentImageRef) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         // When image is in viewport
         if (entries[0].isIntersecting) {
           setShouldLoad(true);
           // Stop observing once it's in view
-          if (imageRef.current) {
-            observer.unobserve(imageRef.current);
-          }
+          observer.unobserve(entries[0].target as HTMLImageElement);
         }
       },
       {
@@ -68,15 +72,11 @@ const useOptimizedImage = (
     );
 
     // Start observing
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
-    }
+    observer.observe(currentImageRef);
 
     // Clean up
     return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current);
-      }
+      observer.unobserve(currentImageRef);
     };
   }, [priority, threshold]);
 
