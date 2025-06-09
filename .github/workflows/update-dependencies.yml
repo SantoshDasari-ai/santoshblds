@@ -23,6 +23,7 @@ jobs:
     outputs:
       has_updates: ${{ steps.check-updates.outputs.has_updates }}
       update_target: ${{ steps.check-updates.outputs.update_target }}
+      pr_body: ${{ steps.summary.outputs.pr_body }}
     permissions:
       contents: write
       pull-requests: write
