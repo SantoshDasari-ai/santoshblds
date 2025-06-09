@@ -9,41 +9,75 @@ updates:
       time: "09:00"
     open-pull-requests-limit: 10
     reviewers:
-      - "santoshblds"
+      - "SantoshDasari-ai"
     assignees:
-      - "santoshblds"
+      - "SantoshDasari-ai"
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
       include: "scope"
-    # Group minor and patch updates together
+    # Group dependencies to reduce PR noise
     groups:
       react-ecosystem:
         patterns:
           - "react*"
           - "@types/react*"
+          - "react-dom"
+          - "react-router*"
+        update-types:
+          - "minor"
+          - "patch"
       vite-ecosystem:
         patterns:
           - "vite*"
           - "@vitejs/*"
+          - "rollup*"
+        update-types:
+          - "minor"
+          - "patch"
       eslint-ecosystem:
         patterns:
           - "eslint*"
           - "@eslint/*"
+          - "*eslint*"
           - "typescript-eslint"
+        update-types:
+          - "minor"
+          - "patch"
+      tailwind-ecosystem:
+        patterns:
+          - "tailwind*"
+          - "@tailwindcss/*"
+          - "autoprefixer"
+          - "postcss"
+        update-types:
+          - "minor"
+          - "patch"
       dev-dependencies:
         dependency-type: "development"
         update-types:
           - "minor"
           - "patch"
-    # Allow automatic merging for security updates
+      security-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+    # Allow automatic merging for safe updates
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
+    # Labels to help with auto-merge logic
+    labels:
+      - "dependencies"
+      - "dependabot"
     # Ignore specific packages if needed
     ignore:
       - dependency-name: "node"
         versions: ["< 18.0.0"]
+      # Add any packages that frequently cause issues
+      # - dependency-name: "example-package"
+      #   versions: [">= 3.0.0"]
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -55,3 +89,10 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
+    reviewers:
+      - "SantoshDasari-ai"
+    assignees:
+      - "SantoshDasari-ai"
+    labels:
+      - "github-actions"
+      - "dependencies"

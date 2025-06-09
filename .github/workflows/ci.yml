@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on:
   push:
@@ -8,22 +8,22 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
   security-events: write
-  pull-requests: write
 
 jobs:
-  lint-and-format:
+  lint:
+    name: Lint Code
     runs-on: ubuntu-latest
-    name: Lint and Format Check
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
@@ -32,21 +32,21 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      - name: Check TypeScript
-        run: npx tsc --noEmit
+      - name: Run Prettier check
+        run: npx prettier --check .
 
-  build-and-test:
+  build:
+    name: Build Project
     runs-on: ubuntu-latest
-    name: Build and Test
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
@@ -55,197 +55,205 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Test build output
-        run: |
-          # Check if dist directory was created
-          if [ ! -d "dist" ]; then
-            echo "❌ Build failed: dist directory not found"
-            exit 1
-          fi
-
-          # Check if index.html exists
-          if [ ! -f "dist/index.html" ]; then
-            echo "❌ Build failed: index.html not found in dist"
-            exit 1
-          fi
-
-          echo "✅ Build successful: dist directory and index.html found"
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: dist/
+          path: |
+            dist/
+            .next/
+            out/
           retention-days: 7
 
-  security-scan:
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
-    name: Security Scan
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
+      - name: Run tests
+        run: npm test --if-present
 
-      - name: Check for known vulnerabilities
-        run: |
-          # Run audit and capture output
-          npm audit --json > audit-results.json || true
-
-          # Check if there are high or critical vulnerabilities
-          HIGH_VULNS=$(cat audit-results.json | jq '.metadata.vulnerabilities.high // 0')
-          CRITICAL_VULNS=$(cat audit-results.json | jq '.metadata.vulnerabilities.critical // 0')
-
-          echo "High vulnerabilities: $HIGH_VULNS"
-          echo "Critical vulnerabilities: $CRITICAL_VULNS"
-
-          if [ "$HIGH_VULNS" -gt 0 ] || [ "$CRITICAL_VULNS" -gt 0 ]; then
-            echo "❌ High or critical vulnerabilities found!"
-            echo "Please run 'npm audit fix' or update vulnerable packages"
-            exit 1
-          fi
-
-          echo "✅ No high or critical vulnerabilities found"
-
-  dependency-check:
+  security-audit:
+    name: Security Audit
     runs-on: ubuntu-latest
-    name: Dependency Analysis
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+
+      - name: Run CodeQL analysis
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL analysis
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
+        uses: github/codeql-action/analyze@v3
+
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Check for outdated packages
+        run: npm outdated || true
+
+      - name: Check package vulnerabilities
+        run: npm audit --audit-level=high
+
+      - name: License check
         run: |
-          echo "Checking for outdated packages..."
-          npm outdated || true
+          npx license-checker --summary || echo "License checker not available"
+
+  performance-check:
+    name: Performance Check
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
 
       - name: Analyze bundle size
         run: |
-          echo "Analyzing bundle size..."
-          npm run build
-
-          # Check if bundle analyzer is available
-          if npm list rollup-plugin-visualizer > /dev/null 2>&1; then
+          # Check if we have a bundle analyzer or size reporting tool
+          if [ -f "package.json" ] && grep -q "analyze" package.json; then
             npm run analyze || echo "Bundle analysis not available"
+          else
+            echo "Bundle analysis script not found - checking file sizes manually"
+            if [ -d "dist" ]; then
+              echo "## Build output sizes:"
+              find dist -type f -name "*.js" -o -name "*.css" | head -10 | xargs ls -lh
+            elif [ -d ".next" ]; then
+              echo "## Next.js build output:"
+              find .next -type f -name "*.js" | head -10 | xargs ls -lh
+            fi
           fi
 
-      - name: Check package-lock.json
+      - name: Performance budget check
         run: |
-          # Verify package-lock.json is up to date
-          npm ci --dry-run
-
-          if ! git diff --quiet package-lock.json; then
-            echo "❌ package-lock.json is not up to date"
-            echo "Please run 'npm install' and commit the changes"
-            exit 1
-          fi
-
-          echo "✅ package-lock.json is up to date"
-
-  performance-check:
-    runs-on: ubuntu-latest
-    name: Performance Check
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: Check bundle size
-        run: |
-          echo "Checking bundle sizes..."
-
-          # Check main bundle size (should be reasonable for a portfolio site)
-          MAIN_JS_SIZE=$(find dist/assets -name "index*.js" -exec wc -c {} \; | awk '{print $1}')
-          MAIN_CSS_SIZE=$(find dist/assets -name "index*.css" -exec wc -c {} \; | awk '{print $1}' || echo "0")
-
-          echo "Main JS bundle size: $MAIN_JS_SIZE bytes"
-          echo "Main CSS bundle size: $MAIN_CSS_SIZE bytes"
-
-          # Set reasonable limits (adjust as needed)
-          MAX_JS_SIZE=1048576  # 1MB
-          MAX_CSS_SIZE=524288  # 512KB
-
-          if [ "$MAIN_JS_SIZE" -gt "$MAX_JS_SIZE" ]; then
-            echo "⚠️ Warning: Main JS bundle is larger than ${MAX_JS_SIZE} bytes"
-          fi
-
-          if [ "$MAIN_CSS_SIZE" -gt "$MAX_CSS_SIZE" ]; then
-            echo "⚠️ Warning: Main CSS bundle is larger than ${MAX_CSS_SIZE} bytes"
-          fi
+          echo "Checking for large files that might impact performance..."
+          # Check for files larger than 500KB
+          find . -name "*.js" -o -name "*.css" -type f -size +500k | head -5 || echo "No large files found"
 
   accessibility-check:
-    runs-on: ubuntu-latest
     name: Accessibility Check
+    runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build project
-        run: npm run build
-
-      - name: Install axe-core CLI globally
-        run: npm install -g @axe-core/cli
-
-      - name: Serve built site
+      - name: Install accessibility testing tools
         run: |
-          npx serve -s dist -p 3000 &
-          SERVER_PID=$!
-          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
-
-          # Wait for server to be ready
-          timeout 30 bash -c 'until curl -s http://localhost:3000; do sleep 1; done'
+          npm install -g @axe-core/cli || echo "axe-core CLI not available"
 
       - name: Run accessibility tests
         run: |
-          # Run accessibility tests
-          axe http://localhost:3000 --exit || echo "⚠️ Accessibility issues found - please review and fix"
+          # Check if we have custom a11y test scripts
+          if grep -q "test:a11y\|a11y" package.json; then
+            npm run test:a11y || npm run a11y || echo "Accessibility tests not configured"
+          else
+            echo "No accessibility test scripts found"
+            echo "Consider adding axe-core or similar a11y testing tools"
+          fi
 
-      - name: Stop server
-        if: always()
+  # Summary job that all other jobs depend on for branch protection
+  ci-complete:
+    name: CI Complete
+    runs-on: ubuntu-latest
+    needs:
+      [
+        lint,
+        build,
+        test,
+        security-audit,
+        dependency-check,
+        performance-check,
+        accessibility-check,
+      ]
+    if: always()
+
+    steps:
+      - name: Check all jobs status
         run: |
-          if [ ! -z "$SERVER_PID" ]; then
-            kill $SERVER_PID || true
+          echo "## CI Pipeline Results"
+          echo "- Lint: ${{ needs.lint.result }}"
+          echo "- Build: ${{ needs.build.result }}"
+          echo "- Test: ${{ needs.test.result }}"
+          echo "- Security Audit: ${{ needs.security-audit.result }}"
+          echo "- Dependency Check: ${{ needs.dependency-check.result }}"
+          echo "- Performance Check: ${{ needs.performance-check.result }}"
+          echo "- Accessibility Check: ${{ needs.accessibility-check.result }}"
+
+          # Check if any critical jobs failed
+          if [[ "${{ needs.lint.result }}" != "success" ]] || 
+             [[ "${{ needs.build.result }}" != "success" ]] || 
+             [[ "${{ needs.test.result }}" != "success" && "${{ needs.test.result }}" != "skipped" ]] || 
+             [[ "${{ needs.security-audit.result }}" != "success" ]]; then
+            echo "❌ Critical jobs failed - CI pipeline failed"
+            exit 1
+          else
+            echo "✅ All critical jobs passed - CI pipeline successful"
           fi

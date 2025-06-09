@@ -7,71 +7,220 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  checks: read
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    name: Auto-merge Dependabot PRs
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check if should auto-merge
-        id: should-merge
+      - name: Get Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check update safety
+        id: safety-check
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          echo "PR Title: $PR_TITLE"
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          DEPENDENCY_TYPE="${{ steps.metadata.outputs.dependency-type }}"
 
-          # Convert to lowercase for easier matching
-          TITLE_LOWER=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')
+          echo "Update type: $UPDATE_TYPE"
+          echo "Dependency type: $DEPENDENCY_TYPE"
+          echo "Package ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}"
+          echo "Dependency names: ${{ steps.metadata.outputs.dependency-names }}"
 
-          # Check for patch, minor, or security updates
-          if echo "$TITLE_LOWER" | grep -E "(patch|minor|security)" > /dev/null; then
-            echo "should_merge=true" >> $GITHUB_OUTPUT
-            echo "This appears to be a safe update that can be auto-merged"
-          else
-            echo "should_merge=false" >> $GITHUB_OUTPUT
-            echo "This update requires manual review"
-          fi
+          # Determine if this is a safe auto-merge candidate
+          SAFE_AUTO_MERGE="false"
+          AUTO_MERGE_METHOD="squash"
 
-      - name: Wait for CI to complete
-        if: steps.should-merge.outputs.should_merge == 'true'
+          case $UPDATE_TYPE in
+            "version-update:semver-patch")
+              echo "✅ Patch update - safe for auto-merge"
+              SAFE_AUTO_MERGE="true"
+              ;;
+            "version-update:semver-minor")
+              if [[ "$DEPENDENCY_TYPE" == "direct:development" ]] || [[ "$DEPENDENCY_TYPE" == "indirect" ]]; then
+                echo "✅ Minor update for dev/indirect dependency - safe for auto-merge"
+                SAFE_AUTO_MERGE="true"
+              else
+                echo "⚠️ Minor update for production dependency - requires review"
+                SAFE_AUTO_MERGE="false"
+              fi
+              ;;
+            "version-update:semver-major")
+              echo "❌ Major update - requires manual review"
+              SAFE_AUTO_MERGE="false"
+              ;;
+            *)
+              echo "❓ Unknown update type - requires manual review"
+              SAFE_AUTO_MERGE="false"
+              ;;
+          esac
+
+          echo "safe_auto_merge=$SAFE_AUTO_MERGE" >> $GITHUB_OUTPUT
+          echo "merge_method=$AUTO_MERGE_METHOD" >> $GITHUB_OUTPUT
+
+      - name: Add labels based on update type
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Waiting for CI checks to complete..."
-          sleep 60  # Give CI time to start
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          DEPENDENCY_TYPE="${{ steps.metadata.outputs.dependency-type }}"
+
+          # Base labels
+          LABELS="dependencies,dependabot"
+
+          # Add update type label
+          case $UPDATE_TYPE in
+            "version-update:semver-patch")
+              LABELS="$LABELS,patch-update,auto-merge-safe"
+              ;;
+            "version-update:semver-minor")
+              LABELS="$LABELS,minor-update"
+              if [[ "${{ steps.safety-check.outputs.safe_auto_merge }}" == "true" ]]; then
+                LABELS="$LABELS,auto-merge-safe"
+              else
+                LABELS="$LABELS,review-required"
+              fi
+              ;;
+            "version-update:semver-major")
+              LABELS="$LABELS,major-update,review-required"
+              ;;
+          esac
+
+          # Add dependency type label
+          case $DEPENDENCY_TYPE in
+            "direct:production")
+              LABELS="$LABELS,production-dependency"
+              ;;
+            "direct:development")
+              LABELS="$LABELS,development-dependency"
+              ;;
+            "indirect")
+              LABELS="$LABELS,indirect-dependency"
+              ;;
+          esac
+
+          # Apply labels
+          echo "Applying labels: $LABELS"
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "$LABELS"
+
+      - name: Comment on PR with details
+        if: steps.safety-check.outputs.safe_auto_merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat << 'EOF' | gh pr comment ${{ github.event.pull_request.number }} --body-file -
+          ## 🤖 Dependabot Auto-merge
+
+          This Dependabot PR has been analyzed and meets the criteria for auto-merge:
+
+          - **Update Type**: `${{ steps.metadata.outputs.update-type }}`
+          - **Dependency Type**: `${{ steps.metadata.outputs.dependency-type }}`
+          - **Package Ecosystem**: `${{ steps.metadata.outputs.package-ecosystem }}`
+          - **Dependencies**: ${{ steps.metadata.outputs.dependency-names }}
+
+          ### ✅ Safety Checks
+          - Safe update type for auto-merge
+          - All CI checks must pass before merge
+          - Will be merged using squash method
+
+          The PR will be automatically merged once all status checks pass.
+          EOF
+
+      - name: Comment on PR for manual review
+        if: steps.safety-check.outputs.safe_auto_merge == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat << 'EOF' | gh pr comment ${{ github.event.pull_request.number }} --body-file -
+          ## 🔍 Manual Review Required
+
+          This Dependabot PR requires manual review before merging:
+
+          - **Update Type**: `${{ steps.metadata.outputs.update-type }}`
+          - **Dependency Type**: `${{ steps.metadata.outputs.dependency-type }}`
+          - **Package Ecosystem**: `${{ steps.metadata.outputs.package-ecosystem }}`
+          - **Dependencies**: ${{ steps.metadata.outputs.dependency-names }}
+
+          ### ⚠️ Why manual review is needed:
+          - Major version updates may contain breaking changes
+          - Production dependencies require careful evaluation
+          - Security updates should be reviewed for impact
+
+          Please review the changes and merge manually if safe.
+          EOF
+
+      - name: Wait for status checks
+        if: steps.safety-check.outputs.safe_auto_merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Waiting for required status checks to complete..."
+
+          # Wait up to 10 minutes for checks to complete
+          TIMEOUT=600
+          INTERVAL=30
+          ELAPSED=0
+
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+            STATUS=$(gh pr status ${{ github.event.pull_request.number }} --json statusCheckRollup --jq '.statusCheckRollup[0].state')
+            
+            case $STATUS in
+              "SUCCESS")
+                echo "✅ All status checks passed!"
+                exit 0
+                ;;
+              "FAILURE"|"ERROR")
+                echo "❌ Status checks failed - will not auto-merge"
+                exit 1
+                ;;
+              "PENDING"|"IN_PROGRESS")
+                echo "⏳ Status checks still running... (elapsed: ${ELAPSED}s)"
+                sleep $INTERVAL
+                ELAPSED=$((ELAPSED + INTERVAL))
+                ;;
+              *)
+                echo "❓ Unknown status: $STATUS"
+                sleep $INTERVAL
+                ELAPSED=$((ELAPSED + INTERVAL))
+                ;;
+            esac
+          done
+
+          echo "⏰ Timeout waiting for status checks"
+          exit 1
 
       - name: Enable auto-merge
-        if: steps.should-merge.outputs.should_merge == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.safety-check.outputs.safe_auto_merge == 'true'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: ${{ steps.safety-check.outputs.merge_method }}
+
+      - name: Summary
+        if: always()
         run: |
-          gh pr merge ${{ github.event.pull_request.number }} --auto --squash
-          echo "Auto-merge enabled for PR #${{ github.event.pull_request.number }}"
+          echo "## 📋 Auto-merge Summary"
+          echo "- PR Number: #${{ github.event.pull_request.number }}"
+          echo "- Update Type: ${{ steps.metadata.outputs.update-type }}"
+          echo "- Dependency Type: ${{ steps.metadata.outputs.dependency-type }}"
+          echo "- Safe for auto-merge: ${{ steps.safety-check.outputs.safe_auto_merge }}"
 
-      - name: Add comment
-        if: steps.should-merge.outputs.should_merge == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "🤖 **Auto-merge enabled**
-
-          This Dependabot PR has been automatically approved for merging because:
-          - It appears to be a safe dependency update
-          - All CI checks must pass before merging
-          - No breaking changes are expected
-
-          The PR will be automatically merged once all required status checks pass.
-
-          If you need to make changes or prevent the merge, you can disable auto-merge by commenting \`@dependabot cancel merge\`."
-
-      - name: Add labels
-        if: steps.should-merge.outputs.should_merge == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr edit ${{ github.event.pull_request.number }} --add-label "dependencies,auto-merge"
+          if [[ "${{ steps.safety-check.outputs.safe_auto_merge }}" == "true" ]]; then
+            echo "✅ Auto-merge enabled - will merge when CI passes"
+          else
+            echo "⚠️ Manual review required"
+          fi
 
   notify-major-updates:
     runs-on: ubuntu-latest
