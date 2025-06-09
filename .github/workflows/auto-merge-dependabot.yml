@@ -1,8 +1,10 @@
 name: Auto-merge Dependabot PRs
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  schedule:
+    # Run every Tuesday at 10:00 AM UTC to process any pending Dependabot PRs
+    - cron: "0 10 * * 2"
+  workflow_dispatch: # Allow manual triggering
 
 permissions:
   contents: write
@@ -12,7 +14,6 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
 
     steps:
       - name: Checkout code
@@ -20,234 +21,79 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check update safety
-        id: safety-check
-        run: |
-          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
-          DEPENDENCY_TYPE="${{ steps.metadata.outputs.dependency-type }}"
-
-          echo "Update type: $UPDATE_TYPE"
-          echo "Dependency type: $DEPENDENCY_TYPE"
-          echo "Package ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}"
-          echo "Dependency names: ${{ steps.metadata.outputs.dependency-names }}"
-
-          # Determine if this is a safe auto-merge candidate
-          SAFE_AUTO_MERGE="false"
-          AUTO_MERGE_METHOD="squash"
-
-          case $UPDATE_TYPE in
-            "version-update:semver-patch")
-              echo "✅ Patch update - safe for auto-merge"
-              SAFE_AUTO_MERGE="true"
-              ;;
-            "version-update:semver-minor")
-              if [[ "$DEPENDENCY_TYPE" == "direct:development" ]] || [[ "$DEPENDENCY_TYPE" == "indirect" ]]; then
-                echo "✅ Minor update for dev/indirect dependency - safe for auto-merge"
-                SAFE_AUTO_MERGE="true"
-              else
-                echo "⚠️ Minor update for production dependency - requires review"
-                SAFE_AUTO_MERGE="false"
-              fi
-              ;;
-            "version-update:semver-major")
-              echo "❌ Major update - requires manual review"
-              SAFE_AUTO_MERGE="false"
-              ;;
-            *)
-              echo "❓ Unknown update type - requires manual review"
-              SAFE_AUTO_MERGE="false"
-              ;;
-          esac
-
-          echo "safe_auto_merge=$SAFE_AUTO_MERGE" >> $GITHUB_OUTPUT
-          echo "merge_method=$AUTO_MERGE_METHOD" >> $GITHUB_OUTPUT
-
-      - name: Add labels based on update type
+      - name: Find Dependabot PRs
+        id: find-prs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
-          DEPENDENCY_TYPE="${{ steps.metadata.outputs.dependency-type }}"
+          echo "Looking for open Dependabot PRs..."
 
-          # Base labels
-          LABELS="dependencies,dependabot"
+          # Get list of open Dependabot PRs
+          DEPENDABOT_PRS=$(gh pr list --author "dependabot[bot]" --state open --json number,title,headRefName --jq '.[].number' | tr '\n' ' ')
 
-          # Add update type label
-          case $UPDATE_TYPE in
-            "version-update:semver-patch")
-              LABELS="$LABELS,patch-update,auto-merge-safe"
-              ;;
-            "version-update:semver-minor")
-              LABELS="$LABELS,minor-update"
-              if [[ "${{ steps.safety-check.outputs.safe_auto_merge }}" == "true" ]]; then
-                LABELS="$LABELS,auto-merge-safe"
-              else
-                LABELS="$LABELS,review-required"
-              fi
-              ;;
-            "version-update:semver-major")
-              LABELS="$LABELS,major-update,review-required"
-              ;;
-          esac
+          if [ -z "$DEPENDABOT_PRS" ]; then
+            echo "No open Dependabot PRs found"
+            echo "has_prs=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found Dependabot PRs: $DEPENDABOT_PRS"
+            echo "has_prs=true" >> $GITHUB_OUTPUT
+            echo "pr_numbers=$DEPENDABOT_PRS" >> $GITHUB_OUTPUT
+          fi
 
-          # Add dependency type label
-          case $DEPENDENCY_TYPE in
-            "direct:production")
-              LABELS="$LABELS,production-dependency"
-              ;;
-            "direct:development")
-              LABELS="$LABELS,development-dependency"
-              ;;
-            "indirect")
-              LABELS="$LABELS,indirect-dependency"
-              ;;
-          esac
-
-          # Apply labels
-          echo "Applying labels: $LABELS"
-          gh pr edit ${{ github.event.pull_request.number }} --add-label "$LABELS"
-
-      - name: Comment on PR with details
-        if: steps.safety-check.outputs.safe_auto_merge == 'true'
+      - name: Process Dependabot PRs
+        if: steps.find-prs.outputs.has_prs == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat << 'EOF' | gh pr comment ${{ github.event.pull_request.number }} --body-file -
-          ## 🤖 Dependabot Auto-merge
-
-          This Dependabot PR has been analyzed and meets the criteria for auto-merge:
-
-          - **Update Type**: `${{ steps.metadata.outputs.update-type }}`
-          - **Dependency Type**: `${{ steps.metadata.outputs.dependency-type }}`
-          - **Package Ecosystem**: `${{ steps.metadata.outputs.package-ecosystem }}`
-          - **Dependencies**: ${{ steps.metadata.outputs.dependency-names }}
-
-          ### ✅ Safety Checks
-          - Safe update type for auto-merge
-          - All CI checks must pass before merge
-          - Will be merged using squash method
-
-          The PR will be automatically merged once all status checks pass.
-          EOF
-
-      - name: Comment on PR for manual review
-        if: steps.safety-check.outputs.safe_auto_merge == 'false'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat << 'EOF' | gh pr comment ${{ github.event.pull_request.number }} --body-file -
-          ## 🔍 Manual Review Required
-
-          This Dependabot PR requires manual review before merging:
-
-          - **Update Type**: `${{ steps.metadata.outputs.update-type }}`
-          - **Dependency Type**: `${{ steps.metadata.outputs.dependency-type }}`
-          - **Package Ecosystem**: `${{ steps.metadata.outputs.package-ecosystem }}`
-          - **Dependencies**: ${{ steps.metadata.outputs.dependency-names }}
-
-          ### ⚠️ Why manual review is needed:
-          - Major version updates may contain breaking changes
-          - Production dependencies require careful evaluation
-          - Security updates should be reviewed for impact
-
-          Please review the changes and merge manually if safe.
-          EOF
-
-      - name: Wait for status checks
-        if: steps.safety-check.outputs.safe_auto_merge == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Waiting for required status checks to complete..."
-
-          # Wait up to 10 minutes for checks to complete
-          TIMEOUT=600
-          INTERVAL=30
-          ELAPSED=0
-
-          while [ $ELAPSED -lt $TIMEOUT ]; do
-            STATUS=$(gh pr status ${{ github.event.pull_request.number }} --json statusCheckRollup --jq '.statusCheckRollup[0].state')
+          for PR_NUMBER in ${{ steps.find-prs.outputs.pr_numbers }}; do
+            echo "Processing PR #$PR_NUMBER"
             
-            case $STATUS in
-              "SUCCESS")
-                echo "✅ All status checks passed!"
-                exit 0
-                ;;
-              "FAILURE"|"ERROR")
-                echo "❌ Status checks failed - will not auto-merge"
-                exit 1
-                ;;
-              "PENDING"|"IN_PROGRESS")
-                echo "⏳ Status checks still running... (elapsed: ${ELAPSED}s)"
-                sleep $INTERVAL
-                ELAPSED=$((ELAPSED + INTERVAL))
-                ;;
-              *)
-                echo "❓ Unknown status: $STATUS"
-                sleep $INTERVAL
-                ELAPSED=$((ELAPSED + INTERVAL))
-                ;;
-            esac
+            # Get PR details
+            PR_DETAILS=$(gh pr view $PR_NUMBER --json title,body,headRefName)
+            PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
+            
+            echo "PR Title: $PR_TITLE"
+            
+            # Determine if this is a safe auto-merge candidate based on title
+            SAFE_AUTO_MERGE="false"
+            
+            if echo "$PR_TITLE" | grep -qE "(patch|fix)"; then
+              echo "✅ Patch update detected - safe for auto-merge"
+              SAFE_AUTO_MERGE="true"
+            elif echo "$PR_TITLE" | grep -qE "minor.*dev" || echo "$PR_TITLE" | grep -qE "development"; then
+              echo "✅ Development dependency minor update - safe for auto-merge"
+              SAFE_AUTO_MERGE="true"
+            else
+              echo "⚠️ Requires manual review"
+              SAFE_AUTO_MERGE="false"
+            fi
+            
+            if [ "$SAFE_AUTO_MERGE" = "true" ]; then
+              # Check if all status checks are passing
+              STATUS=$(gh pr status $PR_NUMBER --json statusCheckRollup --jq '.statusCheckRollup[0].state // "PENDING"')
+              
+              if [ "$STATUS" = "SUCCESS" ]; then
+                echo "✅ All checks passed - enabling auto-merge for PR #$PR_NUMBER"
+                gh pr merge $PR_NUMBER --auto --squash --subject "chore: $PR_TITLE"
+              else
+                echo "⏳ Status checks not ready for PR #$PR_NUMBER (Status: $STATUS)"
+              fi
+            else
+              echo "⚠️ PR #$PR_NUMBER requires manual review"
+              # Add label for manual review
+              gh pr edit $PR_NUMBER --add-label "review-required"
+            fi
+            
+            echo "---"
           done
-
-          echo "⏰ Timeout waiting for status checks"
-          exit 1
-
-      - name: Enable auto-merge
-        if: steps.safety-check.outputs.safe_auto_merge == 'true'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.pull_request.number }}
-          merge-method: ${{ steps.safety-check.outputs.merge_method }}
 
       - name: Summary
         if: always()
         run: |
-          echo "## 📋 Auto-merge Summary"
-          echo "- PR Number: #${{ github.event.pull_request.number }}"
-          echo "- Update Type: ${{ steps.metadata.outputs.update-type }}"
-          echo "- Dependency Type: ${{ steps.metadata.outputs.dependency-type }}"
-          echo "- Safe for auto-merge: ${{ steps.safety-check.outputs.safe_auto_merge }}"
-
-          if [[ "${{ steps.safety-check.outputs.safe_auto_merge }}" == "true" ]]; then
-            echo "✅ Auto-merge enabled - will merge when CI passes"
+          echo "## 📋 Dependabot Auto-merge Summary"
+          if [ "${{ steps.find-prs.outputs.has_prs }}" = "true" ]; then
+            echo "✅ Processed Dependabot PRs: ${{ steps.find-prs.outputs.pr_numbers }}"
+            echo "Safe updates have been auto-merged, others marked for review"
           else
-            echo "⚠️ Manual review required"
-          fi
-
-  notify-major-updates:
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    name: Notify Major Updates
-
-    steps:
-      - name: Check for major updates
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          TITLE_LOWER=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')
-
-          if echo "$TITLE_LOWER" | grep -E "major" > /dev/null; then
-            echo "Major update detected, adding warning comment"
-            
-            gh pr comment ${{ github.event.pull_request.number }} --body "⚠️ **Major Version Update Detected**
-
-            This PR contains a major version update that may include breaking changes.
-
-            **Please review carefully:**
-            - Check the changelog/release notes for breaking changes
-            - Test thoroughly before merging
-            - Consider updating your code if needed
-
-            This PR will **NOT** be auto-merged and requires manual review."
-            
-            gh pr edit ${{ github.event.pull_request.number }} --add-label "dependencies,major-update,needs-review"
+            echo "ℹ️ No open Dependabot PRs found"
           fi

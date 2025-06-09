@@ -20,6 +20,9 @@ on:
 jobs:
   update-dependencies:
     runs-on: ubuntu-latest
+    outputs:
+      has_updates: ${{ steps.check-updates.outputs.has_updates }}
+      update_target: ${{ steps.check-updates.outputs.update_target }}
     permissions:
       contents: write
       pull-requests: write
