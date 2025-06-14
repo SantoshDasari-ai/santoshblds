@@ -10,8 +10,8 @@ const CRITICAL_CSS: string[] = [
 ];
 
 const CRITICAL_IMAGES: string[] = [
-  "/assets/logo.webp",
-  "/assets/my-photo.JPG.webp",
+  "/assets/logo.webp", // Only preload logo as it's used immediately
+  // Removed my-photo.JPG.webp as it's not used on all pages immediately
 ];
 
 /**
@@ -28,6 +28,12 @@ const preloadResource = (
   crossOrigin?: string
 ): void => {
   if (typeof document === "undefined") return;
+
+  // Check if resource is already preloaded to avoid duplicates
+  const existingPreload = document.querySelector(
+    `link[rel="preload"][href="${href}"]`
+  );
+  if (existingPreload) return;
 
   const link = document.createElement("link");
   link.rel = "preload";
@@ -55,10 +61,27 @@ export const preloadCriticalCSS = (): void => {
 };
 
 /**
- * Preloads critical images
+ * Preloads critical images only when they're actually needed
  */
 export const preloadCriticalImages = (): void => {
   CRITICAL_IMAGES.forEach((href) => {
+    preloadResource(href, "image");
+  });
+};
+
+/**
+ * Conditionally preload images based on current route
+ * @param route Current route name
+ */
+export const preloadRouteSpecificImages = (route: string): void => {
+  const routeImages: Record<string, string[]> = {
+    home: ["/assets/my-photo.JPG.webp"], // Only preload on home page
+    about: ["/assets/my-photo.JPG.webp"],
+    // Add other route-specific images as needed
+  };
+
+  const images = routeImages[route] || [];
+  images.forEach((href) => {
     preloadResource(href, "image");
   });
 };
@@ -113,6 +136,7 @@ export const preloadRouteResources = (route: string): void => {
 export default {
   preloadCriticalCSS,
   preloadCriticalImages,
+  preloadRouteSpecificImages,
   optimizeFontLoading,
   initializePerformanceOptimizations,
   preloadRouteResources,

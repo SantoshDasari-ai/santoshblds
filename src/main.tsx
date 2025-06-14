@@ -3,42 +3,43 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { HelmetProvider } from "react-helmet-async";
-import { initializePerformanceOptimizations } from "./utils/preloadResources";
-import { initializeFontOptimizations } from "./utils/fontLoader";
+import {
+  initializePerformanceOptimizations,
+  preloadRouteSpecificImages,
+} from "./utils/preloadResources";
 import { initializePerformanceMonitoring } from "./utils/performanceMonitor";
 
 console.log("Starting application...");
 
-// Initialize performance optimizations early
+// Initialize performance optimizations
 initializePerformanceOptimizations();
-initializeFontOptimizations();
+
+// Initialize font optimizations (but don't preload fonts to avoid warnings)
+// initializeFontOptimizations(); // Commented out to prevent font preload warnings
 
 // Initialize performance monitoring
 const performanceMonitor = initializePerformanceMonitoring();
 
-try {
-  const rootElement = document.getElementById("root");
-  if (!rootElement) {
-    throw new Error("Root element not found");
+// Preload route-specific images based on current path
+const currentPath = window.location.pathname;
+const route = currentPath === "/" ? "home" : currentPath.slice(1);
+preloadRouteSpecificImages(route);
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
+root.render(
+  <React.StrictMode>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </React.StrictMode>
+);
+
+// Log performance metrics after app loads
+setTimeout(() => {
+  if (performanceMonitor) {
+    performanceMonitor.logMetrics();
   }
-
-  console.log("Found root element, mounting React application...");
-
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </React.StrictMode>
-  );
-
-  console.log("React application mounted successfully");
-
-  // Log performance score after initial render
-  setTimeout(() => {
-    const score = performanceMonitor.getPerformanceScore();
-    console.log(`🎯 Performance Score: ${score}/100`);
-  }, 2000);
-} catch (error) {
-  console.error("Error rendering React application:", error);
-}
+}, 2000);

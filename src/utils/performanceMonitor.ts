@@ -88,8 +88,15 @@ export class PerformanceMonitor {
         // First Input Delay not supported
       }
 
+      // Check if layout-shift is supported before observing
       try {
-        this.observer.observe({ entryTypes: ["layout-shift"] });
+        // Test if layout-shift is supported by checking PerformanceObserver.supportedEntryTypes
+        if (
+          PerformanceObserver.supportedEntryTypes &&
+          PerformanceObserver.supportedEntryTypes.includes("layout-shift")
+        ) {
+          this.observer.observe({ entryTypes: ["layout-shift"] });
+        }
       } catch {
         // Layout Shift not supported
       }

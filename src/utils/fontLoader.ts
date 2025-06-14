@@ -26,15 +26,25 @@ const FONT_CONFIGS: FontConfig[] = [
 
 /**
  * Preloads font files directly from Google Fonts CDN
+ * Only preload if fonts will be used immediately
  */
 export const preloadCriticalFonts = (): void => {
   if (typeof document === "undefined") return;
+
+  // Don't preload fonts to avoid unused preload warnings
+  // Instead, let them load naturally through CSS
+  // This prevents the "preloaded but not used" console warnings
+
+  // Only preload if we're on a page that immediately uses custom fonts
+  const shouldPreloadFonts = document.body.classList.contains("preload-fonts");
+
+  if (!shouldPreloadFonts) return;
 
   FONT_CONFIGS.forEach((config) => {
     if (!config.preload) return;
 
     // Create preload links for critical font weights
-    const criticalWeights = config.weights.slice(0, 2); // Only preload first 2 weights
+    const criticalWeights = config.weights.slice(0, 1); // Only preload first weight
 
     criticalWeights.forEach((weight) => {
       const link = document.createElement("link");

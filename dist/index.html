@@ -17,15 +17,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Critical resource preloads -->
+    <!-- Only preload logo as it's used immediately in header -->
     <link rel="preload" href="/assets/logo.DoxOBytc.webp" as="image" />
-    <link rel="preload" href="/assets/my-photo.JPG.C6Fssyht.webp" as="image" />
+    <!-- Remove my-photo preload as it's not used immediately on all pages -->
 
     <!-- Optimized font loading - load only essential weights -->
+    <!-- Remove preload for fonts and load them normally to avoid unused preload warnings -->
     <link
-      rel="preload"
+      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
@@ -101,7 +101,7 @@
     <title>IN‐VITRO MECHANICAL HEART VALVE THROMBOGENICITY TESTER</title>
 
     <!-- Load main stylesheet -->
-    <script type="module" crossorigin src="/assets/index.Bv1mz4lr.js"></script>
+    <script type="module" crossorigin src="/assets/index.BN-ttuJQ.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor.CG9tpYjn.js">
     <link rel="modulepreload" crossorigin href="/assets/animations.CMLq_uet.js">
     <link rel="stylesheet" crossorigin href="/assets/index.ddCttH3G.css">
