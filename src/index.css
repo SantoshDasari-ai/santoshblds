@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,11 +29,43 @@ html {
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+/* Font loading optimization - prevent layout shift */
+.fonts-loading {
+  visibility: hidden;
+}
+
+.fonts-loaded .fonts-loading {
+  visibility: visible;
+}
+
+/* Fallback font metrics to match Inter closely */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  font-display: swap;
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+  size-adjust: 107.4%;
+}
+
+@font-face {
+  font-family: "DM Sans Fallback";
+  src: local("Arial");
+  font-display: swap;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
 }
 
 /* Enhanced text selection */

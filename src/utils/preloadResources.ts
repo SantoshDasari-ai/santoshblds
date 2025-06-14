@@ -9,10 +9,6 @@ const CRITICAL_CSS: string[] = [
   // Add critical CSS paths here if needed
 ];
 
-const CRITICAL_FONTS: string[] = [
-  // Add critical font paths here if needed
-];
-
 const CRITICAL_IMAGES: string[] = [
   "/assets/logo.webp",
   "/assets/my-photo.JPG.webp",
@@ -59,16 +55,7 @@ export const preloadCriticalCSS = (): void => {
 };
 
 /**
- * Preloads critical font files
- */
-export const preloadCriticalFonts = (): void => {
-  CRITICAL_FONTS.forEach((href) => {
-    preloadResource(href, "font", undefined, "anonymous");
-  });
-};
-
-/**
- * Preloads critical image files
+ * Preloads critical images
  */
 export const preloadCriticalImages = (): void => {
   CRITICAL_IMAGES.forEach((href) => {
@@ -77,35 +64,56 @@ export const preloadCriticalImages = (): void => {
 };
 
 /**
- * Preloads all critical resources
+ * Optimizes font loading by ensuring font-display: swap is applied
  */
-export const preloadAllCriticalResources = (): void => {
-  preloadCriticalCSS();
-  preloadCriticalFonts();
-  preloadCriticalImages();
+export const optimizeFontLoading = (): void => {
+  if (typeof document === "undefined") return;
+
+  // Add font-display: swap to any dynamically loaded fonts
+  const style = document.createElement("style");
+  style.textContent = `
+    @font-face {
+      font-family: 'Inter';
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      font-display: swap;
+    }
+  `;
+  document.head.appendChild(style);
 };
 
 /**
- * Initializes preloading of critical resources
- * Should be called as early as possible
+ * Initialize all performance optimizations
  */
-export const initPreloading = (): void => {
-  // For immediate execution
-  if (typeof window !== "undefined") {
-    // Execute immediately if document is already loaded
-    if (document.readyState === "complete") {
-      preloadAllCriticalResources();
-    } else {
-      // Otherwise wait for DOMContentLoaded
-      window.addEventListener("DOMContentLoaded", preloadAllCriticalResources);
-    }
-  }
+export const initializePerformanceOptimizations = (): void => {
+  preloadCriticalCSS();
+  preloadCriticalImages();
+  optimizeFontLoading();
+};
+
+/**
+ * Preload resources for a specific route
+ * @param route Route name to preload resources for
+ */
+export const preloadRouteResources = (route: string): void => {
+  const routeResources: Record<string, string[]> = {
+    home: ["/assets/my-photo.JPG.webp"],
+    projects: ["/assets/project-thumbnails/"],
+    resume: ["/assets/resume.pdf"],
+  };
+
+  const resources = routeResources[route] || [];
+  resources.forEach((href) => {
+    preloadResource(href, "image");
+  });
 };
 
 export default {
   preloadCriticalCSS,
-  preloadCriticalFonts,
   preloadCriticalImages,
-  preloadAllCriticalResources,
-  initPreloading,
+  optimizeFontLoading,
+  initializePerformanceOptimizations,
+  preloadRouteResources,
 };

@@ -5,14 +5,14 @@ import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { initPreloading } from "./utils/preloadResources";
+import { initializePerformanceOptimizations } from "./utils/preloadResources";
 import { initServiceWorker } from "./utils/serviceWorker";
 import { allRoutes } from "./config/routes";
 
 function App() {
   // Initialize preloading of critical resources and service worker
   useEffect(() => {
-    initPreloading();
+    initializePerformanceOptimizations();
     initServiceWorker();
   }, []);
 
