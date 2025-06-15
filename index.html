@@ -16,10 +16,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Critical resource preloads -->
-    <!-- Only preload logo as it's used immediately in header -->
-    <link rel="preload" href="./assets/logo.webp" as="image" />
-    <!-- Remove my-photo preload as it's not used immediately on all pages -->
+    <!-- Critical resource preloads with modern format support -->
+    <!-- Preload logo with format fallbacks -->
+    <link
+      rel="preload"
+      href="./assets/optimized/logo.avif"
+      as="image"
+      type="image/avif"
+    />
+    <link
+      rel="preload"
+      href="./assets/optimized/logo.webp"
+      as="image"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      href="./assets/logo.webp"
+      as="image"
+      type="image/webp"
+    />
+
+    <!-- Resource hints for better performance -->
+    <link rel="dns-prefetch" href="//santoshblds.com" />
+    <link rel="preconnect" href="https://santoshblds.com" crossorigin />
 
     <!-- Optimized font loading - load only essential weights -->
     <!-- Remove preload for fonts and load them normally to avoid unused preload warnings -->

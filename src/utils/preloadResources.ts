@@ -52,68 +52,109 @@ const preloadResource = (
 };
 
 /**
- * Preloads critical CSS files
+ * Preload critical resources that are needed immediately
  */
-export const preloadCriticalCSS = (): void => {
+export const preloadCriticalResources = (): void => {
+  // Preload critical CSS
   CRITICAL_CSS.forEach((href) => {
     preloadResource(href, "style");
   });
-};
 
-/**
- * Preloads critical images only when they're actually needed
- */
-export const preloadCriticalImages = (): void => {
+  // Preload critical images with modern format support
   CRITICAL_IMAGES.forEach((href) => {
-    preloadResource(href, "image");
+    // Try to preload AVIF first, then WebP, then fallback
+    const supportsAvif = checkAvifSupport();
+    const supportsWebp = checkWebpSupport();
+
+    if (href.endsWith(".webp")) {
+      if (supportsAvif) {
+        const avifHref = href.replace(".webp", ".avif");
+        preloadResource(avifHref, "image", "image/avif");
+      } else if (supportsWebp) {
+        preloadResource(href, "image", "image/webp");
+      } else {
+        // Fallback to original format
+        const originalHref = href.replace(".webp", ".png");
+        preloadResource(originalHref, "image");
+      }
+    } else {
+      preloadResource(href, "image");
+    }
   });
 };
 
 /**
- * Conditionally preload images based on current route
+ * Check if browser supports AVIF format
+ */
+const checkAvifSupport = (): boolean => {
+  if (typeof document === "undefined") return false;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1;
+  canvas.height = 1;
+
+  try {
+    return canvas.toDataURL("image/avif").indexOf("data:image/avif") === 0;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Check if browser supports WebP format
+ */
+const checkWebpSupport = (): boolean => {
+  if (typeof document === "undefined") return false;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1;
+  canvas.height = 1;
+
+  try {
+    return canvas.toDataURL("image/webp").indexOf("data:image/webp") === 0;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Conditionally preload images based on current route with format optimization
  * @param route Current route name
  */
 export const preloadRouteSpecificImages = (route: string): void => {
   const routeImages: Record<string, string[]> = {
-    home: ["/assets/my-photo.JPG.webp"], // Only preload on home page
-    about: ["/assets/my-photo.JPG.webp"],
+    home: ["/assets/my-photo.JPG"], // Use original path, component will handle optimization
+    about: ["/assets/my-photo.JPG"],
     // Add other route-specific images as needed
   };
 
   const images = routeImages[route] || [];
   images.forEach((href) => {
-    preloadResource(href, "image");
+    // Let the OptimizedImage component handle format selection
+    // Just preload the optimized WebP version for faster loading
+    const webpHref = href.replace(/\.(jpg|jpeg|png)$/i, ".webp");
+    preloadResource(webpHref, "image", "image/webp");
   });
 };
 
 /**
- * Optimizes font loading by ensuring font-display: swap is applied
+ * Preload fonts with optimal loading strategy
  */
-export const optimizeFontLoading = (): void => {
-  if (typeof document === "undefined") return;
+export const preloadFonts = (): void => {
+  const fonts = [
+    {
+      href: "/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2",
+      type: "font/woff2",
+    },
+    {
+      href: "/cf-fonts/v/dm-sans/5.0.18/latin/wght/normal.woff2",
+      type: "font/woff2",
+    },
+  ];
 
-  // Add font-display: swap to any dynamically loaded fonts
-  const style = document.createElement("style");
-  style.textContent = `
-    @font-face {
-      font-family: 'Inter';
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Sans';
-      font-display: swap;
-    }
-  `;
-  document.head.appendChild(style);
-};
-
-/**
- * Initialize all performance optimizations
- */
-export const initializePerformanceOptimizations = (): void => {
-  preloadCriticalCSS();
-  preloadCriticalImages();
-  optimizeFontLoading();
+  fonts.forEach(({ href, type }) => {
+    preloadResource(href, "font", type, "anonymous");
+  });
 };
 
 /**
@@ -122,22 +163,70 @@ export const initializePerformanceOptimizations = (): void => {
  */
 export const preloadRouteResources = (route: string): void => {
   const routeResources: Record<string, string[]> = {
-    home: ["/assets/my-photo.JPG.webp"],
+    home: ["/assets/my-photo.JPG"],
     projects: ["/assets/project-thumbnails/"],
     resume: ["/assets/resume.pdf"],
   };
 
   const resources = routeResources[route] || [];
   resources.forEach((href) => {
-    preloadResource(href, "image");
+    if (href.endsWith(".pdf")) {
+      preloadResource(href, "document");
+    } else {
+      preloadResource(href, "image");
+    }
   });
 };
 
+/**
+ * Initialize all critical preloading
+ */
+export const initializePreloading = (): void => {
+  // Preload critical resources immediately
+  preloadCriticalResources();
+
+  // Preload fonts
+  preloadFonts();
+
+  // Preload route-specific resources based on current path
+  const currentRoute = window.location.pathname.split("/")[1] || "home";
+  preloadRouteSpecificImages(currentRoute);
+};
+
+/**
+ * Preload resources with intersection observer for better performance
+ */
+export const preloadOnIntersection = (
+  element: Element,
+  resources: string[]
+): void => {
+  if (!("IntersectionObserver" in window)) {
+    // Fallback for browsers without IntersectionObserver
+    resources.forEach((href) => preloadResource(href, "image"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          resources.forEach((href) => preloadResource(href, "image"));
+          observer.unobserve(element);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(element);
+};
+
 export default {
-  preloadCriticalCSS,
-  preloadCriticalImages,
+  preloadCriticalCSS: preloadCriticalResources,
+  preloadCriticalImages: preloadCriticalResources,
   preloadRouteSpecificImages,
-  optimizeFontLoading,
-  initializePerformanceOptimizations,
+  optimizeFontLoading: preloadFonts,
+  initializePerformanceOptimizations: initializePreloading,
   preloadRouteResources,
+  preloadOnIntersection,
 };

@@ -16,10 +16,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Critical resource preloads -->
-    <!-- Only preload logo as it's used immediately in header -->
-    <link rel="preload" href="/assets/logo.DoxOBytc.webp" as="image" />
-    <!-- Remove my-photo preload as it's not used immediately on all pages -->
+    <!-- Critical resource preloads with modern format support -->
+    <!-- Preload logo with format fallbacks -->
+    <link
+      rel="preload"
+      href="/assets/logo.mXfypK7C.avif"
+      as="image"
+      type="image/avif"
+    />
+    <link
+      rel="preload"
+      href="/assets/logo.BdfMtMRa.webp"
+      as="image"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      href="/assets/logo.DoxOBytc.webp"
+      as="image"
+      type="image/webp"
+    />
+
+    <!-- Resource hints for better performance -->
+    <link rel="dns-prefetch" href="//santoshblds.com" />
+    <link rel="preconnect" href="https://santoshblds.com" crossorigin />
 
     <!-- Optimized font loading - load only essential weights -->
     <!-- Remove preload for fonts and load them normally to avoid unused preload warnings -->
@@ -101,9 +121,10 @@
     <title>IN‐VITRO MECHANICAL HEART VALVE THROMBOGENICITY TESTER</title>
 
     <!-- Load main stylesheet -->
-    <script type="module" crossorigin src="/assets/index.BN-ttuJQ.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor.CG9tpYjn.js">
-    <link rel="modulepreload" crossorigin href="/assets/animations.CMLq_uet.js">
+    <script type="module" crossorigin src="/assets/index.8NQKQAGL.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor.Ni-aU0lU.js">
+    <link rel="modulepreload" crossorigin href="/assets/animations.ChZfMWG5.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui.Nlo0XN53.js">
     <link rel="stylesheet" crossorigin href="/assets/index.ddCttH3G.css">
   </head>
   <body>

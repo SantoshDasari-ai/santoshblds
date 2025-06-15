@@ -23,7 +23,9 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
+          // Keep framer-motion as a single chunk but optimize it
           animations: ["framer-motion"],
+          ui: ["lucide-react"],
         },
         format: "es",
         entryFileNames: "assets/[name].[hash].js",
@@ -42,11 +44,25 @@ export default defineConfig(({ mode }) => ({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        // Additional optimizations for smaller bundles
+        pure_funcs: [
+          "console.log",
+          "console.info",
+          "console.debug",
+          "console.warn",
+        ],
+        passes: 2,
+      },
+      mangle: {
+        safari10: true,
       },
     },
+    // Increase chunk size warning limit since we're optimizing
+    chunkSizeWarningLimit: 1000,
   },
   optimizeDeps: {
     exclude: ["lucide-react"],
+    include: ["framer-motion > tslib"],
   },
   server: {
     port: 5175,

@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import ErrorBoundary from "../components/ErrorBoundary";
 import SEO from "../components/SEO";
+import OptimizedImage from "../components/OptimizedImage";
 import {
   AnimatedButton,
   ScrollReveal,
@@ -141,10 +142,14 @@ export default function Home() {
                       <div className="absolute -inset-2 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur opacity-75 animate-gradient"></div>
 
                       {/* Profile image */}
-                      <img
+                      <OptimizedImage
                         src="/assets/my-photo.JPG"
                         alt="Santosh Dasari"
                         className="w-32 h-32 md:w-40 md:h-40 rounded-full relative z-10 object-cover border-4 border-white shadow-2xl"
+                        priority={true}
+                        width={160}
+                        height={160}
+                        sizes="(max-width: 768px) 128px, 160px"
                       />
 
                       {/* Glow effect */}

@@ -4,15 +4,19 @@ import "./index.css";
 import App from "./App";
 import { HelmetProvider } from "react-helmet-async";
 import {
-  initializePerformanceOptimizations,
+  initializePreloading,
   preloadRouteSpecificImages,
 } from "./utils/preloadResources";
 import { initializePerformanceMonitoring } from "./utils/performanceMonitor";
+import { initializeImageOptimization } from "./utils/imageOptimization";
 
 console.log("Starting application...");
 
 // Initialize performance optimizations
-initializePerformanceOptimizations();
+initializePreloading();
+
+// Initialize image optimization
+initializeImageOptimization();
 
 // Initialize font optimizations (but don't preload fonts to avoid warnings)
 // initializeFontOptimizations(); // Commented out to prevent font preload warnings
