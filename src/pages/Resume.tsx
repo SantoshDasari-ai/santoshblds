@@ -75,9 +75,7 @@ export default function Resume() {
                   San Jose State University
                 </h3>
                 <p className="text-gray-600">B.S. Biomedical Engineering</p>
-                <p className="text-gray-600">
-                  Expected May 2025 | San Jose, CA
-                </p>
+                <p className="text-gray-600">May 2025 | San Jose, CA</p>
               </div>
             </section>
 
