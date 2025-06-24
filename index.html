@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -30,21 +30,21 @@
     <!-- Preload logo with format fallbacks -->
     <link
       rel="preload"
-      href="./assets/optimized/logo.avif"
+      href="/assets/optimized/logo.avif"
       as="image"
       type="image/avif"
     />
     <link
       rel="preload"
-      href="./assets/optimized/logo.webp"
+      href="/assets/optimized/logo.webp"
       as="image"
       type="image/webp"
     />
     <link
       rel="preload"
-      href="./assets/logo.webp"
+      href="/assets/optimized/logo.png"
       as="image"
-      type="image/webp"
+      type="image/png"
     />
 
     <!-- Resource hints for better performance -->
@@ -108,9 +108,11 @@
     />
     <meta
       property="og:image"
-      content="https://santoshblds.com/assets/logo.webp"
+      content="https://santoshblds.com/assets/optimized/logo.webp"
     />
     <meta property="og:image:alt" content="Santosh Dasari Portfolio Logo" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -125,22 +127,26 @@
     />
     <meta
       name="twitter:image"
-      content="https://santoshblds.com/assets/logo.webp"
+      content="https://santoshblds.com/assets/optimized/logo.webp"
     />
 
-    <title>
-      Santosh Dasari | Biomedical Engineer | Medical Device Design | Bay Area
-    </title>
+    <title>Santosh Dasari | Portfolio</title>
 
     <!-- Load main stylesheet -->
     <link rel="stylesheet" href="./src/index.css" />
+
+    <!--
+      Preload critical assets based on route.
+      The paths will be dynamically replaced by the preload-resources.js script.
+    -->
+    <link rel="preload" as="image" href="/assets/optimized/my-photo.JPG.webp" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./src/main.tsx"></script>
     <script type="module">
       // Register service worker for production
-      if ("serviceWorker" in navigator && import.meta.env.PROD) {
+      /* if ("serviceWorker" in navigator && import.meta.env.PROD) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("./sw.js")
@@ -154,7 +160,7 @@
               console.error("Service Worker registration failed:", error);
             });
         });
-      }
+      } */
     </script>
   </body>
 </html>

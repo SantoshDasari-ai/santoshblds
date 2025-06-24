@@ -8,6 +8,7 @@ import {
   X,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import OptimizedImage from "../../components/OptimizedImage";
 
 const PulsatileFlow: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -30,6 +31,10 @@ const PulsatileFlow: React.FC = () => {
 
   const handleImageClick = (imageSrc: string) => {
     setSelectedImage(imageSrc);
+  };
+
+  const openModal = (imageSrc: string) => {
+    handleImageClick(imageSrc);
   };
 
   return (
@@ -146,24 +151,24 @@ const PulsatileFlow: React.FC = () => {
               <div className="flex flex-col">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex justify-center items-center">
-                    <img
+                    <OptimizedImage
                       src="/assets/projects/pulsatile-flow/showcase-pic.JPG"
                       alt="Project Showcase with Team"
                       className="rounded-lg shadow-md w-full h-auto object-contain cursor-pointer"
                       onClick={() =>
-                        handleImageClick(
+                        openModal(
                           "/assets/projects/pulsatile-flow/showcase-pic.JPG"
                         )
                       }
                     />
                   </div>
                   <div className="flex justify-center items-center">
-                    <img
+                    <OptimizedImage
                       src="/assets/projects/pulsatile-flow/TGTBlood.png"
                       alt="TGT Blood Flow Testing Device"
                       className="rounded-lg shadow-md w-full h-auto object-contain cursor-pointer"
                       onClick={() =>
-                        handleImageClick(
+                        openModal(
                           "/assets/projects/pulsatile-flow/TGTBlood.png"
                         )
                       }
@@ -291,12 +296,12 @@ const PulsatileFlow: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
                 <div className="flex justify-center">
-                  <img
+                  <OptimizedImage
                     src="/assets/projects/pulsatile-flow/TGT-Analog.JPG"
                     alt="TGT Analog Device"
                     className="rounded-lg shadow-md h-64 w-full object-contain cursor-pointer"
                     onClick={() =>
-                      handleImageClick(
+                      openModal(
                         "/assets/projects/pulsatile-flow/TGT-Analog.JPG"
                       )
                     }
@@ -309,7 +314,7 @@ const PulsatileFlow: React.FC = () => {
                     muted
                   >
                     <source
-                      src="/assets/projects/pulsatile-flow/TGT demo.mp4"
+                      src="/assets/projects/pulsatile-flow/TGT demo"
                       type="video/mp4"
                     />
                     Your browser does not support the video tag.
@@ -453,7 +458,7 @@ const PulsatileFlow: React.FC = () => {
                     muted
                   >
                     <source
-                      src="/assets/projects/pulsatile-flow/flowdemo.mp4"
+                      src="/assets/projects/pulsatile-flow/flowdemo"
                       type="video/mp4"
                     />
                     Your browser does not support the video tag.
@@ -600,12 +605,12 @@ const PulsatileFlow: React.FC = () => {
                               Before Clotting
                             </h5>
                             <div className="h-32 w-full flex items-center justify-center bg-white rounded-lg shadow-md overflow-hidden">
-                              <img
+                              <OptimizedImage
                                 src="/assets/projects/pulsatile-flow/preclotvalve.png"
                                 alt="Mechanical Heart Valve Before Clotting"
                                 className="max-h-full max-w-full object-contain cursor-pointer"
                                 onClick={() =>
-                                  handleImageClick(
+                                  openModal(
                                     "/assets/projects/pulsatile-flow/preclotvalve.png"
                                   )
                                 }
@@ -620,12 +625,12 @@ const PulsatileFlow: React.FC = () => {
                               After Clotting
                             </h5>
                             <div className="h-32 w-full flex items-center justify-center bg-white rounded-lg shadow-md overflow-hidden">
-                              <img
+                              <OptimizedImage
                                 src="/assets/projects/pulsatile-flow/postclotvalve.png"
                                 alt="Mechanical Heart Valve After Clotting"
                                 className="max-h-full max-w-full object-contain cursor-pointer"
                                 onClick={() =>
-                                  handleImageClick(
+                                  openModal(
                                     "/assets/projects/pulsatile-flow/postclotvalve.png"
                                   )
                                 }
@@ -642,12 +647,12 @@ const PulsatileFlow: React.FC = () => {
                             Platelet Count Analysis
                           </h5>
                           <div className="flex justify-center">
-                            <img
+                            <OptimizedImage
                               src="/assets/projects/pulsatile-flow/platelet-drop.png"
                               alt="Graph showing platelet count drop between baseline and post-clot samples"
                               className="rounded-lg shadow-md w-full max-w-xs h-auto object-contain cursor-pointer"
                               onClick={() =>
-                                handleImageClick(
+                                openModal(
                                   "/assets/projects/pulsatile-flow/platelet-drop.png"
                                 )
                               }
@@ -694,12 +699,12 @@ const PulsatileFlow: React.FC = () => {
                             Pulsatile Flow Pattern
                           </h5>
                           <div className="bg-white rounded-lg shadow-md p-2 h-44 flex items-center justify-center">
-                            <img
+                            <OptimizedImage
                               src="/assets/projects/pulsatile-flow/pulsatileflow.png"
                               alt="Graph showing narrowed flow rate over time with repeating pulsatile pattern"
                               className="max-h-full max-w-full object-contain cursor-pointer"
                               onClick={() =>
-                                handleImageClick(
+                                openModal(
                                   "/assets/projects/pulsatile-flow/pulsatileflow.png"
                                 )
                               }
@@ -716,12 +721,12 @@ const PulsatileFlow: React.FC = () => {
                             Flow Parameter Analysis
                           </h5>
                           <div className="bg-white rounded-lg shadow-md p-2 h-44 flex items-center justify-center">
-                            <img
+                            <OptimizedImage
                               src="/assets/projects/pulsatile-flow/reynoldandwormersley-table.png"
                               alt="Table showing Reynolds numbers and flow parameters at different cardiac phases"
                               className="max-h-full max-w-full object-contain cursor-pointer"
                               onClick={() =>
-                                handleImageClick(
+                                openModal(
                                   "/assets/projects/pulsatile-flow/reynoldandwormersley-table.png"
                                 )
                               }
@@ -741,12 +746,12 @@ const PulsatileFlow: React.FC = () => {
                             Single Cardiac Cycle Analysis
                           </h5>
                           <div className="bg-white rounded-lg shadow-md p-2 h-44 flex items-center justify-center">
-                            <img
+                            <OptimizedImage
                               src="/assets/projects/pulsatile-flow/strokevolume.png"
                               alt="Graph showing blood flow over one cardiac cycle with stroke volume measurement"
                               className="max-h-full max-w-full object-contain cursor-pointer"
                               onClick={() =>
-                                handleImageClick(
+                                openModal(
                                   "/assets/projects/pulsatile-flow/strokevolume.png"
                                 )
                               }

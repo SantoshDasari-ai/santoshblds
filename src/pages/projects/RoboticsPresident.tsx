@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { projects } from "../../data/projects";
+import OptimizedImage from "../../components/OptimizedImage";
 
 // Sub-projects data
 const subProjects = [
@@ -53,6 +54,26 @@ const subProjects = [
   },
 ];
 
+const Modal = ({ src, onClose }: { src: string; onClose: () => void }) => (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+    onClick={onClose}
+  >
+    <button
+      className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+      onClick={onClose}
+    >
+      <span className="text-4xl font-light">&times;</span>
+    </button>
+    <OptimizedImage
+      src={src}
+      alt="Enlarged view"
+      className="max-w-[90%] max-h-[90vh] object-contain"
+      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+    />
+  </div>
+);
+
 const RoboticsPresident: React.FC = () => {
   const projectData = projects.find((p) => p.id === "robotics-president");
   const [modalImage, setModalImage] = useState<string | null>(null);
@@ -93,7 +114,7 @@ const RoboticsPresident: React.FC = () => {
                 </div>
                 <div className="flex-shrink-0">
                   <div className="w-28 h-28 p-2">
-                    <img
+                    <OptimizedImage
                       src="/assets/projects/robotics/SJRlogo.png"
                       alt="SJSU Robotics Logo"
                       className="w-full h-full object-contain"
@@ -292,7 +313,7 @@ const RoboticsPresident: React.FC = () => {
                             openModal("/assets/projects/robotics/sjr_main.jpg")
                           }
                         >
-                          <img
+                          <OptimizedImage
                             src="/assets/projects/robotics/sjr_main.jpg"
                             alt="SJSU Robotics Main"
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -316,7 +337,7 @@ const RoboticsPresident: React.FC = () => {
                               )
                             }
                           >
-                            <img
+                            <OptimizedImage
                               src={`/assets/projects/robotics/sjr_${index}.png`}
                               alt={`SJSU Robotics Image ${index}`}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -358,7 +379,7 @@ const RoboticsPresident: React.FC = () => {
                     className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full"
                   >
                     <div className="relative aspect-[3/2] overflow-hidden rounded-t-lg">
-                      <img
+                      <OptimizedImage
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -394,25 +415,7 @@ const RoboticsPresident: React.FC = () => {
           </section>
 
           {/* Image Modal */}
-          {modalImage && (
-            <div
-              className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
-              onClick={closeModal}
-            >
-              <button
-                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-                onClick={closeModal}
-              >
-                <span className="text-4xl font-light">&times;</span>
-              </button>
-              <img
-                src={modalImage}
-                alt="Enlarged view"
-                className="max-w-[90%] max-h-[90vh] object-contain"
-                onClick={(e) => e.stopPropagation()}
-              />
-            </div>
-          )}
+          {modalImage && <Modal src={modalImage} onClose={closeModal} />}
         </motion.div>
       </div>
     </div>

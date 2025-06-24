@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://santoshblds.com/sitemap.xml
+
+# Crawl delay - be respectful to server resources
+Crawl-delay: 1
+
+# Allow all important pages for medical device recruitment
+Allow: /portfolio
+Allow: /resume
+Allow: /projects/pulsatile-flow
+Allow: /projects/surgical-drapes
+Allow: /projects/dfm-study
+
+# Disallow any admin or private directories (none currently exist)
+# Disallow: /admin/ 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/assets/favicon.DXOqBnI3.ico" type="image/x-icon" />
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -30,21 +30,21 @@
     <!-- Preload logo with format fallbacks -->
     <link
       rel="preload"
-      href="/assets/logo.mXfypK7C.avif"
+      href="/assets/optimized/logo.avif"
       as="image"
       type="image/avif"
     />
     <link
       rel="preload"
-      href="/assets/logo.BdfMtMRa.webp"
+      href="/assets/optimized/logo.webp"
       as="image"
       type="image/webp"
     />
     <link
       rel="preload"
-      href="/assets/logo.DoxOBytc.webp"
+      href="/assets/optimized/logo.png"
       as="image"
-      type="image/webp"
+      type="image/png"
     />
 
     <!-- Resource hints for better performance -->
@@ -108,9 +108,11 @@
     />
     <meta
       property="og:image"
-      content="https://santoshblds.com/assets/logo.webp"
+      content="https://santoshblds.com/assets/optimized/logo.webp"
     />
     <meta property="og:image:alt" content="Santosh Dasari Portfolio Logo" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -125,19 +127,23 @@
     />
     <meta
       name="twitter:image"
-      content="https://santoshblds.com/assets/logo.webp"
+      content="https://santoshblds.com/assets/optimized/logo.webp"
     />
 
-    <title>
-      Santosh Dasari | Biomedical Engineer | Medical Device Design | Bay Area
-    </title>
+    <title>Santosh Dasari | Portfolio</title>
 
     <!-- Load main stylesheet -->
-    <script type="module" crossorigin src="/assets/index.DDGJIJsj.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor.Ni-aU0lU.js">
-    <link rel="modulepreload" crossorigin href="/assets/animations.ChZfMWG5.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui.Nlo0XN53.js">
-    <link rel="stylesheet" crossorigin href="/assets/index.CL_vE6y4.css">
+
+    <!--
+      Preload critical assets based on route.
+      The paths will be dynamically replaced by the preload-resources.js script.
+    -->
+    <link rel="preload" as="image" href="/assets/optimized/my-photo.JPG.webp" />
+    <script type="module" crossorigin src="/assets/index.BSqZjCbo.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor.CR9UAelD.js">
+    <link rel="modulepreload" crossorigin href="/assets/animations.CtPMDXy4.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui.DHb-uz4c.js">
+    <link rel="stylesheet" crossorigin href="/assets/index.wnWqjPKH.css">
   </head>
   <body>
     <div id="root"></div>

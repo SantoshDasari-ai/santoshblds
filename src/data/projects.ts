@@ -3,11 +3,12 @@ import { Project } from "../types/project";
 export const projects: Project[] = [
   {
     id: "pulsatile-flow",
-    title: "IN‐VITRO MECHANICAL HEART VALVE THROMBOGENICITY TESTER",
-    description:
-      "Senior design project developing FDA-compliant medical device testing equipment for heart valve thrombogenicity analysis. Leading development of TGT 2.0 system that replicates physiological blood flow patterns for mechanical heart valve testing. Designed electromechanical system with Arduino control, Python programming, and ISO 10993 compliance. Experience includes CAD design, rapid prototyping, biocompatible material selection, and validation testing protocols. This project demonstrates expertise in medical device development, regulatory compliance, and advanced testing methodologies essential for medical device engineering roles.",
+    title: "Pulsatile Flow System for Heart Valve Testing",
+    category: "medical",
     image:
-      "/assets/projects/pulsatile-flow/optimized/Master Assembly Conference Render.JPG.jpg",
+      "/assets/projects/pulsatile-flow/Master Assembly Conference Render.JPG",
+    description:
+      "A pulsatile flow system designed to simulate physiological conditions for testing heart valve thrombogenicity, meeting FDA and ISO 5840 standards.",
     technologies: [
       "SolidWorks CAD",
       "Arduino Programming",
@@ -20,15 +21,14 @@ export const projects: Project[] = [
       "Rapid Prototyping",
       "Validation Protocols",
     ],
-    category: "medical",
     featured: true,
-    status: "in-progress",
+    status: "completed",
     path: "/projects/pulsatile-flow",
     images: [
-      "/assets/projects/pulsatile-flow/oldTGT.webp",
-      "/assets/projects/pulsatile-flow/draft-assembly.webp",
-      "/assets/projects/pulsatile-flow/PSF.webp",
-      "/assets/projects/pulsatile-flow/MHVicon.webp",
+      "/assets/projects/pulsatile-flow/oldTGT.png",
+      "/assets/projects/pulsatile-flow/draft-assembly.png",
+      "/assets/projects/pulsatile-flow/PSF.png",
+      "/assets/projects/pulsatile-flow/MHVicon.jpg",
     ],
     links: {
       github: "https://github.com/SantoshDasari-ai/TGT2.0",
@@ -36,10 +36,11 @@ export const projects: Project[] = [
   },
   {
     id: "robotics-president",
-    title: "ROBOTICS CLUB PRESIDENT & ENGINEERING PROJECTS",
-    description:
-      "Leadership role as President of San Jose Robotics Club, managing 50+ members and overseeing multiple engineering projects. Led development of autonomous robots, organized technical workshops, and coordinated with industry partners. Projects included autonomous navigation systems, sensor integration, and mechanical design using SolidWorks. Experience in project management, team leadership, technical documentation, and cross-functional collaboration essential for engineering leadership roles in medical device companies.",
+    title: "President of the Spartan Robotics Club",
+    category: "robotics",
     image: "/assets/projects/robotics/render.JPG",
+    description:
+      "Led a university robotics club, overseeing multiple projects including a 6-axis robot arm and a Mars rover. Managed teams, budgets, and outreach events.",
     technologies: [
       "Project Management",
       "Team Leadership",
@@ -52,21 +53,20 @@ export const projects: Project[] = [
       "Industry Partnerships",
       "Cross-functional Collaboration",
     ],
-    category: "robotics",
     featured: false,
     status: "completed",
     path: "/projects/robotics-president",
     images: [
-      "/assets/projects/robotics/sjr_main.webp",
-      "/assets/projects/robotics/render.JPG.webp",
-      "/assets/projects/robotics/sjr_1.webp",
-      "/assets/projects/robotics/sjr_2.webp",
-      "/assets/projects/robotics/sjr_3.webp",
-      "/assets/projects/robotics/sjr_4.webp",
-      "/assets/projects/robotics/sjr_5.webp",
-      "/assets/projects/robotics/sjr_6.webp",
-      "/assets/projects/robotics/sjr_7.webp",
-      "/assets/projects/robotics/sjr_8.webp",
+      "/assets/projects/robotics/sjr_main.jpg",
+      "/assets/projects/robotics/render.JPG",
+      "/assets/projects/robotics/sjr_1.png",
+      "/assets/projects/robotics/sjr_2.png",
+      "/assets/projects/robotics/sjr_3.png",
+      "/assets/projects/robotics/sjr_4.png",
+      "/assets/projects/robotics/sjr_5.png",
+      "/assets/projects/robotics/sjr_6.png",
+      "/assets/projects/robotics/sjr_7.png",
+      "/assets/projects/robotics/sjr_8.png",
     ],
     links: {
       github: "https://github.com/SantoshDasari-ai",
@@ -90,43 +90,31 @@ export const projects: Project[] = [
       "Medical Device Standards",
       "Supply Chain Analysis",
     ],
-    category: "medical",
     featured: true,
     status: "completed",
     path: "/projects/surgical-drapes",
-    images: ["/assets/projects/drapes/drapes.webp"],
+    images: ["/assets/projects/drapes/drapes.jpg"],
     links: {
       document: "/assets/projects/drapes/slides.pdf",
     },
   },
   {
     id: "rag-ai",
-    title: "RAG AI CHATBOT APPLICATION",
-    description:
-      "Full-stack development of an AI-powered chatbot application using Retrieval-Augmented Generation (RAG) technology. Built with React frontend, Node.js backend, and integrated with OpenAI API for intelligent document processing and question answering. Implemented vector database for efficient document retrieval, user authentication, and responsive design. Demonstrates software development skills, AI integration, and full-stack development capabilities valuable for technical roles in medical device companies requiring software integration.",
-    image: "/assets/projects/ragapp/preview.webp",
-    technologies: [
-      "React.js",
-      "Node.js",
-      "OpenAI API",
-      "Vector Database",
-      "TypeScript",
-      "REST APIs",
-      "Authentication",
-      "Responsive Design",
-      "AI Integration",
-      "Full-Stack Development",
-    ],
+    title: "RAG AI Application for Document Analysis",
     category: "ai",
+    image: "/assets/projects/ragapp/preview.png",
+    description:
+      "Developed a Retrieval-Augmented Generation (RAG) AI application for analyzing and chatting with PDF documents, featuring a feedback system and performance monitoring.",
+    technologies: ["React", "Python", "FastAPI", "LLM", "Docker", "AWS"],
     featured: false,
     status: "completed",
     path: "/projects/rag-ai",
     images: [
-      "/assets/projects/ragapp/preview.webp",
-      "/assets/projects/ragapp/chatstart.webp",
-      "/assets/projects/ragapp/chatend.webp",
-      "/assets/projects/ragapp/feedback.webp",
-      "/assets/projects/ragapp/flow-map.webp",
+      "/assets/projects/ragapp/preview.png",
+      "/assets/projects/ragapp/chatstart.png",
+      "/assets/projects/ragapp/chatend.png",
+      "/assets/projects/ragapp/feedback.png",
+      "/assets/projects/ragapp/flow-map.png",
     ],
     links: {
       github: "https://github.com/SantoshDasari-ai/ragapp",
@@ -135,23 +123,12 @@ export const projects: Project[] = [
   },
   {
     id: "cad-exercises",
-    title: "ADVANCED CAD MODELING & DESIGN EXERCISES",
-    description:
-      "Comprehensive collection of advanced CAD modeling projects demonstrating proficiency in SolidWorks, complex assemblies, and engineering design principles. Projects include mechanical assemblies, product design iterations, and manufacturing-ready models. Features parametric modeling, assembly constraints, motion studies, and technical drawings. Showcases CAD expertise, attention to detail, and design visualization skills essential for product development and engineering roles in medical device industry.",
-    image: "/assets/projects/cad/robot.JPG",
-    technologies: [
-      "SolidWorks Advanced",
-      "Parametric Modeling",
-      "Assembly Design",
-      "Technical Drawings",
-      "Motion Studies",
-      "Rendering & Visualization",
-      "Design Optimization",
-      "Engineering Standards",
-      "3D Modeling",
-      "Product Development",
-    ],
+    title: "Advanced CAD Design Exercises",
     category: "cad",
+    image: "/assets/projects/cad/robot.JPG",
+    description:
+      "A collection of advanced CAD projects showcasing skills in SolidWorks, including complex assemblies, surfacing, and sheet metal design.",
+    technologies: ["SolidWorks", "CAD", "Surfacing", "Sheet Metal"],
     featured: false,
     status: "completed",
     path: "/projects/cad-exercises",
@@ -162,7 +139,4 @@ export const projects: Project[] = [
   },
 ];
 
-export const filteredProjects = projects.filter(
-  (project) =>
-    project.id !== "camera-gimbal" && project.id !== "medicine-bottle"
-);
+export const filteredProjects = projects;

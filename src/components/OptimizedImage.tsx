@@ -4,7 +4,7 @@ interface OptimizedImageProps {
   src: string;
   alt: string;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
   width?: number;
   height?: number;
   priority?: boolean;
@@ -28,27 +28,8 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  // Use development mode to determine whether to use optimized paths
-  const isDev = import.meta.env.DEV;
-
   // Generate optimized path by replacing the original path with the optimized version
   const getOptimizedPath = (originalPath: string, format?: string): string => {
-    // In development mode, just use the original path to avoid missing files
-    if (isDev) {
-      // For development, we'll try to use the format if provided, but fallback to original
-      if (format) {
-        // If it's a format conversion request, try to find a matching file
-        const pathWithoutExt = originalPath.substring(
-          0,
-          originalPath.lastIndexOf(".")
-        );
-        const formatPath = `${pathWithoutExt}.${format}`;
-        return formatPath;
-      }
-      return originalPath;
-    }
-
-    // Production optimization logic
     // Extract path components
     const lastSlashIndex = originalPath.lastIndexOf("/");
     const directory =
@@ -58,23 +39,19 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         ? originalPath.substring(lastSlashIndex + 1)
         : originalPath;
 
-    // Get the filename without extension and the extension
-    const lastDotIndex = filename.lastIndexOf(".");
-    const basename =
-      lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
-    const ext = lastDotIndex !== -1 ? filename.substring(lastDotIndex) : "";
-
-    // If format is specified, use that instead of the original extension
-    const finalExt = format ? `.${format}` : ext;
-
-    // Construct the path to the optimized version
-    return `${directory}/optimized/${basename}${finalExt}`;
+    // The optimization script preserves the full filename including extension
+    // So "image.jpg" becomes "image.jpg.webp" not "image.webp"
+    if (format) {
+      // For format conversions, append the format to the full filename
+      return `${directory}/optimized/${filename}.${format}`;
+    } else {
+      // For the original optimized format, use the full filename as-is
+      return `${directory}/optimized/${filename}`;
+    }
   };
 
-  // For development, we'll skip responsive srcSet to simplify things
+  // Build responsive srcSet for optimized images
   const buildResponsiveSrcSet = (basePath: string, format: string): string => {
-    if (isDev) return "";
-
     // Extract path components
     const lastSlashIndex = basePath.lastIndexOf("/");
     const directory =
@@ -82,17 +59,13 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     const filename =
       lastSlashIndex !== -1 ? basePath.substring(lastSlashIndex + 1) : basePath;
 
-    // Get the filename without extension
-    const lastDotIndex = filename.lastIndexOf(".");
-    const basename =
-      lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
-
-    // Define the responsive widths
+    // The optimization script creates responsive files like "image.jpg-320.webp"
+    // not "image-320.webp", so we need to preserve the full filename
     const widths = [320, 640, 960, 1280, 1920];
 
-    // Build the srcSet string
+    // Build the srcSet string with the correct naming pattern
     return widths
-      .map((w) => `${directory}/optimized/${basename}-${w}.${format} ${w}w`)
+      .map((w) => `${directory}/optimized/${filename}-${w}.${format} ${w}w`)
       .join(", ");
   };
 
@@ -113,14 +86,17 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const handleError = () => {
     setError(true);
     console.error(
-      `Failed to load image: ${src}. Falling back to original source.`
+      `Failed to load optimized image: ${srcOptimized}. Trying original source: ${src}`
     );
 
-    // If the optimized image fails, we'll try the original as fallback
-    if (src !== srcOptimized && !isDev) {
+    // If the optimized image fails, try the original as fallback
+    if (src !== srcOptimized) {
       const img = new Image();
       img.src = src;
       img.onload = handleLoad;
+      img.onerror = () => {
+        console.error(`Also failed to load original image: ${src}`);
+      };
     }
   };
 
@@ -149,24 +125,19 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       )}
 
       <picture>
-        {/* Only use picture element with sources in production */}
-        {!isDev && (
-          <>
-            {/* AVIF format - Best compression */}
-            <source srcSet={srcAvif} type="image/avif" sizes={sizes} />
+        {/* AVIF format - Best compression */}
+        <source srcSet={srcAvif} type="image/avif" sizes={sizes} />
 
-            {/* WebP format - Good compression, better support */}
-            <source
-              srcSet={srcSetWebp || srcWebp}
-              type="image/webp"
-              sizes={sizes}
-            />
-          </>
-        )}
+        {/* WebP format - Good compression, better support */}
+        <source
+          srcSet={srcSetWebp || srcWebp}
+          type="image/webp"
+          sizes={sizes}
+        />
 
-        {/* The img element is always shown */}
+        {/* The img element with optimized fallback */}
         <img
-          src={isDev ? src : srcOptimized}
+          src={srcOptimized}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
           onClick={onClick}

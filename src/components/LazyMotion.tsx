@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { LazyMotion, domAnimation, m } from "framer-motion";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 // Create a lazy loader for heavy animation features
 const loadHeavyFeatures = () =>
@@ -39,15 +39,15 @@ export const LazyAnimationWrapper: React.FC<LazyAnimationWrapperProps> = ({
 };
 
 // Export optimized motion components
-export { m as motion };
+// export { m as motion };
 
 // Re-export commonly used animation utilities
-export {
+/* export {
   AnimatePresence,
   useAnimation,
   useMotionValue,
   useTransform,
   useSpring,
-} from "framer-motion";
+} from "framer-motion"; */
 
 export default LazyAnimationWrapper;

@@ -15,7 +15,7 @@
     "dev:setup": "node scripts/copy-for-dev.js && vite --port 5175",
     "build": "npm run optimize-images && vite build",
     "build:full": "npm run optimize-images && npm run convert-gifs && vite build",
-    "build:safe": "node build-script.js",
+    "build:safe": "node scripts/build-script.js",
     "lint": "eslint .",
     "preview": "vite preview --base=/ --port 5175",
     "serve-dist": "npx serve -s dist -p 5175 --single",

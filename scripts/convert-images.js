@@ -7,11 +7,9 @@ import sharp from "sharp";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Directories to process
-const directories = [
-  path.join(__dirname, "..", "public/assets"),
-  path.join(__dirname, "..", "assets"),
-];
+// Define source and output directories
+const sourceDir = path.join(__dirname, "..", "assets-source");
+const outputDir = path.join(__dirname, "..", "public", "assets");
 
 // Extensions to convert
 const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif"];
@@ -25,12 +23,14 @@ function ensureDirectoryExists(dirPath) {
 }
 
 // Function to optimize a single image
-async function processImage(filePath) {
+async function processImage(filePath, relativePath) {
   try {
     const ext = path.extname(filePath).toLowerCase();
     const baseName = path.basename(filePath, ext);
-    const dirName = path.dirname(filePath);
-    const optimizedDir = path.join(dirName, "optimized");
+
+    // Construct the output directory path within public/assets
+    const outputSubDir = path.dirname(path.join(outputDir, relativePath));
+    const optimizedDir = path.join(outputSubDir, "optimized");
 
     // Ensure optimized directory exists
     ensureDirectoryExists(optimizedDir);
@@ -206,7 +206,7 @@ async function processImage(filePath) {
 }
 
 // Process all images in a directory recursively
-async function processDirectory(directory) {
+async function processDirectory(directory, baseDir = directory) {
   try {
     if (!fs.existsSync(directory)) {
       console.log(`Directory doesn't exist: ${directory}`);
@@ -219,17 +219,20 @@ async function processDirectory(directory) {
       const filePath = path.join(directory, file);
       const stat = fs.statSync(filePath);
 
+      // Get the path relative to the base source directory
+      const relativePath = path.relative(baseDir, filePath);
+
       if (stat.isDirectory()) {
         // Skip the optimized directory to prevent processing already optimized images
         if (path.basename(filePath) === "optimized") {
           continue;
         }
         // Recursively process subdirectories
-        await processDirectory(filePath);
+        await processDirectory(filePath, baseDir);
       } else {
         const ext = path.extname(file).toLowerCase();
         if (imageExtensions.includes(ext)) {
-          await processImage(filePath);
+          await processImage(filePath, relativePath);
         }
       }
     }
@@ -241,20 +244,15 @@ async function processDirectory(directory) {
 // Main function
 async function main() {
   console.log("Starting enhanced image optimization...");
+  console.log(`Source directory: ${sourceDir}`);
+  console.log(`Output directory: ${outputDir}`);
 
-  // Process each directory in sequence
-  for (const dir of directories) {
-    console.log(`\nProcessing directory: ${dir}`);
-    await processDirectory(dir);
-  }
+  // Process the source directory
+  await processDirectory(sourceDir);
 
-  console.log("\nImage optimization completed!");
-  console.log('\nOptimized images are stored in "optimized" subdirectories.');
-  console.log(
-    "To use them, update your image paths to reference the optimized versions."
-  );
+  console.log("\nImage optimization complete.");
 }
 
-main().catch((error) => {
-  console.error("Error in main process:", error);
+main().catch((err) => {
+  console.error("Error in main process:", err);
 });

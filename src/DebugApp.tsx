@@ -14,7 +14,7 @@ const DebugApp: React.FC = () => {
         <div className="p-4 border rounded bg-gray-50">
           <h2 className="text-xl font-semibold mb-2">Standard Image Test</h2>
           <img
-            src="/assets/logo.png"
+            src="/assets/optimized/logo.png"
             alt="Logo"
             className="w-24 h-24 object-contain bg-gray-200 p-2 rounded"
           />

@@ -15,11 +15,7 @@ const RoboticsPresident = lazy(
 );
 const RagAi = lazy(() => import("../pages/projects/RagAi"));
 const SurgicalDrapes = lazy(() => import("../pages/projects/SurgicalDrapes"));
-const RamanSpectroscopy = lazy(
-  () => import("../pages/projects/RamanSpectroscopy")
-);
-const CameraGimbal = lazy(() => import("../pages/projects/CameraGimbal"));
-const MedicineBottle = lazy(() => import("../pages/projects/MedicineBottle"));
+
 const CadExercises = lazy(() => import("../pages/projects/CadExercises"));
 const SystemOverview = lazy(() => import("../pages/projects/SystemOverview"));
 const MechanicalWork = lazy(() => import("../pages/projects/MechanicalWork"));
@@ -85,27 +81,7 @@ export const projectRoutes: ProjectRouteConfig[] = [
     category: "medical",
     status: "completed",
   },
-  {
-    path: "/projects/raman-spectroscopy",
-    label: "Raman Spectroscopy",
-    component: RamanSpectroscopy,
-    category: "medical",
-    status: "completed",
-  },
-  {
-    path: "/projects/camera-gimbal",
-    label: "Camera Gimbal",
-    component: CameraGimbal,
-    category: "robotics",
-    status: "completed",
-  },
-  {
-    path: "/projects/medicine-bottle",
-    label: "Medicine Bottle",
-    component: MedicineBottle,
-    category: "medical",
-    status: "completed",
-  },
+
   {
     path: "/projects/cad-exercises",
     label: "CAD Exercises",
