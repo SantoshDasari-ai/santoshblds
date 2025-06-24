@@ -1,1 +1,0 @@
-import{j as o}from"./animations.CtPMDXy4.js";import{P as t}from"./ProjectTemplate.DJnFz2-O.js";import{p as r}from"./projects.BhmrlZp-.js";import"./vendor.CR9UAelD.js";import"./ui.Dh6_8yJV.js";const s=()=>{const s=r.find(o=>"medicine-bottle"===o.id);return s?o.jsx(t,{project:s}):o.jsx("div",{children:"Project not found"})};export{s as default};

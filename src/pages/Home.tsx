@@ -212,16 +212,12 @@ export default function Home() {
                 </StaggeredItem>
 
                 <StaggeredItem>
-                  <motion.p className="text-lg sm:text-xl text-gray-600 mb-12 max-w-3xl mx-auto px-4 relative leading-relaxed text-balance">
-                    A Biomedical Engineering graduate from San Jose State
-                    University specializing in medical device design, product
-                    development, and FDA-compliant manufacturing. Experienced in
-                    heart valve testing, surgical device design, CAD modeling,
-                    and rapid prototyping with internship experience at leading
-                    medical device companies including Silk Road Medical and
-                    Carl Zeiss Meditec. Passionate about developing innovative
-                    solutions that improve healthcare outcomes and seeking
-                    opportunities with medical device companies in the Bay Area.
+                  <motion.p className="text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto px-4 relative leading-relaxed text-balance">
+                    I'm a recent biomedical engineering graduate with a passion
+                    for medical devices and robotics. I want to develop
+                    innovative solutions that improve healthcare and make a
+                    meaningful impact in people's lives. Explore my projects to
+                    see what I've been working on.
                   </motion.p>
                 </StaggeredItem>
 
@@ -233,7 +229,7 @@ export default function Home() {
                         to={ROUTES.PORTFOLIO}
                         className="flex items-center gap-3"
                       >
-                        View My Work
+                        Explore My Projects
                         <ArrowRight size={20} />
                       </Link>
                     </AnimatedButton>
@@ -244,7 +240,7 @@ export default function Home() {
                         className="flex items-center gap-3"
                       >
                         <FileText size={20} />
-                        Resume
+                        View Resume
                       </Link>
                     </AnimatedButton>
                   </div>
