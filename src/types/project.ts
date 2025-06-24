@@ -16,7 +16,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image?: string;
   technologies: string[];
   demoUrl?: string;
   path?: string;
@@ -27,4 +27,11 @@ export interface Project {
   metadata?: ProjectMetadata;
   progressSteps?: ProgressStep[];
   category?: "robotics" | "medical" | "cad" | "ai";
+  featured?: boolean;
+  images?: string[];
+  links?: {
+    github?: string;
+    demo?: string;
+    document?: string;
+  };
 }

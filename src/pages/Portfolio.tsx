@@ -8,14 +8,27 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20 pb-12 sm:pt-24 sm:pb-16">
       <SEO
-        title="Portfolio"
-        description="Explore my portfolio of innovative projects in biomedical engineering, product design, and robotics."
+        title="Medical Device Engineering Portfolio | Projects & Experience"
+        description="Comprehensive portfolio showcasing medical device engineering projects including heart valve testing, surgical device design, FDA compliance work, and product development experience. View detailed case studies of biomedical engineering projects completed for medical device companies."
         keywords={[
-          "Portfolio",
-          "Projects",
-          "Biomedical Engineering",
-          "Product Design",
-          "Medical Devices",
+          "Medical Device Portfolio",
+          "Biomedical Engineering Projects",
+          "Heart Valve Testing",
+          "Surgical Device Design",
+          "FDA Compliance Projects",
+          "Medical Device Case Studies",
+          "Product Development Portfolio",
+          "Engineering Project Portfolio",
+          "CAD Design Portfolio",
+          "SolidWorks Projects",
+          "Rapid Prototyping Projects",
+          "Device Manufacturing Portfolio",
+          "Thrombogenicity Testing",
+          "ISO 10993 Projects",
+          "Medical Device Internship Projects",
+          "Silk Road Medical Projects",
+          "Carl Zeiss Meditec Projects",
+          "Bay Area Engineer Portfolio",
         ]}
         type="portfolio"
       />

@@ -60,16 +60,33 @@ export default function Home() {
       style={bgStyle}
     >
       <SEO
-        title="Santosh Dasari | Biomedical Engineer"
-        description="A Biomedical Engineering Graduate at San Jose State University fueled by a passion for innovative product design."
+        title="Santosh Dasari | Biomedical Engineer | Medical Device Design | Bay Area"
+        description="Biomedical Engineer specializing in medical device design, heart valve testing, surgical devices, and FDA-compliant product development. Available for medical device engineering opportunities in Bay Area. Experience with SolidWorks, rapid prototyping, and device manufacturing at companies like Silk Road Medical and Carl Zeiss Meditec."
         keywords={[
           "Biomedical Engineer",
-          "Product Design",
-          "Medical Devices",
-          "Robotics",
-          "CAD",
-          "DFMA",
+          "Medical Device Engineer",
+          "Product Design Engineer",
+          "Bay Area Medical Device Jobs",
+          "Heart Valve Engineer",
+          "Surgical Device Design",
+          "SolidWorks Engineer",
+          "FDA Compliance Engineer",
+          "CAD Design Engineer",
+          "Rapid Prototyping Engineer",
+          "Device Manufacturing Engineer",
+          "Santosh Dasari Engineer",
+          "California Medical Device Engineer",
+          "San Jose State Biomedical Engineering",
+          "Silk Road Medical Intern",
+          "Carl Zeiss Meditec Experience",
+          "Thrombogenicity Testing Engineer",
+          "ISO 10993 Compliance",
+          "Biocompatible Materials Engineer",
+          "Medical Device Development",
+          "Product Development Engineer",
+          "Engineering Portfolio Bay Area",
         ]}
+        type="profile"
       />
 
       {/* Enhanced background elements */}
@@ -197,12 +214,15 @@ export default function Home() {
 
                 <StaggeredItem>
                   <motion.p className="text-lg sm:text-xl text-gray-600 mb-12 max-w-3xl mx-auto px-4 relative leading-relaxed text-balance">
-                    A recent Biomedical Engineering graduate from San Jose State
-                    University with a passion for designing products that
-                    improve healthcare outcomes. From medical devices to
-                    robotics, I bring a blend of technical expertise and
-                    creative problem-solving to develop solutions that make a
-                    real difference in patients' lives.
+                    A Biomedical Engineering graduate from San Jose State
+                    University specializing in medical device design, product
+                    development, and FDA-compliant manufacturing. Experienced in
+                    heart valve testing, surgical device design, CAD modeling,
+                    and rapid prototyping with internship experience at leading
+                    medical device companies including Silk Road Medical and
+                    Carl Zeiss Meditec. Passionate about developing innovative
+                    solutions that improve healthcare outcomes and seeking
+                    opportunities with medical device companies in the Bay Area.
                   </motion.p>
                 </StaggeredItem>
 
