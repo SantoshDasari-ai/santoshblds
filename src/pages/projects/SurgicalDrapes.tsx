@@ -51,14 +51,16 @@ const SurgicalDrapes: React.FC = () => {
             </div>
           </div>
 
-          {projectData.pdfUrl && (
+          {projectData.links?.document && (
             <section className="bg-white rounded-2xl shadow-xl overflow-hidden">
               <div className="p-8">
-                <h2 className="text-2xl font-bold mb-4">Manufacturing Plan</h2>
+                <h2 className="text-2xl font-bold mb-4">
+                  Project Presentation
+                </h2>
                 <div className="w-full h-[700px] border border-gray-200 rounded-xl overflow-hidden">
                   <iframe
-                    src={`https://drive.google.com/file/d/${projectData.pdfUrl}/preview`}
-                    title="Project Slides"
+                    src={projectData.links.document}
+                    title="Surgical Drapes Presentation"
                     className="w-full h-full"
                     allow="autoplay"
                   />

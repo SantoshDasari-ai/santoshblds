@@ -12,6 +12,11 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Limit the number of visible technology tags
+  const maxVisibleTags = 4;
+  const visibleTechnologies = project.technologies.slice(0, maxVisibleTags);
+  const remainingCount = project.technologies.length - maxVisibleTags;
+
   const cardContent = (
     <ErrorBoundary>
       <motion.div
@@ -21,7 +26,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         whileHover={{ y: -8 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="relative overflow-hidden aspect-[4/3]">
+        <div className="relative overflow-hidden aspect-square">
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10" />
           <motion.img
             src={project.image}
@@ -48,16 +53,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           )}
         </div>
 
-        <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-xl font-bold mb-2 text-gray-900 group-hover:text-primary transition-colors">
+        <div className="p-4 flex-1 flex flex-col">
+          <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
             {project.title}
           </h3>
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2 flex-1">
             {project.description}
           </p>
 
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.technologies.map((tech) => (
+          <div className="flex flex-wrap gap-1 mb-3">
+            {visibleTechnologies.map((tech) => (
               <span
                 key={tech}
                 className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md"
@@ -65,6 +70,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 {tech}
               </span>
             ))}
+            {remainingCount > 0 && (
+              <span className="px-2 py-1 bg-gray-200 text-gray-600 text-xs rounded-md font-medium">
+                +{remainingCount} more
+              </span>
+            )}
           </div>
 
           <div className="mt-auto">
