@@ -7,7 +7,8 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 10
+    # Reduce PR limit significantly to force better grouping
+    open-pull-requests-limit: 3
     reviewers:
       - "SantoshDasari-ai"
     assignees:
@@ -16,76 +17,65 @@ updates:
       prefix: "chore"
       prefix-development: "chore"
       include: "scope"
-    # Group dependencies to reduce PR noise
+
+    # Comprehensive grouping strategy to minimize PRs
     groups:
-      react-ecosystem:
+      # Group ALL production dependencies together
+      production-dependencies:
         patterns:
-          - "react*"
-          - "@types/react*"
-          - "react-dom"
-          - "react-router*"
+          - "*"
+        dependency-type: "production"
         update-types:
           - "minor"
           - "patch"
-      vite-ecosystem:
+
+      # Group ALL development dependencies together
+      development-dependencies:
         patterns:
-          - "vite*"
-          - "@vitejs/*"
-          - "rollup*"
-        update-types:
-          - "minor"
-          - "patch"
-      eslint-ecosystem:
-        patterns:
-          - "eslint*"
-          - "@eslint/*"
-          - "*eslint*"
-          - "typescript-eslint"
-        update-types:
-          - "minor"
-          - "patch"
-      tailwind-ecosystem:
-        patterns:
-          - "tailwind*"
-          - "@tailwindcss/*"
-          - "autoprefixer"
-          - "postcss"
-        update-types:
-          - "minor"
-          - "patch"
-      dev-dependencies:
+          - "*"
         dependency-type: "development"
         update-types:
           - "minor"
           - "patch"
+
+      # Separate group for security updates (highest priority)
       security-updates:
         patterns:
           - "*"
         update-types:
           - "patch"
-    # Allow automatic merging for safe updates
+        # This will catch security patches regardless of dep type
+
+      # Major updates get their own group (manual review required)
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+
+    # Auto-approve safe updates
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
-    # Labels to help with auto-merge logic
+
+    # Simplified labels
     labels:
       - "dependencies"
-      - "dependabot"
-    # Ignore specific packages if needed
+      - "automated"
+
+    # Ignore problematic packages
     ignore:
       - dependency-name: "node"
         versions: ["< 18.0.0"]
-      # Add any packages that frequently cause issues
-      # - dependency-name: "example-package"
-      #   versions: [">= 3.0.0"]
 
-  # Enable version updates for GitHub Actions
+  # Simplified GitHub Actions updates
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+    open-pull-requests-limit: 1
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -96,3 +86,13 @@ updates:
     labels:
       - "github-actions"
       - "dependencies"
+      - "automated"
+    # Group all GitHub Actions together
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+          - "major"

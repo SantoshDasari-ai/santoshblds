@@ -1,6 +1,8 @@
 name: Auto-merge Dependabot PRs
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   schedule:
     # Run every Tuesday at 10:00 AM UTC to process any pending Dependabot PRs
     - cron: "0 10 * * 2"
@@ -14,6 +16,8 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
+    # Only run on Dependabot PRs
+    if: github.actor == 'dependabot[bot]' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout code
@@ -28,17 +32,30 @@ jobs:
         run: |
           echo "Looking for open Dependabot PRs..."
 
-          # Get list of open Dependabot PRs
-          DEPENDABOT_PRS=$(gh pr list --author "dependabot[bot]" --state open --json number,title,headRefName --jq '.[].number' | tr '\n' ' ')
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # If triggered by PR, only process the current PR
+            PR_NUMBERS="${{ github.event.number }}"
+            echo "Processing current PR: $PR_NUMBERS"
+          else
+            # If scheduled or manual, process all open Dependabot PRs
+            PR_NUMBERS=$(gh pr list --author "dependabot[bot]" --state open --json number --jq '.[].number' | tr '\n' ' ')
+          fi
 
-          if [ -z "$DEPENDABOT_PRS" ]; then
+          if [ -z "$PR_NUMBERS" ]; then
             echo "No open Dependabot PRs found"
             echo "has_prs=false" >> $GITHUB_OUTPUT
           else
-            echo "Found Dependabot PRs: $DEPENDABOT_PRS"
+            echo "Found Dependabot PRs: $PR_NUMBERS"
             echo "has_prs=true" >> $GITHUB_OUTPUT
-            echo "pr_numbers=$DEPENDABOT_PRS" >> $GITHUB_OUTPUT
+            echo "pr_numbers=$PR_NUMBERS" >> $GITHUB_OUTPUT
           fi
+
+      - name: Setup Node.js for testing
+        if: steps.find-prs.outputs.has_prs == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
 
       - name: Process Dependabot PRs
         if: steps.find-prs.outputs.has_prs == 'true'
@@ -49,39 +66,95 @@ jobs:
             echo "Processing PR #$PR_NUMBER"
             
             # Get PR details
-            PR_DETAILS=$(gh pr view $PR_NUMBER --json title,body,headRefName)
+            PR_DETAILS=$(gh pr view $PR_NUMBER --json title,body,headRefName,labels)
             PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
+            PR_LABELS=$(echo "$PR_DETAILS" | jq -r '.labels[].name' | tr '\n' ' ')
             
             echo "PR Title: $PR_TITLE"
+            echo "PR Labels: $PR_LABELS"
             
-            # Determine if this is a safe auto-merge candidate based on title
+            # Enhanced auto-merge logic
             SAFE_AUTO_MERGE="false"
+            MERGE_REASON=""
             
-            if echo "$PR_TITLE" | grep -qE "(patch|fix)"; then
-              echo "✅ Patch update detected - safe for auto-merge"
+            # Check for security updates (highest priority)
+            if echo "$PR_TITLE" | grep -qiE "(security|vulnerability|CVE-|GHSA-)"; then
+              echo "🔒 Security update detected - auto-merging"
               SAFE_AUTO_MERGE="true"
-            elif echo "$PR_TITLE" | grep -qE "minor.*dev" || echo "$PR_TITLE" | grep -qE "development"; then
-              echo "✅ Development dependency minor update - safe for auto-merge"
+              MERGE_REASON="Security update"
+            
+            # Check for patch updates (very safe)
+            elif echo "$PR_TITLE" | grep -qiE "patch|fix"; then
+              echo "🔧 Patch update detected - auto-merging"
               SAFE_AUTO_MERGE="true"
+              MERGE_REASON="Patch update"
+            
+            # Check for development dependencies (safer to auto-merge)
+            elif echo "$PR_LABELS" | grep -qiE "development|dev-dependencies"; then
+              echo "🛠️ Development dependency update - auto-merging"
+              SAFE_AUTO_MERGE="true"
+              MERGE_REASON="Development dependency"
+            
+            # Check for minor updates of specific safe packages
+            elif echo "$PR_TITLE" | grep -qiE "(minor|bump).*(@types/|eslint|typescript|vite|tailwind|postcss|autoprefixer)"; then
+              echo "📦 Safe minor update detected - auto-merging"
+              SAFE_AUTO_MERGE="true"
+              MERGE_REASON="Safe minor update"
+            
+            # Check for grouped updates (our new dependabot config creates these)
+            elif echo "$PR_TITLE" | grep -qiE "(production-dependencies|development-dependencies|security-updates)"; then
+              echo "📦 Grouped dependency update - auto-merging"
+              SAFE_AUTO_MERGE="true"
+              MERGE_REASON="Grouped dependency update"
+            
+            # Check for very small version bumps (likely safe)
+            elif echo "$PR_TITLE" | grep -qE "from [0-9]+\.[0-9]+\.[0-9]+ to [0-9]+\.[0-9]+\.[0-9]+"; then
+              echo "🔄 Small version bump detected - auto-merging"
+              SAFE_AUTO_MERGE="true"
+              MERGE_REASON="Small version bump"
+            
             else
-              echo "⚠️ Requires manual review"
+              echo "⚠️ Requires manual review - major update or unknown pattern"
               SAFE_AUTO_MERGE="false"
+              MERGE_REASON="Manual review required"
             fi
             
             if [ "$SAFE_AUTO_MERGE" = "true" ]; then
-              # Check if all status checks are passing
-              STATUS=$(gh pr status $PR_NUMBER --json statusCheckRollup --jq '.statusCheckRollup[0].state // "PENDING"')
+              # Wait for status checks to complete
+              echo "⏳ Waiting for status checks..."
+              sleep 30
               
-              if [ "$STATUS" = "SUCCESS" ]; then
-                echo "✅ All checks passed - enabling auto-merge for PR #$PR_NUMBER"
-                gh pr merge $PR_NUMBER --auto --squash --subject "chore: $PR_TITLE"
+              # Check if all status checks are passing
+              STATUS_CHECKS=$(gh pr status $PR_NUMBER --json statusCheckRollup --jq '.statusCheckRollup[]?.state // "PENDING"')
+              
+              if echo "$STATUS_CHECKS" | grep -qvE "^(SUCCESS|EXPECTED|SKIPPED)$"; then
+                echo "❌ Status checks not all passing for PR #$PR_NUMBER"
+                echo "Status checks: $STATUS_CHECKS"
+                
+                # Add comment explaining why auto-merge failed
+                gh pr comment $PR_NUMBER --body "🤖 **Auto-merge Status**: Waiting for status checks to pass before auto-merging this $MERGE_REASON."
+                
               else
-                echo "⏳ Status checks not ready for PR #$PR_NUMBER (Status: $STATUS)"
+                echo "✅ All checks passed - auto-merging PR #$PR_NUMBER"
+                echo "Reason: $MERGE_REASON"
+                
+                # Merge the PR
+                if gh pr merge $PR_NUMBER --auto --squash --subject "chore: $PR_TITLE"; then
+                  echo "🎉 Successfully enabled auto-merge for PR #$PR_NUMBER"
+                else
+                  echo "❌ Failed to enable auto-merge for PR #$PR_NUMBER"
+                  gh pr comment $PR_NUMBER --body "🤖 **Auto-merge Failed**: Unable to enable auto-merge. Please check PR requirements."
+                fi
               fi
             else
               echo "⚠️ PR #$PR_NUMBER requires manual review"
-              # Add label for manual review
-              gh pr edit $PR_NUMBER --add-label "review-required"
+              echo "Reason: $MERGE_REASON"
+              
+              # Add labels for manual review
+              gh pr edit $PR_NUMBER --add-label "review-required,manual-merge"
+              
+              # Add helpful comment
+              gh pr comment $PR_NUMBER --body "🤖 **Manual Review Required**: This PR contains changes that require manual review before merging. Reason: $MERGE_REASON"
             fi
             
             echo "---"
