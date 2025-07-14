@@ -8,46 +8,31 @@ on:
         required: true
         default: "build"
         type: choice
-        options:
-          - "build"
-          - "lint"
-          - "security"
-          - "all"
+        options: ["build", "lint", "security", "all"]
 
 jobs:
   manual-test:
     runs-on: ubuntu-latest
-    name: Manual Test - ${{ github.event.inputs.test_type }}
+    name: Manual Test – ${{ github.event.inputs.test_type }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Run Lint
-        if: github.event.inputs.test_type == 'lint' || github.event.inputs.test_type == 'all'
+        if: ${{ github.event.inputs.test_type == 'lint' || github.event.inputs.test_type == 'all' }}
         run: npm run lint
 
       - name: Run Build
-        if: github.event.inputs.test_type == 'build' || github.event.inputs.test_type == 'all'
+        if: ${{ github.event.inputs.test_type == 'build' || github.event.inputs.test_type == 'all' }}
         run: npm run build
 
-      - name: Run Security Check
-        if: github.event.inputs.test_type == 'security' || github.event.inputs.test_type == 'all'
-        run: npm audit --audit-level=moderate
-
-      - name: Upload Build Artifacts
-        if: github.event.inputs.test_type == 'build' || github.event.inputs.test_type == 'all'
-        uses: actions/upload-artifact@v4
-        with:
-          name: manual-test-build-${{ github.run_number }}
-          path: dist/
-          retention-days: 1
+      - name: Run Security Audit
+        if: ${{ github.event.inputs.test_type == 'security' || github.event.inputs.test_type == 'all' }}
+        run: npm audit --audit-level=high

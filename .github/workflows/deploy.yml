@@ -9,7 +9,7 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# One deployment at a time
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -18,39 +18,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run build
 
-      - name: Build
-        run: npm run build
-
-      - name: Copy additional files
+      - name: Copy extra root files (if present)
         run: |
-          cp CNAME dist/
-          cp 404.html dist/
-          cp .nojekyll dist/
+          for f in CNAME 404.html .nojekyll; do
+            [ -f "$f" ] && cp "$f" dist/ || true
+          done
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
 
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    environment: github-pages # `actions/deploy-pages` sets the URL automatically
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4

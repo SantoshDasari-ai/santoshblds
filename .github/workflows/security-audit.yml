@@ -2,135 +2,29 @@ name: Security Audit
 
 on:
   schedule:
-    # Run every Monday at 9:00 AM UTC
+    # Every Monday at 09:00 UTC
     - cron: "0 9 * * 1"
-  workflow_dispatch: # Allow manual triggering
+  workflow_dispatch:
 
 permissions:
   contents: read
   security-events: write
-  pull-requests: write
 
 jobs:
   audit:
     runs-on: ubuntu-latest
-    name: Security Audit
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Run npm audit
-        id: audit
+      - name: Audit for vulnerabilities
         run: |
-          echo "Running npm audit..."
-          npm audit --audit-level=moderate --json > audit-results.json || true
-
-          # Check if there are any vulnerabilities
-          VULN_COUNT=$(cat audit-results.json | jq '.metadata.vulnerabilities.total // 0')
-          echo "vulnerabilities=$VULN_COUNT" >> $GITHUB_OUTPUT
-
-          # Display audit results
-          npm audit --audit-level=moderate || true
-
-      - name: Upload audit results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-results
-          path: audit-results.json
-
-      - name: Try to fix vulnerabilities automatically
-        id: fix
-        if: steps.audit.outputs.vulnerabilities != '0'
-        run: |
-          echo "Attempting to fix vulnerabilities..."
-          npm audit fix --dry-run > fix-preview.txt || true
-
-          # Check if fixes are available
-          if npm audit fix --dry-run | grep -q "fixed"; then
-            echo "fixes_available=true" >> $GITHUB_OUTPUT
-            npm audit fix
-            echo "Vulnerabilities fixed automatically"
-          else
-            echo "fixes_available=false" >> $GITHUB_OUTPUT
-            echo "No automatic fixes available"
-          fi
-
-      - name: Check for changes after fix
-        id: changes
-        if: steps.fix.outputs.fixes_available == 'true'
-        run: |
-          if git diff --quiet package-lock.json; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Create Pull Request for fixes
-        if: steps.changes.outputs.has_changes == 'true'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "fix: automatically fix security vulnerabilities"
-          title: "🔒 Security: Fix vulnerabilities found in dependencies"
-          body: |
-            ## 🔒 Security Vulnerability Fixes
-
-            This PR contains automatic fixes for security vulnerabilities found in dependencies.
-
-            ### Changes Made
-            - Updated package-lock.json with security fixes
-            - Resolved vulnerabilities using `npm audit fix`
-
-            ### Audit Summary
-            - Total vulnerabilities found: ${{ steps.audit.outputs.vulnerabilities }}
-
-            Please review the changes and merge if everything looks good.
-
-            ---
-            *This PR was created automatically by the Security Audit workflow.*
-          branch: security/auto-fix-vulnerabilities
-          delete-branch: true
-
-      - name: Comment on PR if no fixes available
-        if: steps.audit.outputs.vulnerabilities != '0' && steps.fix.outputs.fixes_available == 'false'
-        run: |
-          echo "⚠️ Security vulnerabilities found but no automatic fixes available."
-          echo "Manual intervention may be required."
-          echo "Please check the audit results artifact for details."
-
-  dependency-check:
-    runs-on: ubuntu-latest
-    name: Dependency Check
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Check for outdated packages
-        run: |
-          echo "Checking for outdated packages..."
-          npm outdated || true
-
-      - name: Check package vulnerabilities with better-npm-audit
-        run: |
-          npx better-npm-audit audit --level moderate || true
+          echo "Running npm audit (fail on high-severity)…"
+          npm audit --audit-level=high
